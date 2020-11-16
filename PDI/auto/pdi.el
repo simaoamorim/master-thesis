@@ -1,0 +1,26 @@
+(TeX-add-style-hook "pdi"
+ (lambda ()
+    (TeX-run-style-hooks
+     "feupteses"
+     "portugues"
+     "inputenc"
+     "utf8"
+     "latex2e"
+     "rep11"
+     "report"
+     "11pt"
+     "a4paper"
+     "twoside"
+     "openright"
+     "mymacros"
+     "abstract"
+     "acknows"
+     "quote"
+     "abbrevs"
+     "chapter1"
+     "chapter2"
+     "chapter3"
+     "chapter4"
+     "chapter5"
+     "appendix1")))
+
