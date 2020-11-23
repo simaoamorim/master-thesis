@@ -1,4 +1,4 @@
-*.pdf
+/PDI/*.pdf
 *.kilepr**
 
 ## Core latex/pdflatex auxiliary files:
