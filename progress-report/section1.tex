@@ -1,0 +1,65 @@
+\section{Introdução ao tema}\label{sec:intro}
+
+% \begin{quote}
+%  ``As atuais aplicações no domínio da automação industrial exigem cada vez mais comunicações robustas, fiáveis e determinísticas, 
+%  em particular com requisitos de tempo-real. As soluções existentes neste domínio têm sido dominadas na última década por redes baseadas na tecnologia Ethernet,
+%  em concreto as denominadas redes Ethernet Industrial e de Tempo-Real. Estas propostas caracterizam-se por extensões de tempo-real da proposta original da Ethernet 
+%  como é o caso das soluções Ethercat, Profinet, EthernetIP, Sercos III, TT Ethernet, etc. 
+%  
+% A utilização deste tipo de redes é cada vez mais frequente em aplicações com exigências temporais criticas como é o caso da robótica, onde a grande maioria dos equipamentos atuais já incorporam este tipo de tecnologias.''
+% \footnote{Excerto da descrição da proposta de dissertação fornecida pelo orientador}
+% \end{quote}
+
+\subsection{Contexto}\label{sec:contexto}
+
+A recente digitalização da indústria introduz exigências cada vez maiores de comunicações robustas, fiáveis e determinísticas na área da automação industrial, em especial nas aplicações com requisitos de tempo-real.
+Nos últimos anos tem-se assistido a uma crescente utilização de redes industriais baseadas na tecnologia Ethernet. Geralmente denominadas redes de Ethernet Industrial e de Tempo-Real, estas tecnologias são adaptações
+da tecnologia Ethernet original (IEEE 802.3) com o objetivo de interligar os dispositivos de um sistema com requisitos de temporais exigentes. As soluções EthernetIP, Profinet e EtherCAT são os exemplos mais comuns
+deste tipo de redes de comunicação.
+
+A área da robótica industrial é um ótimo exemplo de que a utilização de redes Ethernet de tempo-real faz sentido. A sincronização de ações entre componentes e a entrega e/ou difusão de mensagens cumprindo intervalos de tempo determinísticos são apenas duas
+caraterísticas que tornam a utilização destas redes quase indispensável em sistemas robóticos modernos.
+
+% - Redes industriais de comunicação em tempo real estão a dominar a industria;
+% 
+% - EtherCAT é uma dessas redes e contém um leque abrangente de possibilidades de utilização
+
+\subsection{Motivação}\label{sec:motivacao}
+
+A forte presença das redes Ethernet de tempo-real na industria introduz a necessidade de dar formação acerca deste tema aos novos técnicos e engenheiros da área.
+É, portanto, necessário colmatar a falta de formação acerca deste tema na oferta formativa do curso de Engenharia Eletrotécnica e de Computadores da FEUP\footnote{Faculdade de Engenharia da Universidade do Porto}.
+A escassez no mercado de material didático de formação restringe o tipo de formação possível a bases puramente teóricas.
+Assim pretende-se desenvolver um sistema de demonstração intuitivo capaz de evidênciar as capacidades e limitações destas redes, que será posteriormente incluído nas atividades letivas do curso.
+
+Atendendo à atual disponíbilidade de material de redes EtherCAT presente na FEUP, decidiu-se utilizar esta tecnologia para o desenvolvimento do demonstrador em questão. 
+
+% - Curso pretende adicionar à oferta formativa uma secção sobre redes de comunicacao industriais de tempo real;
+% 
+% - De modo a fornecer um entendimento mais fácil acerca das capacidades e limitações da rede EtherCAT, faz sentido desenvolver um demostrador prático que possa ser utilizado para esse efeito;
+%  - Porquê EtherCAT ??? -> Pq a feup ja tem esse material....
+% 
+% - Não existem muitos demostradores práticos e intuitivos no mercado para as demostrações pretendidas.
+
+
+\subsection{Objetivos}\label{sec:objetivos}
+
+O objetivo fundamental desta dissertação é o efetivo desenvolvimento de uma plataforma robótica de demonstração prática e intuitiva da rede EtherCAT e da sua
+respetiva aplicação de controlo.
+Para isto, um estudo aprofundado da tecnologia e das funcionalidades deste protocolo é fundamental para que o sistema final possa apresentar um leque alargado
+das suas capacidades e limitações.
+
+Como o foco da demonstração é a utilização destas tecnologias em aplicações robóticas, a plataforma deverá ser baseada no controlo de trajetórias de eixos, com uma
+configuração que permita, entre outros aspetos, demonstrar as caraterísticas da rede EtherCAT ao nível da sincronização temporal (sincronização de ações) e da resposta
+temporal (tráfego em tempo-real) da aplicação de controlo.
+
+% \begin{quote}
+%  ``Pretende-se nesta dissertação desenvolver um demonstrador que permita apresentar estas tecnologias, suportada numa aplicação industrial de elevado desempenho com requisitos temporais 
+%  semelhantes aos existentes num manipulador robóticos. Este demonstrador será orientado para fins de ensino e será utilizado em diversas unidades curriculares do MIEEC.
+% 
+% O demonstrador será baseado numa rede Ethernet de Tempo-Real composta por vários nós do tipo Ethercat ou Profinet. Cada nó será baseado numa plataforma Raspberry PI 
+% onde serão integrados módulos de comunicação NetHAT52 que suportam estes protocolos. Ao nível físico será utilizado um braço robótico, cujos motores (eixos) terão servo-controladores com interface de rede ethernet integrada.
+% 
+% Pretende-se desenvolver um conjunto de aplicações na área da robótica, em concreto controlo de trajetórias (velocidade e posição), que permitam demonstrar as características deste tipo de redes, 
+% nomeadamente ao nível da sincronização temporal (sincronização de relógios) e da resposta temporal (suporte de tráfego tempo-real) das aplicações de controlo.''
+% \footnote{Excerto da descrição da proposta de dissertação fornecida pelo orientador}
+% \end{quote}
