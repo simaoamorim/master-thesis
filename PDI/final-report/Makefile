@@ -16,7 +16,7 @@ PS2PDF=ps2pdf -dEmbedAllFonts#true
 MKIDX=makeindex
 
 ## Basename for result in PT
-TARGET:=mieec
+#TARGET:=mieec
 ## Basename for result in EN
 #TARGET:=mieec-en
 
@@ -24,7 +24,7 @@ TARGET:=mieec
 #TARGET:=pdi
 
 # Basename for result in PT: PDI
-# TARGET:=pdi-en
+TARGET:=pdi-en
 
 ## .tex files
 TEXFILES=$(wildcard *.tex **/*.tex)
