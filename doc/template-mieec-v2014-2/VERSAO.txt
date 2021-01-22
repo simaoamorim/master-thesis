@@ -1,0 +1,36 @@
+Distribution: MIEEC
+Current version: v2014
+feupteses.sty: 1.1.1
+
+Changes for v2014:
+1. use feuptheses.sty 1.1.1
+
+Changes for v2013:
+1. Change place of logo in cover page
+
+Changes for v2012:
+1. use feupsteses.sty 1.1
+2. example for PDI
+
+Changes for v2011b:
+1. support for url and lastcheckd fields in bibliographys
+   (conversion done with urlbst:
+    http://ctan.mackichan.com/biblio/bibtex/contrib/urlbst/urlbst.htm)
+
+Changes for v2011a:
+
+1. correct indication of technical report in unsrt-pt.bst
+	(thanks to Marcelo Almeida)
+
+Changes for v2011:
+1. new option scheme
+2. support for line numbers in jury version
+3. changes to status indication (jury, final)
+4. removed support for versioning
+
+Changes for v2009f:
+1. option onpaper: hide hyperlinks
+
+Changes for v2009e:
+1. plainnat-pt.bst: finished conversion to Portuguese.
+2. unsrt-pt.bst: added to the distribution
