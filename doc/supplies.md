@@ -9,6 +9,10 @@
 |             |                         |                              |     |
 |             |                         |                              |     |
 
+Motor inicial com alguma velocidade - stepper ou DC
+
+Tentar levar ao limite o tempo de resposta
+
 [1]: #
 [2]: #
 [3]: https://www.bausano.net/it/hardware/arduino-ethercat/arduino-easycat.html
