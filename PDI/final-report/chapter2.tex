@@ -1,6 +1,28 @@
 \chapter{Revisão Bibliográfica} \label{chap:sota}
 
 
+\section{Definição e caraterização do problema}\label{sec:problem}
+
+Com a modernização constante da indústria e consequente crescente exigência
+de conetividade de todo o tipo de equipamentos, é imperativa a introdução
+de novas soluções tecnológicas que satisfaçam estes requisitos modernos
+mas que também mantenham a compatibilidade com as exigências satisfeitas
+pelos sistemas atualmente em uso.
+
+Quando nos referimos à área da robótica, exigências temporais como o
+período, a latência e a periodicidade da malha de controlo são fulcrais
+para o funcionamento estável do sistema. Ora, a crescente exigência de
+conetividade moderna instiga à utilização de redes de comunicação no
+ambiente industrial. Quando o controlo de diversas áreas num equipamento
+é feito de modo central num PLC ou micro-controlador, a sincronização de
+alteração de estados de saídas é trivial, pois basta garantir que que ambas
+são atualizadas no mesmo ciclo de processamento. Quando se pretende
+introduzir uma rede de comunicação entre o processamento central e o
+controlo das saídas e/ou a aquisição das entradas, é crucial garantir
+que não existem atrasos significativos na transmissão da informação
+na rede e garantir a sincronização entre as atualizações das saídas
+nos diversos escravos.
+
 
 \section{\ecat}\label{sec:ethercat}
 
@@ -12,25 +34,28 @@ introduz uma maneira diferente de os processar.
 Esta nova forma de processamento permite uma comunicação com todos os
 dispositivos presentes na rede com apenas um \emph{frame}. \ecat utiliza
 uma tipologia de comunicação \emph{Master/Slave}, tipicamente implementada
-em formato \emph{daisy-chain}. 
+numa arquitetura de rede encadeada (\emph{daisy-chain}), mas permite várias
+outras arquiteturas \cite{}. % TODO: Citar aqui algo que explicite as varias arquiteturas
 
+\subsection{Arquiteture de rede encadeada}
 Apenas o dispositivo mestre pode iniciar um \emph{frame} de comunicação
 e os dispositivos escravos limitam-se a ler a parte informação contida
 no \emph{frame} que lhes é endereçada. Ao mesmo tempo, cada dispositivo
 escravo pode introduzir informação sua  no \emph{frame} antes de o enviar
 para o dispositivo seguinte.
 
+\subsection{sincronização de relógios}
+
+
+\subsection{Conclusão}
 Estas caraterísticas permitem que o dispositivo mestre seja implementado
 em qualquer tipo de dispositivo que contenha uma porta de comunicação 
 \emph{Ethernet}. Os dispositivos escravo utilizam um \emph{EtherCAT Slave
 Controller} (ESC) que processa os \emph{frames} fazendo com que a velocidade
 e tempos de resposta da rede sejam previsíveis e independentes dos 
-dispositivos escravo que existam na rede.
-
-
-\section{Definição e caraterização do problema}\label{sec:problem}
-
-
+dispositivos escravo que existam na rede. Assim, é possível a utilização
+de dispositivos escravo implementados em arquiteturas de computação
+diferentes dentro da mesma rede \ecat.
 
 
 \section{Soluções propostas} \label{sec:solution}
