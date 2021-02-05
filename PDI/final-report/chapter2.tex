@@ -15,13 +15,40 @@ para o funcionamento estável do sistema. Ora, a crescente exigência de
 conetividade moderna instiga à utilização de redes de comunicação no
 ambiente industrial. Quando o controlo de diversas áreas num equipamento
 é feito de modo central num PLC ou micro-controlador, a sincronização de
-alteração de estados de saídas é trivial, pois basta garantir que que ambas
+alteração de estados de saídas é trivial, pois basta garantir que ambas
 são atualizadas no mesmo ciclo de processamento. Quando se pretende
 introduzir uma rede de comunicação entre o processamento central e o
 controlo das saídas e/ou a aquisição das entradas, é crucial garantir
 que não existem atrasos significativos na transmissão da informação
 na rede e garantir a sincronização entre as atualizações das saídas
 nos diversos escravos.
+
+Nos últimos anos, várias implementações e estudos já foram realizados
+com manipuladores robóticos utilizando redes de comunicação na malha de
+controlo como \cite{Zhang18}, \cite{leiwang2010} ou muito recentemente
+\cite{deremetz2020}. No entanto, todas elas se focam na vertente mais
+industrial e técnica da solução e praticamente não existem implementações
+focadas no ensino.
+
+% económico
+Um demonstrador focado no ensino deve ter caraterísticas apelativas de
+modo a que a sua utilização possa ser o mais generalizada possível. O
+primeiro objetivo deverá ser o desenvolvimento de um produto económico
+de modo a que este possa ser adquirido em larga escala pelos
+estabelecimentos de ensino. É também preciso considerar que no ambiente
+de ensino, é mais provável acontecerem situações de utilização indevida
+de um equipamento do que em ambiente industrial, onde geralmente apenas
+pessoas qualificadas estão autorizadas a interagir com o mesmo, e portanto
+uma possível avaria do produto não pode trazer prejuízos avultados à
+instituição e/ou ao estudante. Naturalmente, esta redução no custo
+implicará sempre uma redução na qualidade do produto final face a um
+desenvolvimento de nível industrial, mas essa não é uma caraterística
+fundamental de um demonstrador didático.
+
+% implementação simples
+% componentes 'off the shelf'
+% intuitivo
+% 
 
 
 \section{\ecat}\label{sec:ethercat}
@@ -35,7 +62,7 @@ Esta nova forma de processamento permite uma comunicação com todos os
 dispositivos presentes na rede com apenas um \emph{frame}. \ecat utiliza
 uma tipologia de comunicação \emph{Master/Slave}, tipicamente implementada
 numa arquitetura de rede encadeada (\emph{daisy-chain}), mas permite várias
-outras arquiteturas \cite{}. % TODO: Citar aqui algo que explicite as varias arquiteturas
+outras arquiteturas %\cite{}. % TODO: Citar aqui algo que explicite as varias arquiteturas
 
 \subsection{Arquiteture de rede encadeada}
 Apenas o dispositivo mestre pode iniciar um \emph{frame} de comunicação
@@ -81,16 +108,18 @@ tipologia \emph{daisy-chain}.
 
 \subsection{Controlo de discos perfurados}
 
-A primeira solução idealizada no contexto desta dissertação foi o 
-desenvolvimento de um sistema fisicamente simples, capaz de demonstrar
-as capacidades de resposta temporal e sincronização de relógios de uma
-rede \ecat.
+A primeira solução idealizada no contexto desta dissertação baseia-se num
+sistema constituído por discos perfurados na sua extremidade, acoplados
+a motores rotativos independentes. Por sua vez estes motores serão
+controlados por módulos \ecat escravo interligados numa configuração
+encadeada (\emph{daisy-chain}), tendo um \emph{Raspberry Pi} como dispositivo
+mestre.
 
-Esta proposta baseia-se num sistema constituído por discos perfurados
-na sua extremidade, acoplados a motores rotativos independentes. Por sua
-vez estes motores serão controlados por módulos \emph{slave} \ecat
-produzidos através de um Arduino UNO \cite[]{arduino:ArduinoUNORev3} e 
-um \emph{shield EasyCAT} da \cite{ABT:EasyCAT}.
+Cada dispositivo \ecat escravo será composto por um Arduino UNO 
+\cite[]{arduino:ArduinoUNORev3} e um \emph{shield EasyCAT} da 
+\cite{ABT:EasyCAT}. O dispositivo mestre, implementado num \emph{Raspberry
+pi}, será programado com o ambiente de desenvolvimento industrial \emph{
+Codesys}.
 
 \subsection{Seguimento de um traçado com um braço robótico}
 
