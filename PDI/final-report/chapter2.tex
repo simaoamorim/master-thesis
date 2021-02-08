@@ -91,13 +91,13 @@ mais facilidade e de uma forma mais duradoura. % TODO arranjar citação para is
 
 \section{\ecat}\label{sec:ethercat}
 
-A rede \ecat é uma rede de \emph{Ethernet} industrial que usa a
+A rede \ecat\ é uma rede de \emph{Ethernet} industrial que usa a
 especificação padrão IEEE 802.3 \cite[]{ieee:IEEEStandardEthernet} para
 definir o formato dos \emph{frames} e camada física a utilizar, mas
 introduz uma maneira diferente de os processar.
 
 Esta nova forma de processamento permite uma comunicação com todos os
-dispositivos presentes na rede com apenas um \emph{frame}. \ecat utiliza
+dispositivos presentes na rede com apenas um \emph{frame}. \ecat\ utiliza
 uma tipologia de comunicação \emph{Master/Slave}, tipicamente implementada
 numa arquitetura de rede encadeada (\emph{daisy-chain}), mas permite várias
 outras arquiteturas.
@@ -134,7 +134,7 @@ adequada ao estudo em questão.
 
 Ambas as soluções têm por base o controlo de movimento através da velocidade
 e/ou posição de um sistema robótico de múltiplos eixos. Fazendo uso de
-uma arquitetura de controlo distribuída interligada por uma rede \ecat
+uma arquitetura de controlo distribuída interligada por uma rede \ecat\
 em tipologia encadeada (secção \ref{sec:daisychain}). Esta arquitetura
 será constituída por um dispositivo mestre implementado num micro-computador
 \emph{Raspberry Pi}, programado através das linguagens descritas no padrão
@@ -147,7 +147,7 @@ Um esquema da arquitetura pretendida é mostrado na figura
 \begin{figure}
  \centering
  \includegraphics[width=\linewidth]{network-diagram_transparent.png}
- \caption{Arquitetura da rede \ecat pretendida}
+ \caption{Arquitetura da rede \ecat\ pretendida}
  \label{fig:network-architecture}
 \end{figure}
 
@@ -158,11 +158,11 @@ Um esquema da arquitetura pretendida é mostrado na figura
 A primeira solução idealizada no contexto desta dissertação baseia-se num
 sistema constituído por discos perfurados na sua extremidade, acoplados
 a motores rotativos independentes. Por sua vez estes motores serão
-controlados por módulos \ecat escravo interligados numa configuração
+controlados por módulos \ecat\ escravo interligados numa configuração
 encadeada (\emph{daisy-chain}), tendo um \emph{Raspberry Pi} como dispositivo
 mestre.
 
-Cada dispositivo \ecat escravo será composto por um Arduino UNO 
+Cada dispositivo \ecat\ escravo será composto por um Arduino UNO 
 \cite[]{arduino:ArduinoUNORev3} e um \emph{shield EasyCAT} da 
 \cite{ABT:EasyCAT}. O dispositivo mestre, implementado num \emph{Raspberry
 pi}, será programado com o ambiente de desenvolvimento industrial \emph{
