@@ -100,9 +100,11 @@ Esta nova forma de processamento permite uma comunicação com todos os
 dispositivos presentes na rede com apenas um \emph{frame}. \ecat utiliza
 uma tipologia de comunicação \emph{Master/Slave}, tipicamente implementada
 numa arquitetura de rede encadeada (\emph{daisy-chain}), mas permite várias
-outras arquiteturas %\cite{}. % TODO: Citar aqui algo que explicite as varias arquiteturas
+outras arquiteturas.
+% TODO: Citar aqui algo que explicite as varias arquiteturas
 
-\subsection{Arquiteture de rede encadeada}
+\subsection{Arquiteture de rede encadeada (\emph{daisy-chain})}
+\label{sec:daisychain}
 Apenas o dispositivo mestre pode iniciar um \emph{frame} de comunicação
 e os dispositivos escravos limitam-se a ler a parte informação contida
 no \emph{frame} que lhes é endereçada. Ao mesmo tempo, cada dispositivo
@@ -144,7 +146,7 @@ Um esquema da arquitetura pretendida é mostrado na figura
 
 \begin{figure}
  \centering
- \includegraphics[width=0.75\linewidth]{network-diagram_transparent.png}
+ \includegraphics[width=\linewidth]{network-diagram_transparent.png}
  \caption{Arquitetura da rede \ecat pretendida}
  \label{fig:network-architecture}
 \end{figure}
