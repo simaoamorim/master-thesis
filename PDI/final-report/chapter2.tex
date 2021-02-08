@@ -130,10 +130,17 @@ duas possíveis soluções. Ambas são apresentadas de seguida sendo que
 maior ênfase será dada na última, pois é a proposta que se mostra mais
 adequada ao estudo em questão.
 
-No entanto, em qualquer uma das implementações existe uma ideia base
-relativa à arquitetura da rede \ecat que se pretende implementar,
-mostrada na figura \ref{fig:network-architecture}, fazendo-se uso da
-tipologia \emph{daisy-chain}.
+Ambas as soluções têm por base o controlo de movimento através da velocidade
+e/ou posição de um sistema robótico de múltiplos eixos. Fazendo uso de
+uma arquitetura de controlo distribuída interligada por uma rede \ecat
+em tipologia encadeada (secção \ref{sec:daisychain}). Esta arquitetura
+será constituída por um dispositivo mestre implementado num micro-computador
+\emph{Raspberry Pi}, programado através das linguagens descritas no padrão
+IEC 61161-3. Os dispositivos escravo, que farão a interface com os atuadores,
+sensores e interface de comando, serão implementados através de placas
+\emph{Arduino UNO} agrupado com o adaptador \emph{EasyCAT} da \cite{ABT:EasyCAT}.
+Um esquema da arquitetura pretendida é mostrado na figura
+\ref{fig:network-architecture}.
 
 \begin{figure}
  \centering
