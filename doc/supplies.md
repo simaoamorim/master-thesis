@@ -19,6 +19,8 @@
 
 # Componentes Finais
 
+| Component   | Description             | Link                         | Qty |
+| ----------- | ----------------------- | ---------------------------- | --- |
 | Arm         | Robotic Arm             | [Link 1][20] or [Link 2][21] |  1  |
 |             |                         |                              |     |
 
