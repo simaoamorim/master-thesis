@@ -27,7 +27,7 @@ Motor inicial com alguma velocidade - stepper ou DC
 Tentar levar ao limite o tempo de resposta
 
 [1]: https://www.ptrobotics.com/motor-dc-com-engrenagens/4094-30-1-micro-metal-gearmotor-hpcb-with-extended-motor-shaft.html
-[2]: https://www.ptrobotics.com/encoders/7701-magnetic-encoder-pair-kit-with-top-entry-connector-for-micro-metal-gearmotors-12-cpr-27-18v.html
+[2]: https://www.ptrobotics.com/encoders/3164-magnetic-encoder-pair-kit-for-micro-metal-gearmotors-12-cpr-27-18v-hpcb-compatible.html
 [3]: https://www.ptrobotics.com/arduino/1033-arduino-uno-r3.html
 [4]: https://www.bausano.net/it/hardware/arduino-ethercat/arduino-easycat.html
 [5]: https://www.ptrobotics.com/fios-e-cabos/1759-cabo-rj45-rj45-cat-5e-1m.html
