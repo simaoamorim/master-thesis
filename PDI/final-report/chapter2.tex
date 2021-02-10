@@ -114,7 +114,6 @@ para o dispositivo seguinte.
 \subsection{sincronização de relógios}
 % TODO
 
-
 \subsection{Conclusão}
 Estas caraterísticas permitem que o dispositivo mestre seja implementado
 em qualquer tipo de dispositivo que contenha uma porta de comunicação 
@@ -154,20 +153,46 @@ Um esquema da arquitetura pretendida é mostrado na figura
 
 
 
-\subsection{Controlo de discos perfurados}
+\subsection{Controlo de discos perfurados}\label{sec:discs_project}
 
+%\subsubsection{O conceito}
 A primeira solução idealizada no contexto desta dissertação baseia-se num
-sistema constituído por discos perfurados na sua extremidade, acoplados
-a motores rotativos independentes. Por sua vez estes motores serão
-controlados por módulos \ecat\ escravo interligados numa configuração
-encadeada (\emph{daisy-chain}), tendo um \emph{Raspberry Pi} como dispositivo
-mestre.
+sistema de controlo e sincronização de discos rotativos independentes.
+Estes são perfurados na extremidade de maneira a que possam ser momentaneamente atravessados por um feixe de laser. Este último será fixo numa das extremidades
+do demonstrador com orientação que permita atravessar todos os discos presentes
+no sistema, ficando visível na extremidade oposta do demonstrador. Assim,
+com estes discos acoplados a motores DC com codificadores de posição (\emph{encoder}),
+controlados de forma independente por placas \arduino\ a funcionar em modo
+de \ecat\ \emph{slave}, é possível criar diferentes cenários de controlo
+cujo objetivo seja periodicamente alinhar as furações dos discos com o
+feixe laser, permitindo que este seja viaje até à extremidade oposta.
 
-Cada dispositivo \ecat\ escravo será composto por um Arduino UNO 
-\cite[]{arduino:ArduinoUNORev3} e um \emph{shield EasyCAT} da 
-\cite{ABT:EasyCAT}. O dispositivo mestre, implementado num \emph{Raspberry
-pi}, será programado com o ambiente de desenvolvimento industrial \emph{
-Codesys}.
+Para complementar este conceito, será necessário permitir que o estado
+do ponteiro laser (ligado ou desligado) seja controlado pelo sistema,
+criando uma camada adicional de complexidade que ajuda a entender a
+importância da sincronização de relógios nas redes de comunicação de
+tempo real. Desta forma é possível ativar o ponteiro laser apenas quando
+o sistema  determinar que os discos estão na orientação correta, fazendo
+com seja mais percetível a importância da sincronização de relógios para
+que seja possível uma atualização síncrona do estado das saídas.
+
+%\subsubsection{Flexibilidade}
+Idealmente esta soluçao deverá permitir efetuar o mesmo controlo mas não
+usando as capacidades da rede \ecat\ e usando apenas comunicação
+\emph{Ethernet} simples, o que permitirá efetuar uma comparação efetiva
+destes protocolos e demonstrar que em ambientes de rede de comunicação
+tradicionais não existem considerações de tempo real nem de sincronização.
+Esta funcionalidade implicará verificar se os adaptadores \emph{EasyCAT}
+permitem comunicação \emph{Ethernet} simples ou até de outros protocolos
+de \emph{Ethernet} industrial (p.ex. \emph{Modbus TCP}), mas até ao momento
+ainda não o foi possível determinar.
+
+%\subsubsection{Conclusão}
+Desta forma evidenciam-se as capacidades da rede \ecat\ no que diz
+respeito à resposta temporal, sincronização de relógios e capacidade de
+transferência de dados num sistema cujo conceito é acessível a qualquer
+estudante de engenharia eletrotécnica.
+
 
 \subsection{Seguimento de um traçado com um braço robótico}
 
