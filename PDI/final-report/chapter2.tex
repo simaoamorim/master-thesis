@@ -269,19 +269,18 @@ combinações dos seguintes tipos de movimento:
 \end{itemize}
 
 Como conhecemos da geometria, qualquer forma geométrica pode ser representada
-através da sua decomposição em pontos singulares. Análogamente,
-o mesmo pode ser feito para o controlo de movimento, onde um movimento
-curvilíneo pode ser decomposto num número elevado de pontos discretos.
+através da sua decomposição em pontos singulares. Analogamente, um movimento
+curvilíneo pode ser decomposto numa sequência de pontos discretos.
 Idealmente usar-se-ia um número infinito de pontos mas, devido a limitações
-computacionais, é necessário limitar o número de pontos para esta decomposição,
-baixando a precisão do movimento. Com isto, considerando os movimentos
-linear e circular, o objetivo principal do planeador de trajetória é fazer
-a computação dos pontos de posicionamento intermédios para que seja possível
-realizar cada um destes tipos de movimento. Estes pontos de comando são
-enviados para os controladores de posição de cada eixo, geralmente do tipo
-PID, para que estes movam a respetiva junta para a posição pretendida.
+computacionais, é necessário limitar o número de pontos desta decomposição,
+baixando a precisão do movimento. O objetivo principal do planeador de
+trajetória é fazer a computação dos pontos de posicionamento intermédio
+para que seja possível realizar cada um destes tipos de movimento.
+Estes pontos de comando são enviados para os controladores de posição de
+cada eixo, geralmente do tipo \emph{PID}, para que estes movam a respetiva junta
+para a posição pretendida.
 
-% \subsection{Conclusão}
+\subsubsection{Conclusão}
 Neste tipo de movimentos é fundamental que o controlo das várias juntas
 do braço seja preciso e feito de um modo síncrono. É exatamente neste
 conceito que este projeto se baseia, demonstrando que é necessária uma
