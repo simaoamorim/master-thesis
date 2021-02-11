@@ -231,23 +231,60 @@ com canais para definir o trajeto. No âmbito deste projeto, um suporte
 em material como plástico PLA ou MDF é suficiente face às caraterísticas
 de demonstrador didático.
 
+\subsubsection{Manipulador do tipo braço robótico}
 Um braço robótico é tipicamente composto por um conjunto de servo-motores,
-cada um controlando a posição de uma junta do manipulador, mas onde o
+onde cada um controla a posição de uma junta do manipulador e onde o
 controlo simultâneo de todas as juntas permite controlar o manipulador
-como um todo, podendo colocar a ferramenta, que se encontra na extremidade,
-na posição pretendida. O processo de cálculos matemáticos necessários à
-determinação da posição de cada junta para obter uma posição específica da
-ferramenta é denominado cinemática inversa (\emph{inverse kinematics}).
-Quando existe o objetivo de mover a ferramenta do manipulador de modo a
-fazer o seguimento de um caminho específico, é fundamental que o controlo
-das várias juntas do braço seja feito de um modo síncrono.
+como um todo, podendo posicionar a ferramenta, que se encontra na extremidade,
+numa posição pretendida. Esta posição é geralmente denominada de ponto
+comandado (\emph{setpoint}).
 
-%TODO desenvolver muito mais
+O processo de cálculos matemáticos necessários à determinação da posição
+de cada junta, com o objetivo de posicionar a ferramenta num dado ponto
+do espaço é denominado cinemática inversa  (\emph{inverse kinematics}).
+A cinemática inversa é geralmente calculada no planeador de trajetória,
+cuja função é controlar o modo como o movimento é executado. Existem vários
+tipos de movimentos possíveis, mas todos eles podem ser decompostos em
+combinações dos seguintes tipos de movimento:
 
-% Esta última pode deixar alguma confusão no leitor mas
-% é preciso pensar um pouco 'fora da caixa': se o caminho a ser percorrido
-% for definido por canais abertos num suporte tridimensional, é possível 
-% utilizar um objeto bidimensional para o percorrer.
+\begin{itemize}
+ \item movimento livre (também conhecido por movimento no espaço das
+ juntas), onde cada junta é controlada de modo independente e é usada
+ quando apenas a posição final é importante e a trajetória que a ferramenta
+ irá percorrer até atingir o ponto comandado não é relevante. Este movimento
+ é caraterizado por ser um movimento rápido, onde todas as juntas iniciam
+ e terminam o seu movimento em simultâneo, sendo para isso ajustadas as
+ respetivas velocidades;
+ \item movimento linear, onde é feita uma interpolação linear entre o
+ ponto de partida e o ponto comandado, de maneira a que a ferramenta do
+ manipulador passe por todos os pontos colineares com a reta que liga
+ o ponto de comando e o ponto de partida. Este tipo de movimento é utilizado
+ quando, por algum motivo, se pretende que a ferramenta se mova numa linha
+ reta entre o ponto de partida e o ponto comandado.
+ \item movimento circular, onde é executada uma interpolação circular
+ entre o ponto de partida e o ponto de comando, sendo necessário fornecer
+ o raio da circunferência que se pretende percorrer ou, em alternativa,
+ um ponto que deve ser atingido durante a trajetória, que permite calcular
+ internamente o raio da circunferência.
+\end{itemize}
 
-% \subsubsection{Conclusão}
+Como conhecemos da geometria, qualquer forma geométrica pode ser representada
+através da sua decomposição em pontos singulares. Análogamente,
+o mesmo pode ser feito para o controlo de movimento, onde um movimento
+curvilíneo pode ser decomposto num número elevado de pontos discretos.
+Idealmente usar-se-ia um número infinito de pontos mas, devido a limitações
+computacionais, é necessário limitar o número de pontos para esta decomposição,
+baixando a precisão do movimento. Com isto, considerando os movimentos
+linear e circular, o objetivo principal do planeador de trajetória é fazer
+a computação dos pontos de posicionamento intermédios para que seja possível
+realizar cada um destes tipos de movimento. Estes pontos de comando são
+enviados para os controladores de posição de cada eixo, geralmente do tipo
+PID, para que estes movam a respetiva junta para a posição pretendida.
 
+% \subsection{Conclusão}
+Neste tipo de movimentos é fundamental que o controlo das várias juntas
+do braço seja preciso e feito de um modo síncrono. É exatamente neste
+conceito que este projeto se baseia, demonstrando que é necessária uma
+comunicação rápida, de baixa latência e com capacidade de sincronização
+de relógios para permitir a implementação de uma arquitetura de controlo
+distribuída, inter-ligada por uma rede de comunicação de tempo real.
