@@ -1,142 +1,54 @@
-\chapter{Capítulo Exemplo}\label{chap:chap3}
+\chapter{Plano de trabalho}\label{chap:chap3}
 
-Neste capítulo apresentam-se exemplos de formatação de figuras e
-tabelas, equações e referências cruzadas.
+Neste capítulo apresenta-se o planeamento de tarefas, seus objetivos,
+faseamento e metodologia de abordagem. No final será feita uma breve
+apresentação das tecnologias e ferramentas escolhidas que permitirão
+realizar as tarefas e cumprir os objetivos propostos.
 
-Maecenas eleifend facilisis leo. Vestibulum et
-mi. Aliquam posuere, ante non tristique consectetuer, dui elit
-scelerisque augue, eu vehicula nibh nisi ac est. 
-Suspendisse elementum sodales felis. Nullam laoreet fermentum urna. 
 
-\section{Introdução}
+\section{Tarefas, objetivos e metodologia de abordagem}
 
-Apresenta-se de seguida um exemplo de equação, completamente fora do contexto:
-\begin{eqnarray}
-CIF_1: \hspace*{5mm}F_0^j(a) &=& \frac{1}{2\pi \iota} \oint_{\gamma} \frac{F_0^j(z)}{z - a} dz\\
-CIF_2: \hspace*{5mm}F_1^j(a) &=& \frac{1}{2\pi \iota} \oint_{\gamma} \frac{F_0^j(x)}{x - a} dx \label{eq:cif}
-\end{eqnarray}
+Para poder iniciar os trabalhos com uma rede \ecat\, será necessário,
+naturalmente, ter uma rede provisória funcional onde se possa iniciar o
+desenvolvimento do software de controlo. Para isto, está planeada a
+montagem de uma pequena rede \ecat\ através de um PC como dispositivo
+mestre e um \raspi\ como dispositivo escravo. De seguida, será desenvolvido
+o código de baixo nível para os \arduino\ em conjunto com os módulos
+\emph{EasyCAT} como dispositivos escravo. Esta rede de prototipagem
+permitirá o desenvolvimento de uma parte substancial do código de controlo,
+tanto do lado do mestre como do lado dos escravos. Do lado do \arduino\
+o código deverá controlar a velocidade do motor e fazer a contagem dos
+impulsos do encoder. Do lado do Raspberry, o programa focar-se á no 
+controlo de movimento e sincronização dos mesmos, bem como eventual controlo
+do estado do laser.
 
-Na Equação~\ref{eq:cif} lorem ipsum dolor sit amet, consectetuer
-adipiscing elit. Suspendisse tincidunt viverra elit. Donec tempus
-vulputate mauris. Donec arcu. Vestibulum condimentum porta
-justo. Curabitur ornare tincidunt lacus. Curabitur ac massa vel ante
-tincidunt placerat. Cras vehicula semper elit. Curabitur gravida, est
-a elementum suscipit, est eros ullamcorper quam, sed cursus velit
-velit tempor neque. Duis tempor condimentum ante. Nam
-sollicitudin. Vestibulum adipiscing, orci eu tempor dapibus, risus
-sapien porta metus, et cursus leo metus eget nibh. 
+\subsection{Calendarização}
+De forma a tornar mais percetível a calendarização de tarefas, criou-se
+um gráfico do tipo \emph{Gantt}, mostrado na figura \ref{fig:gantt}. Este
+aparece compacto, apenas com distribuição pelo diversos meses, pois a
+distribuição por semana, embora esteja definida, gerava uma imagem muito
+larga.
 
-Pellentesque rutrum, sapien at viverra facilisis, metus eros blandit
-sem, quis dictum erat metus eget erat. Vivamus malesuada dapibus
-nulla. Maecenas nec purus. Suspendisse auctor mattis augue. Phasellus
-enim nisi, iaculis sit amet, pellentesque a, iaculis in, dui. Integer
-risus. 
-
-\section{Secção Exemplo}
-
-A arquitectura do visualizador assenta sobre os seguintes conceitos
-base~\citep{kn:ZPMD97}: 
-
-\begin{itemize}
-\item \textbf{Componentes} --- Suspendisse auctor mattis augue \emph{push};
-\item \textbf{Praesent} --- Sit amet sem maecenas eleifend facilisis leo;
-\item \textbf{Pellentesque} --- Habitant morbi tristique senectus et netus.
-\end{itemize}
-
-\subsection{Exemplo de Figura}
-
-É apresentado na Figura~\ref{fig:arch} da página~\pageref{fig:arch} um
-exemplo de figura flutuante que deverá ficar no topo da página.
-
-\begin{figure}[t]
-  \begin{center}
-    \leavevmode
-    \includegraphics[width=0.86\textwidth]{puzzle}
-    \caption{Arquitectura da Solução Proposta}
-    \label{fig:arch}
-  \end{center}
+\begin{figure}[htp]
+ \centering
+ \includegraphics[width=0.86\textwidth]{Gantt.png}
+ \caption{Diagrama de Gantt das tarefas propostas}
+ \label{fig:gantt}
 \end{figure}
 
-Loren ipsum dolor sit amet, consectetuer adipiscing elit. 
-Praesent sit amet sem. Maecenas eleifend facilisis leo. Vestibulum et
-mi. Aliquam posuere, ante non tristique consectetuer, dui elit
-scelerisque augue, eu vehicula nibh nisi ac est. Suspendisse elementum
-sodales felis. Nullam laoreet fermentum urna. 
 
-Duis eget diam. In est justo, tristique in, lacinia vel, feugiat eget,
-quam. Pellentesque habitant morbi tristique senectus et netus et
-malesuada fames ac turpis egestas. Fusce feugiat, elit ac placerat
-fermentum, augue nisl ultricies eros, id fringilla enim sapien eu
-felis. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Sed dolor mi, porttitor quis,
-condimentum sed, luctus in. 
+\subsection{Tecnologias e ferramentas a usar}
+Como descrito na secção \ref{sec:solution}, ir-se-á utilizar diversos
+equipamentos para satisfazer requisitos diferentes, como por exemplo o
+\raspi \cite[]{foundation:RaspberryPi} e dos \arduino. O primeiro será programado utilizando a plataforma 
+\codesys\ \cite[]{CODESYS:codesys} que permite a utilização das linguagens
+padrão da indústria de automação, IEC 61161-3. Os \arduino\ serão programados
+em liguagem C, utilizando as librarias e compilador dedicados para os
+micro-controladores AVR, que o \arduino\ utiliza. Para que este possa
+funcionar como um escravo de \ecat, utilizar-se-á um adaptador \easycat\
+da \cite{ABT:EasyCAT} e as respetivas librarias para desenvolver um
+programa de controlo capaz de comandar a velocidade de rotação do motor
+e de fazer a contagem de impulsos provenientes do codificador de posição.
+O valor desta contagem deverá ser enviado para o \raspi\ de forma a que
+este possa fazer o controlo de posição dos motores.
 
-\subsection{Exemplo de Tabela}
-
-É apresentado na Tabela~\ref{tab:exemplo} um exemplo de tabela
-flutuante que deverá ficar no topo da página.
-
-\begin{table}[t]
-  \centering
-  \caption{Tabela Exemplo}
-\begin{tabular}{|c|r@{.}lr@{.}lr@{.}l||r|}
-	\hline
-\multicolumn{8}{|c|}
-	{\rule[-3mm]{0mm}{8mm}Iteração $k$ de $f(x_n)$} \\
-\textbf{\em k}
-	& \multicolumn{2}{c}{$x_1^k$}
-	& \multicolumn{2}{c}{$x_2^k$}
-	& \multicolumn{2}{c||}{$x_3^k$}
-	& comentários \\ \hline \hline
-0   & -0&3                 & 0&6                 &  0&7   & - \\
-1   &  0&47102965 & 0&04883157 & -0&53345964  & $\delta<\epsilon$ \\
-2   &  0&49988691 & 0&00228830 & -0&52246185  & $\delta < \varepsilon$ \\
-3   &  0&49999976 & 0&00005380 & -0&523656   &   $N$ \\
-4   &  0&5                 & 0&00000307 & -0&52359743  & \\
-\vdots	& \multicolumn{2}{c}{\vdots}
-	& \multicolumn{2}{c}{$\ddots$}
-	& \multicolumn{2}{c||}{\vdots}  & \\
-7   &  0&5   & 0&0    & \textbf{-0}&\textbf{52359878}
-		 & $\delta<10^{-8}$ \\ \hline
-\end{tabular}
-  \label{tab:exemplo}
-\end{table}
-
-Loren ipsum dolor sit amet, consectetuer adipiscing elit. 
-Praesent sit amet sem. Maecenas eleifend facilisis leo. Vestibulum et
-mi. Aliquam posuere, ante non tristique consectetuer, dui elit
-scelerisque augue, eu vehicula nibh nisi ac est. Suspendisse elementum
-sodales felis. Nullam laoreet fermentum urna. 
-
-Duis eget diam. In est justo, tristique in, lacinia vel, feugiat eget,
-quam. Pellentesque habitant morbi tristique senectus et netus et
-malesuada fames ac turpis egestas. Fusce feugiat, elit ac placerat
-fermentum, augue nisl ultricies eros, id fringilla enim sapien eu
-felis. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Sed dolor mi, porttitor quis,
-condimentum sed, luctus in. 
-
-\section{Secção Exemplo}
-
-Loren ipsum dolor sit amet, consectetuer adipiscing elit. 
-Praesent sit amet sem. Maecenas eleifend facilisis leo. Vestibulum et
-mi. Aliquam posuere, ante non tristique consectetuer, dui elit
-scelerisque augue, eu vehicula nibh nisi ac est. Suspendisse elementum
-sodales felis. Nullam laoreet fermentum urna. 
-
-Duis eget diam. In est justo, tristique in, lacinia vel, feugiat eget,
-quam. Pellentesque habitant morbi tristique senectus et netus et
-malesuada fames ac turpis egestas. Fusce feugiat, elit ac placerat
-fermentum, augue nisl ultricies eros, id fringilla enim sapien eu
-felis. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Sed dolor mi, porttitor quis,
-condimentum sed, luctus in. 
-
-\section{Resumo}
-
-Pellentesque habitant morbi tristique senectus et netus et
-malesuada fames ac turpis egestas. Fusce feugiat, elit ac placerat
-fermentum, augue nisl ultricies eros, id fringilla enim sapien eu
-felis. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Sed dolor mi, porttitor quis,
-condimentum sed, luctus in. 
