@@ -178,7 +178,34 @@ topologias diferentes em diversas secções da rede. A imagem
 
 
 \subsection{Sincronização de relógios}
-% TODO
+Em aplicações onde é necessário garantir a simultaneidade de ações, como
+discutido em \ref{sec:problem}, a utilização de uma arquitetura distribuída
+com base em redes de comunicação dificulta o processo de manter o bom
+funcionamento de ações síncronas. Um bom exemplo é, exatamente, um sistema
+que envolve a sincronização de movimentos multi-eixo.
+
+A rede \ecat\ colmata esta dificuldade através da utilização de um sistema
+de sincronização de relógios distribuídos (\emph{distributed synchronised
+clocks}). A calibração dos relógios é implementada na íntegra no
+\emph{hardware}, fazendo a distribuição cíclica do valor do relógio do
+primeiro dispositivo escravo por toda a rede, resultando numa sincronização
+dos relógios de todos os dispositivos escravo com um valor de \emph{jitter}
+abaixo de 1 microssegundo. Este valor significa que o relógio a que ele
+diz respeito têm um desvio relativamente ao relógio de referência de,
+no máximo, 1 microssegundo. Durante o período de inicialização da rede,
+esta operação de sincronização de relógios mede o tempo de transmissão
+dos dados no meio de transporte e aplica a devida compensação.
+
+Quando todos os dispositivos têm os relógios sincronizados, estes podem
+atualizar as saídas no mesmo instante e fornecer um registo temporal
+muito preciso da aquisição das entradas. Como já foi apresentado em
+\ref{sec:problem}, esta funcionalidade é fundamental para o funcionamento
+de sistema robóticos que façam uso de redes de comunicação nas suas
+malhas de controlo. Mais à frente, quando se fizer a apresentação das
+soluções propostas para esta dissertação na secção \ref{sec:solution},
+ir-se-á dar exemplos concretos desta necessidade com base no conceito
+de cada um dos sistemas de demonstração.
+
 
 \subsection{Conclusão}
 Estas caraterísticas permitem que o dispositivo mestre seja implementado
