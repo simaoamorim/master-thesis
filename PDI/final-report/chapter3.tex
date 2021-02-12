@@ -11,17 +11,30 @@ realizar as tarefas e cumprir os objetivos propostos.
 Para poder iniciar os trabalhos com uma rede \ecat\, será necessário,
 naturalmente, ter uma rede provisória funcional onde se possa iniciar o
 desenvolvimento do software de controlo. Para isto, está planeada a
-montagem de uma pequena rede \ecat\ através de um \raspi\ como dispositivo
-mestre e, no mínimo, dois conjuntos \arduino\ + \emph{EasyCAT} como
-dispositivos escravo, cada um com um motor e codificador de posição
-associados. Esta rede de prototipagem permitirá o desenvolvimento de uma
-parte substancial do código de controlo, tanto do lado do \raspi\ como
-do lado dos \arduino.
+montagem de uma pequena rede \ecat\ através de um PC como dispositivo
+mestre e um \raspi\ como dispositivo escravo. De seguida, será desenvolvido
+o código de baixo nível para os \arduino\ em conjunto com os módulos
+\emph{EasyCAT} como dispositivos escravo. Esta rede de prototipagem
+permitirá o desenvolvimento de uma parte substancial do código de controlo,
+tanto do lado do mestre como do lado dos escravos. Do lado do \arduino\
+o código deverá controlar a velocidade do motor e fazer a contagem dos
+impulsos do encoder. Do lado do Raspberry, o programa focar-se á no 
+controlo de movimento e sincronização dos mesmos, bem como eventual controlo
+do estado do laser.
 
 \subsection{Calendarização}
-% TODO incluir grafico gantt
 De forma a tornar mais percetível a calendarização de tarefas, criou-se
-um gráfico do tipo \emph{Gantt} para a ilustrar.
+um gráfico do tipo \emph{Gantt}, mostrado na figura \ref{fig:gantt}. Este
+aparece compacto, apenas com distribuição pelo diversos meses, pois a
+distribuição por semana, embora esteja definida, gerava uma imagem muito
+larga.
+
+\begin{figure}[htp]
+ \centering
+ \includegraphics[width=0.86\textwidth]{Gantt.png}
+ \caption{Diagrama de Gantt das tarefas propostas}
+ \label{fig:gantt}
+\end{figure}
 
 
 \subsection{Tecnologias e ferramentas a usar}
