@@ -115,23 +115,67 @@ dispositivos presentes na rede com apenas um \emph{frame}. \ecat\ utiliza
 uma tipologia de comunicação \emph{Master/Slave}, tipicamente implementada
 numa arquitetura de rede encadeada (\emph{daisy-chain}), mas permite várias
 outras arquiteturas.
-% TODO: Citar aqui algo que explicite as varias arquiteturas
+
+\subsection{Princípio de funcionamento}
+
+A rede \ecat\ utiliza como base um \framee\ \ethernet\ padrão, fazendo
+uso do endereçamento MAC e inserindo os seus datagramas de comunicação no
+conteúdo do \framee\ \ethernet. Estes são marcados com o identificador
+0x88A4 no campo \emph{Ethertype}. Isto permite que as comunicações \ecat\
+não dependam da pilha de protocolos de comunicação tradicionais como
+\emph{TCP/IP} ou \emph{UDP/IP}. A figura \ref{fig:ecat-frame}, retirada
+da página de apresentação da tecnologia \cite[]{group:EtherCAT}, demonstra
+o aspeto genérico da estrutura de um \framee\ \ecat.
 
 \begin{figure}[htp]
  \centering
  \includegraphics[width=\linewidth]{EtherCAT_Technology_01_Protocol.jpg}
- \caption{Estrutura de um \emph{frame} \ecat \cite[]{group:EtherCAT}}
+ \caption{Estrutura de um \emph{frame} \ecat}
  \label{fig:ecat-frame}
 \end{figure}
 
+Vários datagramas de \ecat\ podem ser transmitidos no mesmo \framee\ \ethernet\
+de modo a otimizar a eficiencia da transferência de informação. Durante
+a configuração da rede, o dispositivo mestre atribui um ou mais endereços 
+a cada escravo, de maneira que é possível endereçar cada escravo individualmente
+ou endereçar grupos de escravos em simultâneo. Este processo é denominado
+endereçamento lógico e permite separar os dados relativos a diferentes
+tarefas geridas pelo dispositivo mestre. Cada datagrama enviado no
+\framee\ \ethernet\ terá um cabeçalho que indicará qual o tipo de acesso
+que o dispositivo mestre pretende efetuar com o(s) escravo(s) identificado(s)
+no datagrama. Os acessos disponíveis são apenas leitura, apenas escrita
+ou leitura e escrita em simultâneo.
 
-\subsection{Arquiteture de rede encadeada (\emph{daisy-chain})}
-\label{sec:daisychain}
 Apenas o dispositivo mestre pode iniciar um \emph{frame} de comunicação
 e os dispositivos escravos limitam-se a ler a parte informação contida
 no \emph{frame} que lhes é endereçada. Ao mesmo tempo, cada dispositivo
 escravo pode introduzir informação sua  no \emph{frame} antes de o enviar
 para o dispositivo seguinte.
+
+Através destas funcionalidades de endereçamento lógico e da definição do
+modo de acesso em cada datagrama, o dispositivo mestre pode decidir quando
+pretende ler ou escrever dados de cada escravo, permitindo assim que se
+configurem diferentes períodos de atualização para cada tarefa, como por
+exemplo, fazer uma atualização dos parametros dos controladores dos motores
+com período de 1ms e fazer a atualização dos comandos manuais do utilizador
+com período de 10ms.
+
+\subsection{Arquiteturas de rede}
+\label{sec:daisychain}
+Como referido em \ref{sec:ethercat}, esta rede é muito flexível em termos
+da topologia de rede que suporta. As mais comummente utilizadas são
+a encadeada, em árvore ou em estrela e é possível fazer uma combinação de
+topologias diferentes em diversas secções da rede. A imagem 
+\ref{fig:ecat-topology}, retirada da página de apresentação
+\cite[]{group:EtherCAT}, demonstra estas topologias numa configuração mista.
+
+\begin{figure}[htp]
+ \centering
+ \includegraphics[width=\linewidth]{EtherCAT_Technology_03_Topology.jpg}
+ \caption{Configuração mista de topologias suportadas pela rede \ecat}
+ \label{fig:ecat-topology}
+\end{figure}
+
 
 \subsection{Sincronização de relógios}
 % TODO
