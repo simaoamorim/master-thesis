@@ -1,5 +1,6 @@
 *.pdf
 *.kilepr**
+*.kate-swp
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
