@@ -56,18 +56,18 @@
 
 - Random Good > Random Bad > Good
   1. Start by demonstrating a good scenario
-    1. ~Either let the student program it: Difficult to maintain stability and
-    impossible to know if it will work~
-    2. **Have the student choose a predefined behaviour**: *Possible, although the
-    chosen scenario may not be the fittest.*
-    3. **Have the system choose a random one**: *Possible, if the system pre-selects
-    the faults we can filter and choose the best scenario to demonstrate it.*
+      1. ~Either let the student program it: Difficult to maintain stability and
+      impossible to know if it will work~
+      2. **Have the student choose a predefined behaviour**: *Possible, although the
+      chosen scenario may not be the fittest.*
+      3. **Have the system choose a random one**: *Possible, if the system pre-selects
+      the faults we can filter and choose the best scenario to demonstrate it.*
   2. Demonstrate the same action but with a random fault introduced
-    1. Can have various degrees of difficulty: e.g. simultaneous faults.
+      1. Can have various degrees of difficulty: e.g. simultaneous faults.
   3. Comment about the behaviour
   4. Identify the fault(s) based on the behaviour
-    1. Maybe allow the student to visualize a different scenario, (in case the
-    chosen one didn't provide a clear understanding of the fault's effect).
+      1. Maybe allow the student to visualize a different scenario, (in case the
+      chosen one didn't provide a clear understanding of the fault's effect).
   5. Check the real faults introduced
   6. Comment about their effects on the behaviour
   7. Compare numbers 4 and 5
