@@ -1,0 +1,69 @@
+\documentclass[10pt,a4paper,draft]{article}
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage{csquotes}
+
+% Watermark
+% Comment out when releasing
+\usepackage{draftwatermark}
+\SetWatermarkScale{4}
+
+% Custom header
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhf{}
+%\cfoot{\thepage}
+%\chead{\copyright\ Simão Amorim, 2021}
+%\renewcommand{\headrulewidth}{0pt}
+%\renewcommand{\footrulewidth}{0pt}
+
+\title{EtherCAT demonstrator - User Manual}
+\author{Simão Amorim}
+
+\begin{document}
+	\maketitle
+%	\thispagestyle{fancy}
+	
+%	\begin{abstract}
+%		\blindtext
+%	\end{abstract}
+	
+	\section{Introduction}
+	\blindtext
+	
+	\section{Exercises}
+	Do not advance through the stages without making sure you noted every aspect of the simulations: there is
+	no going back to the previous stage and, because every simulated fault is picked randomly, it's possible only
+
+	\subsection{Scenario selection}
+	\begin{enumerate}
+		\item Choose a pattern scenario. If you don't want to choose one, select the \enquote{random} option.
+		\item Watch the default behaviour of the system. Take notes about the system performance and make
+		sure you know how every action that is happening. You can repeat the process you think you missed
+		something.
+	\end{enumerate}
+	\subsection{Fault identification}
+	\begin{enumerate}
+		\item Advance to the next stage on the demonstrator. It has chosen to simulate some random fault.
+		\item Run the pattern again and pay attention to the system behaviour. The scenario chosen in the first 
+		stage is now running with a simulated network fault. Note any differences with the previous run. (Tip:
+		some faults need a specific situation in order to be relevant. Run experiments using the available controls
+		and try to figure out when the effect is relevant)
+		\item Describe the observed behaviour and try to identify what type of communication fault could originate
+		such behaviour, explaining your thought process.
+	\end{enumerate}
+	\subsection{Confirmation}
+	\begin{enumerate}
+		\item Finalize the simulation by advancing to the final stage and note what fault the system simulated.
+		\item What is the rationale behind this particular simulation? Why did the system behave differently in
+		the presence of this fault?
+		\item Did you identify all the relevant simulation changes?
+		\item Make a comparison about the identification you performed on the second stage and explain why
+		it was correct, incorrect or incomplete, whichever the case.
+	\end{enumerate}
+	
+	\section{Closing thoughts}
+	\blindtext
+		
+\end{document}
