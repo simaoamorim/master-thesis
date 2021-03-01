@@ -73,3 +73,22 @@ possível). O slave recebe este valor da saída e verifica se o estado do receto
 #### Modificação para possível controlo de atuação:
 Colocar LED a piscar a frequencia constante e sincronizar o(s) disco(s)
 de modo a manter o feixe de lux a atingir o fotorrecetor.
+
+# Semana 3 - 01/03/2021
+
+## Trabalho realizado
+- Pesquisa de controlador de motor DC com encoder para Raspberry Pi
+- Estudo de como implementar uma tarefa de tempo real em Linux, usando a API
+genérica do kernel.
+
+## Discussão
+- Como implementar o slave?
+  - Usar Raspberry Pi com placa DFRobot DFR0592
+  - Motor diz funcionar confortávelmente entre os 3-9V, embora seja de 6V nominal.
+  - Esquecer arduino
+## Tarefas
+- Verificar o que é o "MegaIO" e se é relevante
+- Juntar execução RT e a API da Hilscher para ter uma tarefa de tempo real a
+comunicar com o CODESYS
+- Verificar o funcionamento da comunicação I2C no raspberry, necessária para
+comunicar com o módulo de controlo do motor.
