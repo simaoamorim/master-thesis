@@ -8,21 +8,21 @@ int main(int argc, char *argv[])
 	cbreak();
 	noecho();
 	raw();
+	curs_set(0);
 
 	keypad(stdscr, TRUE);
 	printw("Hello world!\n");
 	printw("I'm an ncurses application");
+
 	mvprintw(LINES-1, 0, "Press q to quit");
 
 	refresh();
 	int ch;
 	while ('q' != (ch = getch())) {
-		WINDOW *tmp_window = newwin(5, 70, (LINES-5)/2, (COLS-70)/2);
+		WINDOW *tmp_window = newwin(4, 50, (LINES-4)/2, (COLS-50)/2);
 		box(tmp_window, 0, 0);
-		int l, c;
 		mvwprintw(tmp_window, 1, 1, "Did not press q");
-		getyx(tmp_window, l, c);
-		mvwprintw(tmp_window, l+1, 1, "Press [return] to close this window");
+		mvwprintw(tmp_window, 2, 1, "Press [return] to close this window");
 		wrefresh(tmp_window);
 		getch();
 		wclear(tmp_window);
