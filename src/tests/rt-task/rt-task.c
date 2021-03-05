@@ -8,9 +8,9 @@
  * manpage timer_create(2). The signal-backed timer is used on this example, so
  * a custom signal handler function is used.
  *
- * This example includes some advanced features as setting the scheduler used for
- * this program's thread to be the real-time FIFO scheduler and setting the CPU
- * affinity, only allowing the thread to run of the specified CPU (CPU0).
+ * This example includes some advanced features as setting the scheduler used
+ * for this program's thread to be the real-time FIFO scheduler and setting the
+ * CPU affinity, only allowing the thread to run of the specified CPU (CPU0).
  *
  * This source code is licensed under the MIT license.
  *
@@ -23,8 +23,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
