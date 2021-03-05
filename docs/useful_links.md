@@ -11,3 +11,9 @@
 - https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rteval
 - https://lwn.net/Articles/743740/
 - https://developer.toradex.com/knowledge-base/real-time-linux#Scheduler_and_Priorities
+
+# Drivers
+
+## netHAT DVD
+
+- https://www.netiot.com/interface/nethat/
