@@ -12,6 +12,7 @@ void _perror(const char *s);
 void _xerror(const char *s, const int32_t lret);
 
 int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel);
+int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel);
 
 int main (int argc, char *argv[])
 {
@@ -26,13 +27,7 @@ int main (int argc, char *argv[])
 	// More code
 	puts("Driver successfully opened");
 
-	lret = xDriverClose(&driver);
-	if (CIFX_NO_ERROR != lret) {
-		_xerror("Failed to close the driver", lret);
-		goto exit_error;
-	}
-
-	cifXDriverDeinit();
+	lret = _cifx_end(&driver, &channel);
 
 	return EXIT_SUCCESS;
 exit_error:
@@ -80,6 +75,22 @@ int _cifx_init(	const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 		_xerror("Could not open driver", lret);
 		goto exit_error;
 	}
+
+	return EXIT_SUCCESS;
+exit_error:
+	return EXIT_FAILURE;
+}
+
+int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel)
+{
+	int32_t lret;
+	lret = xDriverClose(&driver);
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Failed to close the driver", lret);
+		goto exit_error;
+	}
+
+	cifXDriverDeinit();
 
 	return EXIT_SUCCESS;
 exit_error:
