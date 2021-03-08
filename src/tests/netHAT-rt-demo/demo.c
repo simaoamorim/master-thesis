@@ -13,6 +13,24 @@ int main (int argc, char *argv[])
 {
 	CIFXHANDLE driver = NULL;
 	int32_t lret;
+	struct CIFX_LINUX_INIT init =
+	{
+		.init_options        = CIFX_DRIVER_INIT_AUTOSCAN,
+		.iCardNumber         = 0,
+		.fEnableCardLocking  = 0,
+		.base_dir            = "/dev/spidev0.0",
+		.poll_interval       = 0,
+		.poll_StackSize      = 0,
+		.trace_level         = 255,
+		.user_card_cnt       = 0,
+		.user_cards          = NULL,
+	};
+
+	lret = cifXDriverInit(&init);
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Could not initialize the driver", lret);
+		goto exit_error;
+	}
 
 	lret = xDriverOpen(&driver);
 	if (CIFX_NO_ERROR != lret) {
@@ -21,12 +39,15 @@ int main (int argc, char *argv[])
 	}
 
 	// More code
+	puts("Driver successfully opened");
 
 	lret = xDriverClose(&driver);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Failed to close the driver", lret);
 		goto exit_error;
 	}
+
+	cifXDriverDeinit();
 
 	return EXIT_SUCCESS;
 exit_error:
