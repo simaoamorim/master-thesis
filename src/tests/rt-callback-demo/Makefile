@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall
-LDFLAGS =
+LDFLAGS = -lrt
 TARGET = rt-callback-demo
 
 all: rt-callback-demo
