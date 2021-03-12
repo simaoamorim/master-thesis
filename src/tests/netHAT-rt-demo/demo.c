@@ -100,7 +100,7 @@ void _xerror(const char *s, const int32_t lret)
 	printf("Cause: %s\n", tmpbuf);
 }
 
-int _cifx_init(	const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
+int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 {
 	int lret;
 	struct CIFX_LINUX_INIT init =
