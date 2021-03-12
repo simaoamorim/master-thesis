@@ -1,13 +1,20 @@
+CC = gcc
 CFLAGS = -Wall
 LDFLAGS = -lcifx
-#LDFLAGS += -lpthread -lrt
+#LDFLAGS += -lrt
+#LDFLAGS += -lpthread
+TARGET = demo
+OBJECTS = sched.o
 
-all: demo
+all: $(TARGET)
 
-demo: demo.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
+$(TARGET): $(TARGET).c $(OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 
 clean:
-	-rm -v demo
+	-rm $(TARGET) $(OBJECTS)
