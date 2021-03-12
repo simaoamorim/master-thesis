@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include <cifx/cifxlinux.h>
+
+#include "sched.h"
 
 #define	BUFFER_SIZE	512
 #define CIFX_DEV	"cifX0"
 #define	CIFX_INIT_DIR	"/dev/spidev0.0"
+
+volatile int keep_running = 1;
 
 void _perror(const char *s);
 
@@ -13,6 +18,8 @@ void _xerror(const char *s, const int32_t lret);
 
 int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel);
 int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel);
+
+void sighandler(int signum);
 
 int main (int argc, char *argv[])
 {
@@ -32,6 +39,14 @@ int main (int argc, char *argv[])
 	return EXIT_SUCCESS;
 exit_error:
 	return EXIT_FAILURE;
+}
+
+void sighandler(int signum)
+{
+	if (SIGINT == signum) {
+		keep_running = 0;
+		write(STDOUT_FILENO, "\n", 1);
+	}
 }
 
 void _perror(const char *s)
