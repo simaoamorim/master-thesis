@@ -22,6 +22,8 @@ int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel);
 
 void sighandler(int signum);
 
+void loop(void);
+
 int main (int argc, char *argv[])
 {
 	CIFXHANDLE driver = NULL;
@@ -59,12 +61,21 @@ int main (int argc, char *argv[])
 
 	// More code
 	puts("Driver successfully opened");
+	loop();
 
 	lret = _cifx_end(&driver, &channel);
 
 	return EXIT_SUCCESS;
 exit_error:
 	return EXIT_FAILURE;
+}
+
+void loop(void)
+{
+	while (keep_running) {
+		// Loop function code here
+		sched_yield();
+	}
 }
 
 void sighandler(int signum)
