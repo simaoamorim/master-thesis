@@ -4,6 +4,7 @@
 
 #include <cifx/cifxlinux.h>
 
+#include <linux/sched.h>
 #include "sched.h"
 
 #define	BUFFER_SIZE	512
@@ -26,6 +27,31 @@ int main (int argc, char *argv[])
 	CIFXHANDLE driver = NULL;
 	CIFXHANDLE channel = NULL;
 	int lret;
+	struct sched_attr attr = {
+		.size = sizeof(struct sched_attr),
+		.sched_policy = SCHED_DEADLINE,
+		.sched_priority = 0,
+		.sched_flags = 0,
+		.sched_period = 1000000,
+		.sched_runtime = 1000000,
+		.sched_deadline = 1000000
+	};
+
+	if (SIG_ERR == signal(SIGINT, sighandler)) {
+		perror("Error setting signal handler");
+		goto exit_error;
+	}
+
+	lret = sched_setattr(0, &attr, 0);
+	if (-1 == lret) {
+		perror("Failed to set the deadline scheduler");
+		goto exit_error;
+	}
+	lret = sched_getattr(0, &attr, sizeof(struct sched_attr), 0);
+	if (SCHED_DEADLINE != attr.sched_policy) {
+		puts("Current scheduler is not the requested (SCHED_DEADLINE)");
+		goto exit_error;
+	}
 
 	lret = _cifx_init(CIFX_INIT_DIR, &driver, &channel);
 	if (EXIT_FAILURE == lret)
