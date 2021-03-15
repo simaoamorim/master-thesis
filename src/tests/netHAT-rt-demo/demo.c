@@ -9,7 +9,7 @@
 
 #define	BUFFER_SIZE	512
 #define CIFX_DEV	"cifX0"
-#define	CIFX_INIT_DIR	"/dev/spidev0.0"
+#define	CIFX_INIT_DIR	NULL
 
 volatile int keep_running = 1;
 
@@ -136,7 +136,7 @@ int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 		goto exit_error;
 	}
 
-	lret = xChannelOpen(NULL, CIFX_DEV, 0, channel);
+	lret = xChannelOpen(driver, CIFX_DEV, 0, channel);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Could not open channel", lret);
 		goto exit_error;
@@ -149,7 +149,12 @@ exit_error:
 
 int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel)
 {
-	int32_t lret;
+	int lret;
+	lret = xChannelClose(&channel);
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Failed to close the channel", lret);
+		goto exit_error;
+	}
 	lret = xDriverClose(&driver);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Failed to close the driver", lret);
