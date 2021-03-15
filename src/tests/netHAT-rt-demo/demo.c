@@ -128,6 +128,12 @@ int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 		goto exit_error;
 	}
 
+	lret = xChannelOpen(NULL, CIFX_DEV, 0, channel);
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Could not open channel", lret);
+		goto exit_error;
+	}
+
 	return EXIT_SUCCESS;
 exit_error:
 	return EXIT_FAILURE;
