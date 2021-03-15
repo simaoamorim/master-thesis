@@ -11,6 +11,9 @@ all: $(TARGET)
 $(TARGET): $(TARGET).c $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
+cifxlinuxsample: cifxlinuxsample.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
