@@ -63,14 +63,23 @@ int main (int argc, char *argv[])
 skip_sched:
 	puts("Driver successfully opened");
 	uint32_t ulState;
+reset_com:
+	puts("Waiting for communication...");
 	while (keep_running) {
-		lret = xChannelBusState(channel, CIFX_BUS_STATE_ON, &ulState, 1000);
+		lret = xChannelBusState(channel, CIFX_BUS_STATE_ON, &ulState, 0);
+		if (CIFX_DEV_NO_COM_FLAG == lret)
+			sched_yield();
+		else
+			goto main_loop;
+	}
+	while (keep_running) {
+		lret = xChannelBusState(channel, CIFX_BUS_STATE_GETSTATE, &ulState, 0);
 		if (CIFX_DEV_NO_COM_FLAG == lret) {
-			puts("Waiting for communication...");
-			goto skip;
+			puts("Communication lost...");
+			goto reset_com;
 		}
+	main_loop:
 		loop();
-	skip:
 		sched_yield();
 	}
 
