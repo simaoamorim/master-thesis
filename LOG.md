@@ -92,3 +92,17 @@ genérica do kernel.
 comunicar com o CODESYS
 - Verificar o funcionamento da comunicação I2C no raspberry, necessária para
 comunicar com o módulo de controlo do motor.
+
+# Semana 4 - 08/03/2021
+Por registar
+
+# Semana 5 - 15/03/2021
+
+## Trabalho realizado
+- Tarefa de tempo real para RPI terminada
+- API de I2C de Linux estudada
+
+## Tarefas
+- Verificar implementação de slave Profinet com o CODESYS
+- Testar comunicação I2C com o controlador de motor
+- Testar se todos os componentes estão OK
