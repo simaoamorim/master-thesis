@@ -82,8 +82,11 @@ reset_com:
 		loop();
 		sched_yield();
 	}
-
+	puts("Shutting down communication...");
 	lret = _cifx_end(&driver, &channel);
+	if (EXIT_FAILURE == lret)
+		goto exit_error;
+	puts("Done");
 
 	return EXIT_SUCCESS;
 exit_error:
@@ -99,7 +102,7 @@ void sighandler(int signum)
 {
 	if (SIGINT == signum) {
 		keep_running = 0;
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\rInterrupt received\n", 20);
 	}
 }
 
