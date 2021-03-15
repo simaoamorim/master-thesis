@@ -44,6 +44,10 @@ int main (int argc, char *argv[])
 		goto exit_error;
 	}
 
+	lret = _cifx_init(CIFX_INIT_DIR, &driver, &channel);
+	if (EXIT_FAILURE == lret)
+		goto exit_error;
+
 	lret = sched_setattr(0, &attr, 0);
 	if (-1 == lret) {
 		perror("Failed to set the deadline scheduler");
@@ -54,12 +58,6 @@ int main (int argc, char *argv[])
 		puts("Current scheduler is not the requested (SCHED_DEADLINE)");
 		goto exit_error;
 	}
-
-	lret = _cifx_init(CIFX_INIT_DIR, &driver, &channel);
-	if (EXIT_FAILURE == lret)
-		goto exit_error;
-
-	// More code
 	puts("Driver successfully opened");
 	loop();
 
