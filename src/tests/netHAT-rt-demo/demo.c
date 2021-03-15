@@ -59,7 +59,17 @@ int main (int argc, char *argv[])
 		goto exit_error;
 	}
 	puts("Driver successfully opened");
-	loop();
+	uint32_t ulState;
+	while (keep_running) {
+		lret = xChannelBusState(channel, CIFX_BUS_STATE_ON, &ulState, 1000);
+		if (CIFX_DEV_NO_COM_FLAG == lret) {
+			puts("Waiting for communication...");
+			goto skip;
+		}
+		loop();
+	skip:
+		sched_yield();
+	}
 
 	lret = _cifx_end(&driver, &channel);
 
@@ -70,10 +80,7 @@ exit_error:
 
 void loop(void)
 {
-	while (keep_running) {
-		// Loop function code here
-		sched_yield();
-	}
+	// Loop function code here
 }
 
 void sighandler(int signum)
