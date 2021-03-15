@@ -51,13 +51,16 @@ int main (int argc, char *argv[])
 	lret = sched_setattr(0, &attr, 0);
 	if (-1 == lret) {
 		perror("Failed to set the deadline scheduler");
-		goto exit_error;
+		puts("Make sure you have enough privileges to run an RT application" \
+			"either by using 'sudo' or other methods");
+		goto skip_sched;
 	}
 	lret = sched_getattr(0, &attr, sizeof(struct sched_attr), 0);
 	if (SCHED_DEADLINE != attr.sched_policy) {
 		puts("Current scheduler is not the requested (SCHED_DEADLINE)");
 		goto exit_error;
 	}
+skip_sched:
 	puts("Driver successfully opened");
 	uint32_t ulState;
 	while (keep_running) {
