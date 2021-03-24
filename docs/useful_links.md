@@ -14,6 +14,10 @@
 
 # Drivers
 
+## Codesys I2C Documentation
+
+- https://forge.codesys.com/drv/io-drivers/doc/I2C/?version=1
+
 ## netHAT DVD
 
 - https://www.netiot.com/interface/nethat/
