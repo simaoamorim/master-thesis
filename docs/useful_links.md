@@ -11,6 +11,7 @@
 - https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rteval
 - https://lwn.net/Articles/743740/
 - https://developer.toradex.com/knowledge-base/real-time-linux#Scheduler_and_Priorities
+- https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
 
 # Drivers
 
