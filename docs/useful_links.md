@@ -12,6 +12,7 @@
 - https://lwn.net/Articles/743740/
 - https://developer.toradex.com/knowledge-base/real-time-linux#Scheduler_and_Priorities
 - https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
+- https://www.engineersgarage.com/raspberrypi/articles-raspberry-pi-i2c-bus-pins-smbus-smbus2-python/
 
 ## I2C Example
 - https://www.pololu.com/docs/0J73/15.8
