@@ -13,6 +13,9 @@
 - https://developer.toradex.com/knowledge-base/real-time-linux#Scheduler_and_Priorities
 - https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
 
+## I2C Example
+- https://www.pololu.com/docs/0J73/15.8
+
 # Drivers
 
 ## Codesys I2C Documentation
