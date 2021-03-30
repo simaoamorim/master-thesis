@@ -14,8 +14,11 @@
 - https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
 - https://www.engineersgarage.com/raspberrypi/articles-raspberry-pi-i2c-bus-pins-smbus-smbus2-python/
 
-## I2C Example
+## I2C
+### Example
 - https://www.pololu.com/docs/0J73/15.8
+### KErnel Documentation
+- https://www.kernel.org/doc/html/v5.4/i2c/dev-interface.html
 
 # Drivers
 
