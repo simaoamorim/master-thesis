@@ -17,7 +17,7 @@
 ## I2C
 ### Example
 - https://www.pololu.com/docs/0J73/15.8
-### KErnel Documentation
+### Kernel Documentation
 - https://www.kernel.org/doc/html/v5.4/i2c/dev-interface.html
 
 # Drivers
