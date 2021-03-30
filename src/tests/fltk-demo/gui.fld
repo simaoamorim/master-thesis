@@ -1,0 +1,11 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+header_name {.h}
+code_name {.cxx}
+Function {make_window()} {open selected C
+} {
+  Fl_Window {} {
+    label {FLTK Demo} open
+    xywh {2795 318 250 200} type Double visible
+  } {}
+}
