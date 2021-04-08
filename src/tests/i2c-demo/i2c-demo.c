@@ -1,3 +1,10 @@
+/*
+ * i2c-demo.c
+ *
+ * Requires libi2c-dev to be installed and linked using the LDFLAG "-li2c"
+ *
+ */
+
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -5,8 +12,8 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 
-#include <linux/i2c.h>
 #include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
 
 #define _REG_PID 0x01
 #define _REG_PVD 0x02
@@ -22,7 +29,7 @@ int main(int argc, char *argv[])
 
 	if (argc == 3) {
 		sscanf(argv[1], "%d", &adapter_nr);
-		sscanf(argv[2], "%d", &slave_addr);
+		sscanf(argv[2], "%x", &slave_addr);
 	} else {
 		errno = EINVAL;
 		perror(NULL);
@@ -42,8 +49,24 @@ int main(int argc, char *argv[])
 	}
 
 	printf("%s opened successfully\n", filename);
-	printf("Slave address set to 0x%d\n", slave_addr);
+	printf("Slave address set to %02x\n", slave_addr);
 
+	int data;
+	data = i2c_smbus_read_byte_data(file, _REG_PID);
+	if (0 > data) {
+		perror("i2c_smbus_read_byte_data");
+		goto exit_err;
+	}
+	printf("PID: %d (%2x)\n", data, data);
+	data = i2c_smbus_read_byte_data(file, _REG_PVD);
+	if (0 > data) {
+		perror("i2c_smbus_read_byte_data");
+		goto exit_err;
+	}
+	printf("PVD: %d (%2x)\n", data, data);
+
+	if (file > 0)
+		close(file);
 	return 0;
 exit_err:
 	if (file > 0)
