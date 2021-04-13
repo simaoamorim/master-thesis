@@ -4,6 +4,9 @@
 #define	_STEPPER_COUNT			1
 #define	_MOTOR_COUNT			2
 
+#define	_CONTROL_MODE_DC_MOTOR		0x00
+#define	_CONTROL_MODE_STEPPER		0x01
+
 #define	_REG_SLAVE_ADDR			0x00
 #define	_REG_PID			0x01
 #define	_REG_PVD			0x02
