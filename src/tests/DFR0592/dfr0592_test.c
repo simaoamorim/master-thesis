@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 		perror("set_pwm_frequency()");
 		return errno;
 	}
-	printf("fd = %d and addr = %d\n", b->i2c_fd, b->addr);
+	puts("Everything OK");
 	if (0 > board_close(b)) {
 		perror("board_close()");
 		return errno;
