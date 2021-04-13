@@ -70,14 +70,14 @@ int set_pwm_frequency(const struct dfr_board *board, int freq)
 	}
 	int tmp_freq = (int) freq / 50;
 	if (0 != freq % 50) {
-		fprintf(stderr, "Warning: actual frequency set to the closest multiple of 50Hz");
-		fprintf(stderr, "Frequency set to %dHz", tmp_freq * 50);
+		fprintf(stderr, "Warning: actual frequency set to the closest multiple of 50Hz\n");
+		fprintf(stderr, "Frequency set to %dHz\n", tmp_freq * 50);
 	}
 	int lret = i2c_smbus_write_byte_data(board->i2c_fd, _REG_MOTOR_PWM, tmp_freq);
 	int rd_freq = i2c_smbus_read_byte_data(board->i2c_fd, _REG_MOTOR_PWM);
-	if (1 != lret || rd_freq < 0 || rd_freq != tmp_freq) {
+	if (0 != lret || rd_freq < 0 || rd_freq != tmp_freq) {
 		errno = EIO;
-		fprintf(stderr, "Failed to set frequency");
+		fprintf(stderr, "Failed to set frequency\n");
 		return -1;
 	}
 	return 0;
