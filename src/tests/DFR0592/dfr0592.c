@@ -43,3 +43,16 @@ int board_close(const struct dfr_board *board)
 	}
 	return tmp;
 }
+
+int board_set_mode(const struct dfr_board *board, enum modes mode)
+{
+	if (DC == mode) {
+		i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_DC_MOTOR);
+	} else if (STEPPER == mode) {
+		i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_STEPPER);
+	} else {
+		errno = EINVAL;
+		return -1;
+	}
+	return 0;
+}

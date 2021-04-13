@@ -17,6 +17,12 @@ struct dfr_board {
 	int vid;	///< Board VID
 };
 
+/// Board mode definitions
+enum modes {
+	DC,		///< DC motor mode
+	STEPPER		///< Stepper motor mode
+};
+
 /**
  * Initialize a new dfr_board struct
  * @param[in] i2c_bus Index of the I2C bus to use
@@ -48,3 +54,15 @@ const struct dfr_board * board_init(int i2c_bus, int addr);
  * In the event of failure, errno is set accordingly, use it to get the cause.
  */
 int board_close(const struct dfr_board *board);
+
+/**
+ * Set the board operation mode
+ * @param[in] *board Board definition
+ * @param[in] mode Operation mode, as defined in modes
+ *
+ * Defines the board operation mode depending on the type of motor used,
+ * either DC motor or STEPPER motor.
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int board_set_mode(const struct dfr_board *board, enum modes mode);
