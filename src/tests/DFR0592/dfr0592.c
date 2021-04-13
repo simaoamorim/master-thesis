@@ -15,8 +15,8 @@ const struct dfr_board * board_init(int i2c_bus, int addr)
 		perror("ioctl (set slave address)");
 		return NULL;
 	}
-	int pid = (int) i2c_smbus_read_byte_data(fd, _REG_PID);
-	int vid = (int) i2c_smbus_read_byte_data(fd, _REG_PVD);
+	int pid = i2c_smbus_read_byte_data(fd, _REG_PID);
+	int vid = i2c_smbus_read_byte_data(fd, _REG_PVD);
 	if (pid != _REG_DEF_PID || vid != _REG_DEF_VID) {
 		fprintf(stderr, "PID/VID does't match\n");
 		fprintf(stderr, "PID is 0x%x, should be 0x%x\n", pid, _REG_DEF_PID);
