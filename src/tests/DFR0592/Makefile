@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall
-LDFLAGS = -I.
+LDFLAGS = -I. -li2c
 TARGET ?= dfr0592_test
 OBJECTS ?= dfr0592.o
 
