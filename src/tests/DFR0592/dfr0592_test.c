@@ -12,6 +12,10 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "board_init(%d, %d) failed\n", 1, 16);
 		return errno;
 	}
+	if (0 > board_set_mode(b, DC)) {
+		perror("board_set_mode()");
+		return errno;
+	}
 	printf("fd = %d and addr = %d\n", b->i2c_fd, b->addr);
 	if (0 > board_close(b)) {
 		perror("board_close()");

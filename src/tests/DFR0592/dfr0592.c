@@ -54,5 +54,9 @@ int board_set_mode(const struct dfr_board *board, enum modes mode)
 		errno = EINVAL;
 		return -1;
 	}
+	if (i2c_smbus_read_byte_data(board->i2c_fd, _REG_CTRL_MODE) != mode) {
+		errno = EIO;
+		return -1;
+	}
 	return 0;
 }
