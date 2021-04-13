@@ -9,6 +9,9 @@
 #include <linux/i2c-dev.h>
 #include <i2c/smbus.h>
 
+#define	_STEPPER_COUNT	1
+#define	_MOTOR_COUNT	2
+
 /// Board definition structure
 struct dfr_board {
 	int i2c_fd;	///< I2C bus file descriptor
@@ -81,3 +84,31 @@ int board_set_mode(const struct dfr_board *board, enum modes mode);
  * In the event of failure, use errno to get the cause.
  */
 int set_pwm_frequency(const struct dfr_board *board, int freq);
+
+/**
+ * Enable an encoder
+ * @param[in] *board Board definition
+ * @param[ini] motor Motor number
+ *
+ * Enables the usage of the encoder for the provided motor number. Motor number needs to be within
+ * [1, _MOTOR_COUNT].
+ *
+ * Return: 0 on success, -1 on failure
+ *
+ * In the event of failure, use errno to get the cause.
+ */
+int encoder_enable(const struct dfr_board *board, int motor);
+
+/**
+ * Disable an encoder
+ * @param[in] *board Board definition
+ * @param[in] motor Motor number
+ *
+ * Disables the usage of the encoder for the provided motor number. Motor number needs to be within
+ * [1, _MOTOR_COUNT].
+ *
+ * Return: 0 on success, -1 on failure
+ *
+ * In the event of failure, use errno to get the cause.
+ */
+int encoder_disable(const struct dfr_board *board, int motor);

@@ -1,9 +1,6 @@
 #ifndef __DFR0592_ADDRS
 #define	__DFR0592_ADDRS
 
-#define	_STEPPER_COUNT			1
-#define	_MOTOR_COUNT			2
-
 #define	_CONTROL_MODE_DC_MOTOR		0x00
 #define	_CONTROL_MODE_STEPPER		0x01
 

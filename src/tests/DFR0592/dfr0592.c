@@ -82,3 +82,30 @@ int set_pwm_frequency(const struct dfr_board *board, int freq)
 	}
 	return 0;
 }
+
+int _encoder_set(const struct dfr_board *board, int motor, int value)
+{
+	if (NULL == board) {
+		fprintf(stderr, "struct dfr_board *board is NULL\n");
+		goto ret_inval;
+	} else if ( _MOTOR_COUNT < motor || 1 > motor ) {
+		fprintf(stderr, "motor %d is invalid: needs to be within [%d,%d]\n", motor, 1, _MOTOR_COUNT);
+		goto ret_inval;
+	}
+	int reg = _REG_ENCODER1_EN + ((motor - 1)*0x05); // Use reg according to the provided motor
+	i2c_smbus_write_byte_data(board->i2c_fd, reg, value);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int encoder_enable(const struct dfr_board *board, int motor)
+{
+	return _encoder_set(board, motor, 0x01);
+}
+
+int encoder_disable(const struct dfr_board *board, int motor)
+{
+	return _encoder_set(board, motor, 0x00);
+}

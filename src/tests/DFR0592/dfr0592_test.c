@@ -20,6 +20,20 @@ int main(int argc, char **argv) {
 		perror("set_pwm_frequency()");
 		return errno;
 	}
+	if (0 > encoder_enable(b, 1)) {
+		perror("encoder_enable(1)");
+		return errno;
+	}
+	if (0 > encoder_disable(b, 2)) {
+		perror("encoder_disable(2)");
+		return errno;
+	}
+	// Error expected
+	if (0 == encoder_disable(b, 3)) {
+		fprintf(stderr, "encoder_disable(3) should have failed, but didn't!");
+		return -1;
+	}
+	puts("^^ This error is expected ^^");
 	puts("Everything OK");
 	if (0 > board_close(b)) {
 		perror("board_close()");
