@@ -16,8 +16,8 @@ int main(int argc, char **argv) {
 		perror("board_set_mode()");
 		return errno;
 	}
-	if (0 > set_motor_pwm(b, 200)) {
-		perror("set_motor_pwm()");
+	if (0 > set_pwm_frequency(b, 200)) {
+		perror("set_pwm_frequency()");
 		return errno;
 	}
 	printf("fd = %d and addr = %d\n", b->i2c_fd, b->addr);
