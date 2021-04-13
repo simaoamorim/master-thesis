@@ -13,10 +13,10 @@ int main(int argc, char **argv) {
 	return errno;
     }
     printf("fd = %d and addr = %d\n", b->i2c_fd, b->addr);
-    free((void *) b);
     if (0 > board_close(b)) {
 	perror("board_close()");
 	return errno;
     }
+    free((void *) b);
     return 0;
 }
