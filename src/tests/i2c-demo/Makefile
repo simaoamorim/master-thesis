@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall
-LDFLAGS =
+LDFLAGS = -li2c
 TARGET = i2c-demo
 OBJECTS =
 
