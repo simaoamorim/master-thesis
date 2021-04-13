@@ -4,13 +4,16 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
-//#include <linux/i2c-dev.h>
-//#include <i2c/smbus.h>
+
+#include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
 
 /// Board definition structure
 struct dfr_board {
 	int i2c_fd;	///< I2C bus file descriptor
 	int addr;	///< Board slave address
+	int pid;	///< Board PID
+	int vid;	///< Board VID
 };
 
 /**
