@@ -66,3 +66,18 @@ int board_close(const struct dfr_board *board);
  * Return: 0 on success, -1 on failure
  */
 int board_set_mode(const struct dfr_board *board, enum modes mode);
+
+/**
+ * Set the motor PWM frequency
+ * @param[in] *board Board definition
+ * @param[in] freq PWM frequency
+ *
+ * Defines the PWM frequency used to drive the motor(s). It should be a multiple of 50Hz and within
+ * the range [100, 12750]Hz. In case the given value is within this range but it is not a multiple of
+ * 50, then an approximation will be made to the closest valid value and a warning will be issued.
+ *
+ * Return: 0 on success, -1 on failure
+ *
+ * In the event of failure, use errno to get the cause.
+ */
+int set_pwm_frequency(const struct dfr_board *board, int freq);
