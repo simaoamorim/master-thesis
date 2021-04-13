@@ -12,6 +12,9 @@
 #define	_STEPPER_COUNT	1
 #define	_MOTOR_COUNT	2
 
+#define	CW		0x01
+#define	CCW		0x02
+
 /// Board definition structure
 struct dfr_board {
 	int i2c_fd;	///< I2C bus file descriptor
@@ -112,3 +115,15 @@ int encoder_enable(const struct dfr_board *board, int motor);
  * In the event of failure, use errno to get the cause.
  */
 int encoder_disable(const struct dfr_board *board, int motor);
+
+/**
+ *
+ *
+ */
+int motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed);
+
+/*
+ *
+ *
+ */
+int motor_stop(const struct dfr_board *board, int motor);

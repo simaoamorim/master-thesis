@@ -1,6 +1,9 @@
 #include "dfr0592.h"
 #include "dfr0592_addrs.h"
 
+#define	NULLBOARD	"struct dfr_board *board is NULL\n"
+#define	INVALIDMOTOR	"motor %d is invalid: needs to be within [%d,%d]\n", motor, 1, _MOTOR_COUNT
+
 const struct dfr_board * board_init(int i2c_bus, int addr)
 {
 	char i2c_filename[17];
@@ -108,4 +111,38 @@ int encoder_enable(const struct dfr_board *board, int motor)
 int encoder_disable(const struct dfr_board *board, int motor)
 {
 	return _encoder_set(board, motor, 0x00);
+}
+
+int motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (!(CW == orientation || CCW == orientation || STOP == orientation)) {
+		fprintf(stderr, "Invalid orientation (%d)\n", orientation);
+		goto ret_inval;
+	}
+	if (speed > 100 || speed < 0) {
+		fprintf(stderr, "Invalid speed (%d)\n", speed);
+		goto ret_inval;
+	}
+	int reg = _REG_MOTOR1_ORIENTATION + ((motor-1) * 0x03);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg, orientation);
+	int speed_tmp = STOP == orientation ? 0 : speed;
+	i2c_smbus_write_byte_data(board->i2c_fd, reg+1, speed_tmp);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg+2, 0); 
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int motor_stop(const struct dfr_board *board, int motor)
+{
+	return motor_set_speed(board, motor, STOP, 0);
 }
