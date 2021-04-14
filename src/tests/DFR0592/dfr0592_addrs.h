@@ -23,6 +23,8 @@
 #define	_REG_DEF_PID			0xdf
 #define	_REG_DEF_VID			0x10
 
+#define	CW				0x01
+#define	CCW				0x02
 #define	STOP				0x05
 #define	ALL				0xffffffff
 

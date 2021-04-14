@@ -12,9 +12,6 @@
 #define	_STEPPER_COUNT	1
 #define	_MOTOR_COUNT	2
 
-#define	CW		0x01
-#define	CCW		0x02
-
 /// Board definition structure
 struct dfr_board {
 	int i2c_fd;	///< I2C bus file descriptor
