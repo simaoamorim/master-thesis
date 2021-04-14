@@ -55,12 +55,12 @@ int main(int argc, char **argv) {
 		perror("motor_stop(1)");
 		goto ret_err;
 	}
-	puts("Everything OK");
 	if (0 > board_close(b)) {
 		perror("board_close()");
 		goto ret_err;
 	}
 	free((void *) b);
+	puts("Everything OK");
 	return 0;
 ret_err:
 	free((void *) b);
