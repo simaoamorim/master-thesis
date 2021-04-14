@@ -145,9 +145,9 @@ ret_inval:
 
 int motor_set_speed(const struct dfr_board *board, int motor, int speed)
 {
+	int orientation = speed >= 0 ? CCW : CW;
 	if (0 > speed)
 		speed = -speed;
-	int orientation = speed >= 0 ? CCW : CW;
 	return _motor_set_speed(board, motor, orientation, speed);
 }
 
