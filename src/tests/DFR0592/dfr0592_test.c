@@ -34,9 +34,20 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "encoder_disable(3) should have failed, but didn't!");
 		goto ret_err;
 	}
-	puts("^^ This error is expected ^^");
-	if (0 > motor_set_speed(b, 1, CW, 50)) {
-		perror("motor_set_speed(1, CW, 50)");
+	fputs(stderr, "^^ This error is expected ^^");
+	
+	if (0 > motor_set_speed(b, 1, 50)) {
+		perror("motor_set_speed(1, 50)");
+		goto ret_err;
+	}
+	sleep(1);
+	if (0 > motor_stop(b, 1)) {
+		perror("motor_stop(1)");
+		goto ret_err;
+	}
+	sleep(1);
+	if (0 > motor_set_speed(b, 1, -50)) {
+		perror("motor_set_speed(1, -50)");
 		goto ret_err;
 	}
 	sleep(1);

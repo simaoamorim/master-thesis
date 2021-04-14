@@ -120,7 +120,7 @@ int encoder_disable(const struct dfr_board *board, int motor);
  *
  *
  */
-int motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed);
+int motor_set_speed(const struct dfr_board *board, int motor, int speed);
 
 /*
  *
