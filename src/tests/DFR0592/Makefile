@@ -3,6 +3,7 @@ CFLAGS = -Wall
 LDFLAGS = -I. -li2c
 TARGET ?= dfr0592_test
 OBJECTS ?= dfr0592.o
+DOCS ?= docs/
 
 all: $(TARGET)
 
@@ -14,9 +15,16 @@ $(TARGET) : $(TARGET).c $(OBJECTS)
 
 %.so : %.o
 	$(CC) $(CFLAGS) -shared $< -o $@
+	
+docs: Doxyfile
+	doxygen Doxyfile
+
+docs_edit: Doxyfile
+	doxywizard Doxyfile
 
 .PHONY: clean
 
 clean:
-	@if [ -f "$(TARGET)" ]; then rm $(TARGET); fi
-	@if [ -f "$(OBJECTS)" ]; then rm $(OBJECTS); fi
+	@if [ -f "$(TARGET)" ]; then rm -v $(TARGET); fi
+	@if [ -f "$(OBJECTS)" ]; then rm -v $(OBJECTS); fi
+	@if [ -d "$(DOCS)" ]; then rm -rv $(DOCS); fi
