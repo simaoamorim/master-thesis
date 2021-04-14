@@ -1,1 +1,3 @@
-/build/
+/docs/
+/*.o
+/dfr0592_test
