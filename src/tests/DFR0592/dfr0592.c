@@ -113,6 +113,58 @@ int encoder_disable(const struct dfr_board *board, int motor)
 	return _encoder_set(board, motor, 0x00);
 }
 
+int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (ratio < 1 || ratio > 2000) {
+		fprintf(stderr, "Invalid encoder ratio: %d not within [%d,%d]\n", ratio, 1 , 2000);
+		goto ret_inval;
+	}
+	motor --;
+	int reg = _REG_ENCODER1_REDUCTION_RATIO + (motor * 0x05);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg, (ratio >> 8) & 0xFF);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg+1, ratio & 0xFF);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int encoder_get_speed(const struct dfr_board *board, int motor, int *speed)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (NULL == speed) {
+		fprintf(stderr, "Speed variable not allocated");
+		goto ret_inval;
+	}
+	motor--;
+	int res[2];
+	int reg = _REG_ENCODER1_SPEED + (motor * 0x05);
+	res[0] = i2c_smbus_read_byte_data(board->i2c_fd, reg);
+	res[1] = i2c_smbus_read_byte_data(board->i2c_fd, reg+1);
+	*speed = (res[0] << 8) | (res[1] & 0xFF);
+	if (*speed & 0x8000)
+		*speed = - (0x10000 - *speed);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
 int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed)
 {
 	if (NULL == board) {

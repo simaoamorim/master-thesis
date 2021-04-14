@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 		perror("board_set_mode()");
 		goto ret_err;
 	}
-	if (0 > set_pwm_frequency(b, 200)) {
+	if (0 > set_pwm_frequency(b, 1000)) {
 		perror("set_pwm_frequency()");
 		goto ret_err;
 	}
@@ -35,12 +35,22 @@ int main(int argc, char **argv) {
 		goto ret_err;
 	}
 	fputs("^^ This error is expected ^^\n", stderr);
-	
+
+	if (0 > encoder_set_ratio(b,1,30)) {
+		perror("encoder_set_ratio(1,1)");
+		goto ret_err;
+	}
+
 	if (0 > motor_set_speed(b, 1, 50)) {
 		perror("motor_set_speed(1, 50)");
 		goto ret_err;
 	}
-	sleep(1);
+	int speed;
+	for (int i=0; i<10; i++) {
+		sleep(1);
+		encoder_get_speed(b, 1, &speed);
+		printf("Speed: %d RPM\n", speed);
+	}
 	if (0 > motor_stop(b, 1)) {
 		perror("motor_stop(1)");
 		goto ret_err;
@@ -50,7 +60,11 @@ int main(int argc, char **argv) {
 		perror("motor_set_speed(1, -50)");
 		goto ret_err;
 	}
-	sleep(1);
+	for (int i=0; i<10; i++) {
+		sleep(1);
+		encoder_get_speed(b, 1, &speed);
+		printf("Speed: %d RPM\n", speed);
+	}
 	if (0 > motor_stop(b, 1)) {
 		perror("motor_stop(1)");
 		goto ret_err;

@@ -116,6 +116,20 @@ int encoder_disable(const struct dfr_board *board, int motor);
 /**
  *
  *
+ *
+ */
+int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio);
+
+/**
+ *
+ *
+ *
+ */
+int encoder_get_speed(const struct dfr_board *board, int motor, int *speed);
+
+/**
+ *
+ *
  */
 int motor_set_speed(const struct dfr_board *board, int motor, int speed);
 
