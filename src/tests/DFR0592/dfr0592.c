@@ -129,13 +129,8 @@ int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
 	}
 	motor--;
 	int reg = _REG_ENCODER1_REDUCTION_RATIO + (motor * 0x05);
-	int tmp = ratio << 8 & 0xFF00 | ratio >> 8 & 0xFF; // Convert BE/LE
-	int retv = i2c_smbus_write_word_data(board->i2c_fd, reg, tmp);
-	printf("retv = %d (ratio = %d)\n", retv, ratio);
-	/*
-	i2c_smbus_write_byte_data(board->i2c_fd, reg, (ratio >> 8) & 0xFF);
-	i2c_smbus_write_byte_data(board->i2c_fd, reg+1, ratio & 0xFF);
-	*/
+	int tmp = ((ratio << 8) & 0xFF00) | ((ratio >> 8) & 0xFF); // Convert BE/LE
+	i2c_smbus_write_word_data(board->i2c_fd, reg, tmp);
 	return 0;
 ret_inval:
 	errno = EINVAL;
@@ -157,11 +152,10 @@ int encoder_get_speed(const struct dfr_board *board, int motor, int *speed)
 		goto ret_inval;
 	}
 	motor--;
-	int res[2];
+	int res;
 	int reg = _REG_ENCODER1_SPEED + (motor * 0x05);
-	res[0] = i2c_smbus_read_byte_data(board->i2c_fd, reg);
-	res[1] = i2c_smbus_read_byte_data(board->i2c_fd, reg+1);
-	*speed = (res[0] << 8) | (res[1] & 0xFF);
+	res = i2c_smbus_read_word_data(board->i2c_fd, reg);
+	*speed = ((res << 8) & 0xFF00) | ((res >> 8) & 0xFF);
 	if (*speed & 0x8000)
 		*speed = - (0x10000 - *speed);
 	return 0;
