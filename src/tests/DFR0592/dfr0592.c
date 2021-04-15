@@ -127,10 +127,14 @@ int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
 		fprintf(stderr, "Invalid encoder ratio: %d not within [%d,%d]\n", ratio, 1 , 2000);
 		goto ret_inval;
 	}
-	motor --;
+	motor--;
 	int reg = _REG_ENCODER1_REDUCTION_RATIO + (motor * 0x05);
+	int retv = i2c_smbus_write_word_data(board->i2c_fd, reg, ratio);
+	printf("retv = %d (ratio = %d)\n", retv, ratio);
+	/*
 	i2c_smbus_write_byte_data(board->i2c_fd, reg, (ratio >> 8) & 0xFF);
 	i2c_smbus_write_byte_data(board->i2c_fd, reg+1, ratio & 0xFF);
+	*/
 	return 0;
 ret_inval:
 	errno = EINVAL;
