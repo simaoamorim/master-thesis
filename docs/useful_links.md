@@ -14,6 +14,9 @@
 - https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
 - https://www.engineersgarage.com/raspberrypi/articles-raspberry-pi-i2c-bus-pins-smbus-smbus2-python/
 
+## DFRobot motor
+- https://www.dfrobot.com/product-634.html
+
 ## I2C
 ### Example
 - https://www.pololu.com/docs/0J73/15.8
