@@ -129,7 +129,8 @@ int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
 	}
 	motor--;
 	int reg = _REG_ENCODER1_REDUCTION_RATIO + (motor * 0x05);
-	int retv = i2c_smbus_write_word_data(board->i2c_fd, reg, ratio);
+	int tmp = ratio << 8 & 0xFF00 | ratio >> 8 & 0xFF; // Convert BE/LE
+	int retv = i2c_smbus_write_word_data(board->i2c_fd, reg, tmp);
 	printf("retv = %d (ratio = %d)\n", retv, ratio);
 	/*
 	i2c_smbus_write_byte_data(board->i2c_fd, reg, (ratio >> 8) & 0xFF);
