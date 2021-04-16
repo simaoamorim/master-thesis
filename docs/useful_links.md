@@ -16,6 +16,7 @@
 
 ## DFRobot motor
 - https://www.dfrobot.com/product-634.html
+- https://www.dfrobot.com/product-1619.html
 
 ## I2C
 ### Example
