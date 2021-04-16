@@ -35,14 +35,12 @@ int board_close(const struct dfr_board *board)
 
 int board_set_mode(const struct dfr_board *board, enum modes mode)
 {
-	if (mode != DC || mode != STEPPER) {
-		errno = EINVAL;
-		return -1;
-	}
 	if (DC == mode)
 		return i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_DC_MOTOR);
-	else
+	else if (STEPPER == mode)
 		return i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_STEPPER);
+	errno = EINVAL;
+	return -1;
 }
 
 int set_pwm_frequency(const struct dfr_board *board, int freq)
