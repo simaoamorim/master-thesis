@@ -64,12 +64,12 @@ int _encoder_set(const struct dfr_board *board, int motor, int value)
 
 int encoder_enable(const struct dfr_board *board, int motor)
 {
-	return _encoder_set(board, motor, 1);
+	return _encoder_set(board, motor, 0x01);
 }
 
 int encoder_disable(const struct dfr_board *board, int motor)
 {
-	return _encoder_set(board, motor, 0);
+	return _encoder_set(board, motor, 0x00);
 }
 
 int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
@@ -78,8 +78,8 @@ int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
 		goto ret_inval;
 	int reg = _REG_ENCODER1_REDUCTION_RATIO + ((motor-1) * 0x05);
 	//unsigned char tmp[2] = {ratio & 0xFF, (ratio >> 8) & 0xFF};
-	unsigned char tmp = ((ratio << 8) & 0xFF00) | ((ratio >> 8) & 0xFF);
-	return i2c_smbus_write_word_data(board->i2c_fd, reg, (unsigned short) tmp);
+	int tmp = ((ratio << 8) & 0xFF00) | ((ratio >> 8) & 0xFF);
+	return i2c_smbus_write_word_data(board->i2c_fd, reg, tmp);
 ret_inval:
 	errno = EINVAL;
 	return -1;
