@@ -77,8 +77,9 @@ int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
 	if (motor < 1 || motor > _MOTOR_COUNT || ratio < 1 || ratio > 2000)
 		goto ret_inval;
 	int reg = _REG_ENCODER1_REDUCTION_RATIO + ((motor-1) * 0x05);
-	unsigned char tmp[2] = {ratio & 0xFF, (ratio >> 8) & 0xFF};
-	return i2c_smbus_write_word_data(board->i2c_fd, reg, (unsigned short) tmp[0]);
+	//unsigned char tmp[2] = {ratio & 0xFF, (ratio >> 8) & 0xFF};
+	unsigned char tmp = ((ratio << 8) & 0xFF00) | ((ratio >> 8) & 0xFF);
+	return i2c_smbus_write_word_data(board->i2c_fd, reg, (unsigned short) tmp);
 ret_inval:
 	errno = EINVAL;
 	return -1;
