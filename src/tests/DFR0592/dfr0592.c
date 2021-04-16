@@ -1,6 +1,9 @@
 #include "dfr0592.h"
 #include "dfr0592_addrs.h"
 
+#define	NULLBOARD	"struct dfr_board *board is NULL\n"
+#define	INVALIDMOTOR	"motor %d is invalid: needs to be within [%d,%d]\n", motor, 1, _MOTOR_COUNT
+
 const struct dfr_board * board_init(int i2c_bus, int addr)
 {
 	char i2c_filename[17];
@@ -42,4 +45,165 @@ int board_close(const struct dfr_board *board)
 		perror(NULL);
 	}
 	return tmp;
+}
+
+int board_set_mode(const struct dfr_board *board, enum modes mode)
+{
+	if (DC == mode) {
+		i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_DC_MOTOR);
+	} else if (STEPPER == mode) {
+		i2c_smbus_write_byte_data(board->i2c_fd, _REG_CTRL_MODE, _CONTROL_MODE_STEPPER);
+	} else {
+		errno = EINVAL;
+		return -1;
+	}
+	if (i2c_smbus_read_byte_data(board->i2c_fd, _REG_CTRL_MODE) != mode) {
+		errno = EIO;
+		return -1;
+	}
+	return 0;
+}
+
+int set_pwm_frequency(const struct dfr_board *board, int freq)
+{
+	if (freq < 100 || freq > 12750) {
+		fprintf(stderr, "Requested frequency out of range [100,12750]Hz\n");
+		errno = EINVAL;
+		return -1;
+	}
+	int tmp_freq = (int) freq / 50;
+	if (0 != freq % 50) {
+		fprintf(stderr, "Warning: actual frequency set to the closest multiple of 50Hz\n");
+		fprintf(stderr, "Frequency set to %dHz\n", tmp_freq * 50);
+	}
+	int lret = i2c_smbus_write_byte_data(board->i2c_fd, _REG_MOTOR_PWM, tmp_freq);
+	int rd_freq = i2c_smbus_read_byte_data(board->i2c_fd, _REG_MOTOR_PWM);
+	if (0 != lret || rd_freq < 0 || rd_freq != tmp_freq) {
+		errno = EIO;
+		fprintf(stderr, "Failed to set frequency\n");
+		return -1;
+	}
+	return 0;
+}
+
+int _encoder_set(const struct dfr_board *board, int motor, int value)
+{
+	if (NULL == board) {
+		fprintf(stderr, "struct dfr_board *board is NULL\n");
+		goto ret_inval;
+	} else if ( _MOTOR_COUNT < motor || 1 > motor ) {
+		fprintf(stderr, "motor %d is invalid: needs to be within [%d,%d]\n", motor, 1, _MOTOR_COUNT);
+		goto ret_inval;
+	}
+	int reg = _REG_ENCODER1_EN + ((motor - 1)*0x05); // Use reg according to the provided motor
+	i2c_smbus_write_byte_data(board->i2c_fd, reg, value);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int encoder_enable(const struct dfr_board *board, int motor)
+{
+	return _encoder_set(board, motor, 0x01);
+}
+
+int encoder_disable(const struct dfr_board *board, int motor)
+{
+	return _encoder_set(board, motor, 0x00);
+}
+
+int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (ratio < 1 || ratio > 2000) {
+		fprintf(stderr, "Invalid encoder ratio: %d not within [%d,%d]\n", ratio, 1 , 2000);
+		goto ret_inval;
+	}
+	motor --;
+	int reg = _REG_ENCODER1_REDUCTION_RATIO + (motor * 0x05);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg, (ratio >> 8) & 0xFF);
+	i2c_smbus_write_byte_data(board->i2c_fd, reg+1, ratio & 0xFF);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int encoder_get_speed(const struct dfr_board *board, int motor, int *speed)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (NULL == speed) {
+		fprintf(stderr, "Speed variable not allocated");
+		goto ret_inval;
+	}
+	motor--;
+	int res[2];
+	int reg = _REG_ENCODER1_SPEED + (motor * 0x05);
+	res[0] = i2c_smbus_read_byte_data(board->i2c_fd, reg);
+	res[1] = i2c_smbus_read_byte_data(board->i2c_fd, reg+1);
+	*speed = (res[0] << 8) | (res[1] & 0xFF);
+	if (*speed & 0x8000)
+		*speed = - (0x10000 - *speed);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed)
+{
+	if (NULL == board) {
+		fprintf(stderr, NULLBOARD);
+		goto ret_inval;
+	}
+	if (motor < 1 || motor > _MOTOR_COUNT) {
+		fprintf(stderr, INVALIDMOTOR);
+		goto ret_inval;
+	}
+	if (!(CW == orientation || CCW == orientation || STOP == orientation)) {
+		fprintf(stderr, "Invalid orientation (%d)\n", orientation);
+		goto ret_inval;
+	}
+	if (speed > 100 || speed < 0) {
+		fprintf(stderr, "Invalid speed (%d)\n", speed);
+		goto ret_inval;
+	}
+	motor--;
+	int oreg = _REG_MOTOR1_ORIENTATION + (motor * 0x03);
+	int sreg = _REG_MOTOR1_SPEED + (motor * 0x03);
+	i2c_smbus_write_byte_data(board->i2c_fd, oreg, orientation);
+	i2c_smbus_write_byte_data(board->i2c_fd, sreg, speed);
+	i2c_smbus_write_byte_data(board->i2c_fd, sreg+1, 0);
+	return 0;
+ret_inval:
+	errno = EINVAL;
+	return -1;
+}
+
+int motor_set_speed(const struct dfr_board *board, int motor, int speed)
+{
+	int orientation = speed >= 0 ? CCW : CW;
+	if (0 > speed)
+		speed = -speed;
+	return _motor_set_speed(board, motor, orientation, speed);
+}
+
+int motor_stop(const struct dfr_board *board, int motor)
+{
+	return _motor_set_speed(board, motor, STOP, 0);
 }

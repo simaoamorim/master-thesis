@@ -1,9 +1,6 @@
 #ifndef __DFR0592_ADDRS
 #define	__DFR0592_ADDRS
 
-#define	_STEPPER_COUNT			1
-#define	_MOTOR_COUNT			2
-
 #define	_CONTROL_MODE_DC_MOTOR		0x00
 #define	_CONTROL_MODE_STEPPER		0x01
 
@@ -12,7 +9,7 @@
 #define	_REG_PVD			0x02
 #define	_REG_CTRL_MODE			0x03
 #define	_REG_ENCODER1_EN		0x04
-#define	_REG_ENCODER1_SPPED		0x05
+#define	_REG_ENCODER1_SPEED		0x05
 #define	_REG_ENCODER1_REDUCTION_RATIO	0x07
 #define	_REG_ENCODER2_EN		0x09
 #define	_REG_ENCODER2_SPEED		0x0a
