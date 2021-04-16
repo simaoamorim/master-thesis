@@ -164,7 +164,7 @@ ret_inval:
 	return -1;
 }
 
-int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, int speed)
+int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, float speed)
 {
 	if (NULL == board) {
 		fprintf(stderr, NULLBOARD);
@@ -178,25 +178,26 @@ int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, 
 		fprintf(stderr, "Invalid orientation (%d)\n", orientation);
 		goto ret_inval;
 	}
-	if (speed > 100 || speed < 0) {
-		fprintf(stderr, "Invalid speed (%d)\n", speed);
+	if (speed > 100.0 || speed < 0.0) {
+		fprintf(stderr, "Invalid speed (%f)\n", speed);
 		goto ret_inval;
 	}
 	motor--;
 	int oreg = _REG_MOTOR1_ORIENTATION + (motor * 0x03);
 	int sreg = _REG_MOTOR1_SPEED + (motor * 0x03);
 	i2c_smbus_write_byte_data(board->i2c_fd, oreg, orientation);
-	i2c_smbus_write_byte_data(board->i2c_fd, sreg, speed);
-	i2c_smbus_write_byte_data(board->i2c_fd, sreg+1, 0);
+	i2c_smbus_write_byte_data(board->i2c_fd, sreg, (int) speed);
+	i2c_smbus_write_byte_data(board->i2c_fd, sreg+1, (int) (speed * 10) % 10);
+	printf("Speed set to %d.%d\n", (int) speed, (int) (speed*10)%10);
 	return 0;
 ret_inval:
 	errno = EINVAL;
 	return -1;
 }
 
-int motor_set_speed(const struct dfr_board *board, int motor, int speed)
+int motor_set_speed(const struct dfr_board *board, int motor, float speed)
 {
-	int orientation = speed >= 0 ? CCW : CW;
+	int orientation = speed >= 0.0 ? CCW : CW;
 	if (0 > speed)
 		speed = -speed;
 	return _motor_set_speed(board, motor, orientation, speed);
@@ -204,5 +205,5 @@ int motor_set_speed(const struct dfr_board *board, int motor, int speed)
 
 int motor_stop(const struct dfr_board *board, int motor)
 {
-	return _motor_set_speed(board, motor, STOP, 0);
+	return _motor_set_speed(board, motor, STOP, 0.0);
 }

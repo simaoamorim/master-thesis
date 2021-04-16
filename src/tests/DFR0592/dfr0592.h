@@ -131,7 +131,7 @@ int encoder_get_speed(const struct dfr_board *board, int motor, int *speed);
  *
  *
  */
-int motor_set_speed(const struct dfr_board *board, int motor, int speed);
+int motor_set_speed(const struct dfr_board *board, int motor, float speed);
 
 /*
  *
