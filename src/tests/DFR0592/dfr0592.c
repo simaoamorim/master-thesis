@@ -86,14 +86,12 @@ ret_inval:
 
 int encoder_get_speed(const struct dfr_board *board, int motor, int *speed)
 {
-	if (motor < 1 || motor > _MOTOR_COUNT || NULL == speed) {
+	if (motor < 1 || motor > _MOTOR_COUNT || NULL == speed)
 		goto ret_inval;
-	}
 	int res;
 	int reg = _REG_ENCODER1_SPEED + ((motor-1) * 0x05);
 	res = i2c_smbus_read_word_data(board->i2c_fd, reg);
-	unsigned char tmp[2] = {res & 0xFF, (res >> 8) & 0xFF};
-	*speed = (int) tmp[0];
+	*speed = ((res << 8) & 0xFF00) | ((res >> 8) & 0xFF);
 	if (*speed & 0x8000)
 		*speed = - (0x10000 - *speed);
 	return 0;
