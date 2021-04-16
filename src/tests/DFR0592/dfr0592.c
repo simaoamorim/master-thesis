@@ -185,15 +185,14 @@ int _motor_set_speed(const struct dfr_board *board, int motor, int orientation, 
 	motor--;
 	int oreg = _REG_MOTOR1_ORIENTATION + (motor * 0x03);
 	int sreg = _REG_MOTOR1_SPEED + (motor * 0x03);
-	unsigned char values[2] = {(int) speed, (int)(speed*10)%10};
-	i2c_smbus_write_byte_data(board->i2c_fd, oreg, orientation);
-	int lret = i2c_smbus_write_block_data(board->i2c_fd, sreg, 2, values);
+	unsigned char values[3] = {orientation, (int) speed, (int)(speed*10)%10};
+	int lret = i2c_smbus_write_block_data(board->i2c_fd, oreg, 1, &values[0]);
 	printf("lret = %d\n", lret);
-	/*
-	i2c_smbus_write_byte_data(board->i2c_fd, sreg, (int) speed);
-	i2c_smbus_write_byte_data(board->i2c_fd, sreg+1, (int) (speed * 10) % 10);
-	printf("Speed set to %d.%d\n", (int) speed, (int) (speed*10)%10);
-	*/
+	lret = i2c_smbus_write_block_data(board->i2c_fd, sreg, 1, &values[1]);
+	printf("lret = %d\n", lret);
+	lret = i2c_smbus_write_block_data(board->i2c_fd, sreg+1, 1, &values[2]);
+	printf("lret = %d\n", lret);
+	printf("Speed set to %d.%d\n", (int) values[1], (int) values[2]);
 	return 0;
 ret_inval:
 	errno = EINVAL;
