@@ -114,27 +114,62 @@ int encoder_enable(const struct dfr_board *board, int motor);
 int encoder_disable(const struct dfr_board *board, int motor);
 
 /**
+ * Set the gearbox ratio of the motor
+ * @param[in] *board Board definition
+ * @param[in] motor Motor number
+ * @param[in] ratio Gearbox ratio, as an integer
  *
+ * The board firmware assumes the encoder has 16CPR resolution and allows to
+ * set the gearbox ratio. Use this function to the that ratio as an integer nuber.
+ * E.g. if the actual ratio is 43.8:1, set the ratio to 43.
  *
+ * Return: 0 on success, -1 on failure
  *
+ * In the event of failure, check errno to get the cause.
  */
 int encoder_set_ratio(const struct dfr_board *board, int motor, int ratio);
 
 /**
+ * Get the RPM reading of the motor speed
+ * @param[in] *board Board definition
+ * @param[in] motor Motor number
+ * @param[in] *speed Motor speed, in RPM
  *
+ * The board calculates the motor RPM based on the encoder pulses. Use this function
+ * to get that value written to the variable pointed to by *speed.
  *
+ * Return: 0 on success, -1 on failure
  *
+ * In the event of failure, check errno to get the cause.
  */
 int encoder_get_speed(const struct dfr_board *board, int motor, int *speed);
 
 /**
+ * Set the motor speed percentage
+ * @param[in] *board Board definition
+ * @param[in] motor Motor number
+ * @param[in] speed Motor speed (%) [-100.0, 100.0]
  *
+ * The board uses PWM modulation to control the motor speed. Use this function
+ * to set the Duty Cycle (DC) of the PWM wave used to drive the motor. Use positive
+ * speed values for clockwise rotation and negative values for anti-clockwise roation.
  *
+ * Return: 0 on success, -1 on failure
+ *
+ * In the event of failure, check errno to get the cause.
  */
 int motor_set_speed(const struct dfr_board *board, int motor, int speed);
 
 /*
+ * Stop the motor movement
+ * @param[in] *board Board definition
+ * @param[in] motor Motor number
  *
+ * This functions sets speed to 0 and sets a special value on the direction
+ * register that indicates the motor should be disabled.
  *
+ * Return: 0 on success, -1 on failure
+ *
+ * In the event of failure, check errno to get the cause.
  */
 int motor_stop(const struct dfr_board *board, int motor);
