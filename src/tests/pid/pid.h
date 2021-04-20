@@ -1,5 +1,4 @@
 
-
 struct pid_t
 {
 	// Inputs
@@ -13,17 +12,17 @@ struct pid_t
 	double d_gain;		///< Derivative term
 	double deadband;	///< Absolute value to still assume a null error
 	
-	// Computations
-	double error;
-	double i_error;
-	double d_error;
-	
 	// Limits
 	double max_error;
 	double max_i_error;
 	double max_d_error;
-	double bias;
 	double max_output;
+	
+	// Internal computations
+	double error;
+	double previous_error;
+	double i_error;
+	double d_error;
 	
 	// Results
 	double p_output;
@@ -31,3 +30,7 @@ struct pid_t
 	double d_output;
 	double output;
 };
+
+void do_calcs (struct pid_t *p);
+
+double get_output (struct pid_t *p);

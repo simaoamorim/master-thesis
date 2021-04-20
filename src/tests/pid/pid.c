@@ -1,31 +1,61 @@
 #include "pid.h"
 
-void _calc_errors (struct pid_t *pid)
+void _apply_limit (double *value, double limit)
 {
-	static double previous_error = 0;
+	if (*value > limit)
+		*value = limit;
+	else if (*value < -limit)
+		*value = -limit;
+}
+
+void _apply_deadband (double *value, double deadband)
+{
+	if (*value < deadband && *value > -deadband)
+		*value = (double) 0.0;
+}
+
+void _calc_errors (struct pid_t *p)
+{
+	p->previous_error = p->error;
 	
 	// Proportional error
-	pid->error = pid->command - pid->feedback;
-	if (pid->error < pid->deadband && pid->error > -(pid->deadband))
-		pid->error = 0;
-	else if (pid->error > pid->max_error)
-		pid->error = pid->max_error;
-	else if (pid->error < -(pid->max_error))
-		pid->error = -(pid->max_error);
+	p->error = p->command - p->feedback;
+	_apply_deadband(&(p->error), p->deadband);
+	_apply_limit(&(p->error), p->max_error);
 	
 	// Integral error
-	pid->i_error = pid->error * pid->delta_t;
-	if (pid->i_error > pid->max_i_error)
-		pid->i_error = pid->max_i_error;
-	else if (pid->i_error < -(pid->max_i_error))
-		pid->i_error = -(pid->max_i_error);
+	p->i_error += p->error * p->delta_t;
+	_apply_limit(&(p->i_error), p->max_i_error);
 	
 	// Derivative error
-	pid->d_error = (pid->error - previous_error) / pid->delta_t;
-	if (pid->d_error > pid->max_d_error)
-		pid->d_error = pid->max_d_error;
-	else if (pid->d_error < -(pid->max_d_error))
-		pid->d_error = -(pid->max_d_error);
-	
-	return;
+	p->d_error = (p->error - p->previous_error) / p->delta_t;
+	_apply_limit(&(p->d_error), p->max_d_error);
+}
+
+void _calc_internal_outputs (struct pid_t *p)
+{
+	// Proportional
+	p->p_output = p->p_gain * p->error;
+	// Integral
+	p->i_output = p->i_gain * p->i_error;
+	// Derivative
+	p->d_output = p->d_gain * p->d_error;
+}
+
+void _calc_output (struct pid_t *p)
+{
+	p->output = p->p_output + p->i_output + p->d_output;
+	_apply_limit(&(p->output), p->max_output);
+} 
+
+void do_calcs (struct pid_t *p)
+{
+	_calc_errors(p);
+	_calc_internal_outputs(p);
+	_calc_output(p);
+}
+
+double get_output (struct pid_t *p)
+{
+	return p->output;
 }
