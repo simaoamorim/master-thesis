@@ -14,4 +14,5 @@ test: pid_test.c ${TARGET}
 .PHONY: clean
 
 clean:
-	find . -name '*.o' -or -name 'test' -exec rm {} +
+	find . -iname '*.o' -exec rm {} \;
+	find . -iname 'test' -exec rm {} \;
