@@ -5,7 +5,7 @@ TARGET ?= dfr0592_test
 OBJECTS ?= dfr0592.o
 DOCS ?= docs/
 
-all: $(TARGET)
+all: $(OBJECTS)
 
 $(TARGET) : $(TARGET).c $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
