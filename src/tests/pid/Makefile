@@ -1,12 +1,13 @@
-CC = gcc
-CFLAGS = -Wall
-LDFLAGS = -I.
-TARGET = pid.o
+CC ?= gcc
+CFLAGS ?= -Wall
+LDFLAGS ?= -I.
+TARGET ?= pid.o
+ODIR ?= ${PWD}
 
 all: ${TARGET}
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o ${ODIR}/$@
 
 test: pid_test.c ${TARGET}
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
@@ -14,5 +15,5 @@ test: pid_test.c ${TARGET}
 .PHONY: clean
 
 clean:
-	find . -iname '*.o' -exec rm {} \;
+	find ${ODIR} -iname '*.o' -exec rm {} \;
 	find . -iname 'test' -exec rm {} \;
