@@ -16,20 +16,20 @@ void _apply_deadband (double *value, double deadband)
 
 void _calc_errors (struct pid_t *p)
 {
-	p->previous_error = p->error;
-	
 	// Proportional error
-	p->error = p->command - p->feedback;
+	p->error = (double) p->command - p->feedback;
 	_apply_deadband(&(p->error), p->deadband);
 	_apply_limit(&(p->error), p->max_error);
-	
+
 	// Integral error
 	p->i_error += p->error * p->delta_t;
 	_apply_limit(&(p->i_error), p->max_i_error);
-	
+
 	// Derivative error
-	p->d_error = (p->error - p->previous_error) / p->delta_t;
+	p->d_error = ((double)(p->error - p->previous_error)) / p->delta_t;
 	_apply_limit(&(p->d_error), p->max_d_error);
+
+	p->previous_error = p->error;
 }
 
 void _calc_internal_outputs (struct pid_t *p)
@@ -46,7 +46,7 @@ void _calc_output (struct pid_t *p)
 {
 	p->output = p->p_output + p->i_output + p->d_output;
 	_apply_limit(&(p->output), p->max_output);
-} 
+}
 
 void do_calcs (struct pid_t *p)
 {
