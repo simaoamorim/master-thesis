@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS ?= -Wall
+CFLAGS ?= -Wall -g
 LDFLAGS ?= -I.
 TARGET ?= pid.o
 ODIR ?= ${PWD}
