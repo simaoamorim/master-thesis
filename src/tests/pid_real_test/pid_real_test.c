@@ -53,24 +53,32 @@ int main (int argc, char *argv[])
 		d_filename = strdup(argv[6]);
 	}
 	int lret;
-	int period;
-	sscanf(argv[1], "%d", &period);
-	struct sched_attr attr = {
-		.size = sizeof(struct sched_attr),
-		.sched_policy = SCHED_DEADLINE,
-		.sched_priority = 0,
-		.sched_flags = 0,
-		.sched_period = period,
-		.sched_runtime = period,
-		.sched_deadline = period
-	};
+	long period;
+	sscanf(argv[1], "%ld", &period);
 
 	if (SIG_ERR == signal(SIGINT, sighandler))
 		err(EXIT_FAILURE, "signal()");
 
-	lret = sched_setattr(0, &attr, 0);
-	if (-1 == lret) {
-		err(EXIT_FAILURE, "Failed to set SCHED_DEADLINE");
+	if (0 == geteuid()) {
+		struct sched_attr attr = {
+			.size = sizeof(struct sched_attr),
+			.sched_policy = SCHED_DEADLINE,
+			.sched_priority = 0,
+			.sched_flags = 0,
+			.sched_period = period,
+			.sched_runtime = period,
+			.sched_deadline = period
+		};
+
+		lret = sched_setattr(0, &attr, 0);
+		if (-1 == lret) {
+			err(EXIT_FAILURE, "Failed to set SCHED_DEADLINE");
+		}
+		// Drop root priviledges (only needed to set the SCHED_DEADLINE)
+		setuid(getuid());
+	} else {
+		warn("You do not have priviledges to create a realtime task\n" \
+			"Continuing with the default scheduler");
 	}
 
 	const struct dfr_board *board = board_init(1, 0x10);
