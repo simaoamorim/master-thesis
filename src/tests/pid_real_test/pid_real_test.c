@@ -30,14 +30,15 @@ void sighandler(int signum)
 /*
  * [optional]
  *
- * ./pid_real_test [filename] period command p_gain i_gain d_gain
+ * ./pid_real_test period command p_gain i_gain d_gain [filename]
  *
- *	filename : Export PID debug to file "filename"
  *	period : Control period in nanoseconds (ns)
  *	command : commanded speed in RPM
  *	p_gain : Proportional gain to use in the PID
  *	i_gain : Integral gain to use in the PID
  *	d_gain : Derivative gain to use in the PID
+ *	filename : Export PID debug to file "filename"
+ *
  */
 int main (int argc, char *argv[])
 {
@@ -49,12 +50,12 @@ int main (int argc, char *argv[])
 	char *d_filename;
 	if (argc == 7) {
 		use_debug = 1;
-		d_filename = malloc(sizeof(char) * (strlen(argv[1]) + 1));
-		strcpy(d_filename, argv[1]);
+		d_filename = malloc(sizeof(char) * (strlen(argv[6]) + 1));
+		strcpy(d_filename, argv[6]);
 	}
 	int lret;
 	int period;
-	sscanf(argv[1+use_debug], "%d", &period);
+	sscanf(argv[1], "%d", &period);
 	struct sched_attr attr = {
 		.size = sizeof(struct sched_attr),
 		.sched_policy = SCHED_DEADLINE,
@@ -99,10 +100,10 @@ int main (int argc, char *argv[])
 
 		.previous_error = 0.0,
 	};
-	sscanf(argv[2+use_debug], "%lf", &(pid.command));
-	sscanf(argv[3+use_debug], "%lf", &(pid.p_gain));
-	sscanf(argv[4+use_debug], "%lf", &(pid.i_gain));
-	sscanf(argv[5+use_debug], "%lf", &(pid.d_gain));
+	sscanf(argv[2], "%lf", &(pid.command));
+	sscanf(argv[3], "%lf", &(pid.p_gain));
+	sscanf(argv[4], "%lf", &(pid.i_gain));
+	sscanf(argv[5], "%lf", &(pid.d_gain));
 
 	FILE *d_file;
 	long iter = 0;
