@@ -49,8 +49,8 @@ int main (int argc, char *argv[])
 	char *d_filename;
 	if (argc == 7) {
 		use_debug = 1;
-		d_filename = malloc(sizeof(char) * (strlen(argv[1]) - 1));
-		strcpy(&(argv[1][2]), d_filename);
+		d_filename = malloc(sizeof(char) * (strlen(argv[1]) + 1));
+		strcpy(argv[1], d_filename);
 	}
 	int lret;
 	int period;
