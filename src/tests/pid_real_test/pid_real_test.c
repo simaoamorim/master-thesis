@@ -102,6 +102,7 @@ int main (int argc, char *argv[])
 
 		.previous_error = 0.0,
 	};
+	// Set parameters from command line arguments
 	sscanf(argv[2], "%lf", &(pid.command));
 	sscanf(argv[3], "%lf", &(pid.p_gain));
 	sscanf(argv[4], "%lf", &(pid.i_gain));
@@ -132,6 +133,7 @@ int main (int argc, char *argv[])
 	sched_yield();
 
 	while (keep_running) {
+		// Acquire inputs
 		encoder_get_speed(board, 1, &fb);
 		pid.feedback = (double) fb;
 
@@ -139,11 +141,14 @@ int main (int argc, char *argv[])
 		pid.delta_t = (cur_time.tv_sec - prev_time.tv_sec) + \
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 
+		// Execute computations
 		do_calcs(&pid);
 
+		// Update outputs
 		motor_set_speed(board, 1, (float) get_output(&pid));
 		prev_time = cur_time;
 
+		// Debug stuff
 		if (use_debug) {
 			iter++;
 			tstamp = (cur_time.tv_sec - first_time.tv_sec) + \
@@ -151,10 +156,12 @@ int main (int argc, char *argv[])
 			debug_append_iteration(&pid, d_file, iter, tstamp);
 		}
 
+		// Wait for next iteraction
 		sched_yield();
 	}
 
-	puts("Exiting now...");
+	// When CTRL+C is hit, terminate gracefully
+	printf("Shutting down...");
 	motor_stop(board, 1);
 	board_close(board);
 	if (NULL != d_file) {
@@ -162,6 +169,7 @@ int main (int argc, char *argv[])
 		fclose(d_file);
 	}
 	free((struct dfr_board*) board);
+	puts("OK");
 
 	return EXIT_SUCCESS;
 }
