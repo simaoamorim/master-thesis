@@ -30,9 +30,9 @@ void sighandler(int signum)
 /*
  * [optional]
  *
- * ./pid_real_test [-dfilename] period command p_gain i_gain d_gain
+ * ./pid_real_test [filename] period command p_gain i_gain d_gain
  *
- *	-dfilename : Export PID debug to file "filename" (do NOT use any whitespaces)
+ *	filename : Export PID debug to file "filename"
  *	period : Control period in nanoseconds (ns)
  *	command : commanded speed in RPM
  *	p_gain : Proportional gain to use in the PID
@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
 	}
 	int use_debug = 0;
 	char *d_filename;
-	if (argc == 7 && strncmp(argv[1], "-d", 2)) {
+	if (argc == 7) {
 		use_debug = 1;
 		d_filename = malloc(sizeof(char) * (strlen(argv[1]) - 1));
 		strcpy(&(argv[1][2]), d_filename);
