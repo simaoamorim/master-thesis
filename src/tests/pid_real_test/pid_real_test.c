@@ -50,8 +50,7 @@ int main (int argc, char *argv[])
 	char *d_filename = NULL;
 	if (argc == 7) {
 		use_debug = 1;
-		d_filename = malloc(sizeof(char) * (strlen(argv[6]) + 1));
-		strcpy(d_filename, argv[6]);
+		d_filename = strdup(argv[6]);
 	}
 	int lret;
 	int period;
@@ -83,15 +82,10 @@ int main (int argc, char *argv[])
 	encoder_enable(board, 1);
 
 	struct pid_t pid = {
-	//	.command = 500.0,
 		.feedback = 0.0,
 		.delta_t = 0.0,
 
 		.deadband = 1.0,
-
-	//	.p_gain = 0.185,
-	//	.i_gain = 0.070,
-	//	.d_gain = 0.000,
 
 		.max_error = 100000.0,
 		.max_i_error = 100000.0,
@@ -108,20 +102,25 @@ int main (int argc, char *argv[])
 	FILE *d_file = NULL;
 	long iter = 0;
 	double tstamp;
+	struct timespec first_time, prev_time, cur_time;
+	int fb;
+
 	if (use_debug) {
 		d_file = init_pid_debug(&pid, d_filename);
-		if (NULL == d_file) {
+		if (NULL != d_file) {
+			debug_append_iteration(&pid, d_file, iter, 0.0);
+		} else {
 			fprintf(stderr, "Failed to open debug file \"%s\": ", d_filename);
 			perror(NULL);
 			use_debug = 0;
 			puts("Continuing without debug output");
 		}
+		free(d_filename);
 	}
 
-	struct timespec first_time, prev_time, cur_time;
-	int fb;
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 	first_time = prev_time;
+
 	sched_yield();
 
 	while (keep_running) {
@@ -150,8 +149,6 @@ int main (int argc, char *argv[])
 	puts("Exiting now...");
 	motor_stop(board, 1);
 	board_close(board);
-	if (NULL != d_filename)
-		free(d_filename);
 	if (NULL != d_file) {
 		fflush(d_file);
 		fclose(d_file);
