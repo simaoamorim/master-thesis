@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 struct pid_t
 {
@@ -34,3 +35,7 @@ struct pid_t
 void do_calcs (struct pid_t *p);
 
 double get_output (struct pid_t *p);
+
+FILE * init_pid_debug (struct pid_t *p, char filename[]);
+
+void debug_append_iteration (struct pid_t *p, FILE *f, long iter, double tstamp);

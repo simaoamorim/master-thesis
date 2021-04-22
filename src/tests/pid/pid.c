@@ -48,6 +48,34 @@ void _calc_output (struct pid_t *p)
 	_apply_limit(&(p->output), p->max_output);
 }
 
+FILE * _create_csv (char filename[])
+{
+	return fopen(filename, "w");
+}
+
+void _write_header (struct pid_t *p, FILE *f)
+{
+	// Ensure beginning of the file
+	rewind(f);
+	// Write PID parameters and constants
+	fprintf(f, "P_Gain,I_Gain,D_Gain,Deadband,max_error,max_i_error,max_d_error,max_output\n");
+	fprintf(f, "%f,%f,%f,%f,%f,%f,%f,%f\n", \
+		p->p_gain, p->i_gain, p->d_gain, p->deadband, p->max_error, p->max_i_error, \
+		p->max_d_error, p->max_output);
+	fprintf(f, "\n");
+	// Write main table header
+	fprintf(f, "N,Timestamp,Command,Feedback,delta_t,error,previous_error,i_error,d_error," \
+		"p_output,i_output,d_output,output\n");
+}
+
+FILE * init_pid_debug (struct pid_t *p, char filename[])
+{
+	FILE * tmp = _create_csv(filename);
+	if (NULL != tmp)
+		_write_header(p, tmp);
+	return tmp;
+}
+
 void do_calcs (struct pid_t *p)
 {
 	_calc_errors(p);
@@ -58,4 +86,11 @@ void do_calcs (struct pid_t *p)
 double get_output (struct pid_t *p)
 {
 	return p->output;
+}
+
+void debug_append_iteration (struct pid_t *p, FILE *f, long iter, double tstamp)
+{
+	fprintf(f, "%ld,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", \
+		iter, tstamp, p->command, p->feedback, p->delta_t, p->error, p->previous_error, \
+		p->i_error, p->d_error, p->p_output, p->i_output, p->d_output, p->output);
 }
