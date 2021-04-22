@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <err.h>
+#include <string.h>
+#include <ctype.h>
 #include <pid.h>
 #include <dfr0592.h>
 
@@ -25,15 +27,34 @@ void sighandler(int signum)
 	return;
 }
 
+/*
+ * [optional]
+ *
+ * ./pid_real_test [-dfilename] period command p_gain i_gain d_gain
+ *
+ *	-dfilename : Export PID debug to file "filename" (do NOT use any whitespaces)
+ *	period : Control period in nanoseconds (ns)
+ *	command : commanded speed in RPM
+ *	p_gain : Proportional gain to use in the PID
+ *	i_gain : Integral gain to use in the PID
+ *	d_gain : Derivative gain to use in the PID
+ */
 int main (int argc, char *argv[])
 {
 	if (argc < 6) {
 		errno = EINVAL;
 		err(EXIT_FAILURE, "Not enough arguments");
 	}
+	int use_debug = 0;
+	char *d_filename;
+	if (argc == 7 && strncmp(argv[1], "-d", 2)) {
+		use_debug = 1;
+		d_filename = malloc(sizeof(char) * (strlen(argv[1]) - 1));
+		strcpy(&(argv[1][2]), d_filename);
+	}
 	int lret;
 	int period;
-	sscanf(argv[1], "%d", &period);
+	sscanf(argv[1+use_debug], "%d", &period);
 	struct sched_attr attr = {
 		.size = sizeof(struct sched_attr),
 		.sched_policy = SCHED_DEADLINE,
@@ -78,14 +99,28 @@ int main (int argc, char *argv[])
 
 		.previous_error = 0.0,
 	};
-	sscanf(argv[2], "%lf", &(pid.command));
-	sscanf(argv[3], "%lf", &(pid.p_gain));
-	sscanf(argv[4], "%lf", &(pid.i_gain));
-	sscanf(argv[5], "%lf", &(pid.d_gain));
+	sscanf(argv[2+use_debug], "%lf", &(pid.command));
+	sscanf(argv[3+use_debug], "%lf", &(pid.p_gain));
+	sscanf(argv[4+use_debug], "%lf", &(pid.i_gain));
+	sscanf(argv[5+use_debug], "%lf", &(pid.d_gain));
 
-	struct timespec prev_time = {0}, cur_time = {0};
+	FILE *d_file;
+	long iter = 0;
+	double tstamp;
+	if (use_debug) {
+		d_file = init_pid_debug(&pid, d_filename);
+		if (NULL == d_file) {
+			fprintf(stderr, "Failed to open debug file \"%s\": ", d_filename);
+			perror(NULL);
+			use_debug = 0;
+			puts("Continuing without debug output");
+		}
+	}
+
+	struct timespec first_time, prev_time, cur_time;
 	int fb;
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
+	first_time = prev_time;
 	sched_yield();
 
 	while (keep_running) {
@@ -101,23 +136,19 @@ int main (int argc, char *argv[])
 		motor_set_speed(board, 1, (float) get_output(&pid));
 		prev_time = cur_time;
 
-		printf("\e[1;1H\e[2J");		// Clear screen
-		printf("Feedback:  %3.1f RPM\n", pid.feedback);
-		printf("delta_t:   %3.9f s\n", pid.delta_t);
-		printf("Error:     %3.6f RPM\n", pid.error);
-		printf("ErrorI:    %3.6f RPM\n", pid.i_error);
-		printf("ErrorD:    %3.6f RPM\n", pid.d_error);
-		printf("PrevError: %3.6f\n", pid.previous_error);
-		printf("Output:    %3.6f %%\n", pid.output);
-		printf("OutputP:   %3.6f\n", pid.p_output);
-		printf("OutputI:   %3.6f\n", pid.i_output);
-		printf("OutputD:   %3.6f\n", pid.d_output);
+		if (use_debug) {
+			iter++;
+			tstamp = (cur_time.tv_sec - first_time.tv_sec) + \
+				(cur_time.tv_nsec - first_time.tv_nsec) / 1000000000.0;
+			debug_append_iteration(&pid, d_file, iter, tstamp);
+		}
 
 		sched_yield();
 	}
 
 	motor_stop(board, 1);
 	board_close(board);
+	fclose(d_file);
 	free((struct dfr_board*) board);
 
 	return EXIT_SUCCESS;
