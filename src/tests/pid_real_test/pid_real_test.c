@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
 		err(EXIT_FAILURE, "Not enough arguments");
 	}
 	int use_debug = 0;
-	char *d_filename;
+	char *d_filename = NULL;
 	if (argc == 7) {
 		use_debug = 1;
 		d_filename = malloc(sizeof(char) * (strlen(argv[6]) + 1));
@@ -105,7 +105,7 @@ int main (int argc, char *argv[])
 	sscanf(argv[4], "%lf", &(pid.i_gain));
 	sscanf(argv[5], "%lf", &(pid.d_gain));
 
-	FILE *d_file;
+	FILE *d_file = NULL;
 	long iter = 0;
 	double tstamp;
 	if (use_debug) {
@@ -147,9 +147,15 @@ int main (int argc, char *argv[])
 		sched_yield();
 	}
 
+	puts("Exiting now...");
 	motor_stop(board, 1);
 	board_close(board);
-	fclose(d_file);
+	if (NULL != d_filename)
+		free(d_filename);
+	if (NULL != d_file) {
+		fflush(d_file);
+		fclose(d_file);
+	}
 	free((struct dfr_board*) board);
 
 	return EXIT_SUCCESS;
