@@ -1,4 +1,4 @@
-# Revisão para o documento final
+﻿# Revisão para o documento final
 
 ### State of the art
  - Melhorar explicação da EtherCAT
@@ -106,3 +106,8 @@ Por registar
 - Verificar implementação de slave Profinet com o CODESYS
 - Testar comunicação I2C com o controlador de motor
 - Testar se todos os componentes estão OK
+
+# 23/04
+- Carlos Graph para impressao 3D
+- “Esquecer” velocidades baixas para a leitura de impulsos
+- Possivelmente ajustar o timeout para assumir RPM=0 em função da RPM de comando, atravez do tempo medio entre impulsos
