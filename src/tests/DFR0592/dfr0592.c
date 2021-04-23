@@ -89,7 +89,7 @@ int encoder_get_speed(const struct dfr_board *board, int motor, int *speed)
 {
 	if (motor < 1 || motor > _MOTOR_COUNT || NULL == speed)
 		goto ret_inval;
-	int res;
+	int res = 0;
 	int reg = _REG_ENCODER1_SPEED + ((motor-1) * 0x05);
 	res = i2c_smbus_read_word_data(board->i2c_fd, reg);
 	*speed = ((res << 8) & 0xFF00) | ((res >> 8) & 0xFF);

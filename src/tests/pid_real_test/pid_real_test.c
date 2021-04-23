@@ -50,28 +50,35 @@ int main (int argc, char *argv[])
 	char *d_filename = NULL;
 	if (argc == 7) {
 		use_debug = 1;
-		d_filename = malloc(sizeof(char) * (strlen(argv[6]) + 1));
-		strcpy(d_filename, argv[6]);
+		d_filename = strdup(argv[6]);
 	}
 	int lret;
-	int period;
-	sscanf(argv[1], "%d", &period);
-	struct sched_attr attr = {
-		.size = sizeof(struct sched_attr),
-		.sched_policy = SCHED_DEADLINE,
-		.sched_priority = 0,
-		.sched_flags = 0,
-		.sched_period = period,
-		.sched_runtime = period,
-		.sched_deadline = period
-	};
+	long period;
+	sscanf(argv[1], "%ld", &period);
 
 	if (SIG_ERR == signal(SIGINT, sighandler))
 		err(EXIT_FAILURE, "signal()");
 
-	lret = sched_setattr(0, &attr, 0);
-	if (-1 == lret) {
-		err(EXIT_FAILURE, "Failed to set SCHED_DEADLINE");
+	if (0 == geteuid()) {
+		struct sched_attr attr = {
+			.size = sizeof(struct sched_attr),
+			.sched_policy = SCHED_DEADLINE,
+			.sched_priority = 0,
+			.sched_flags = 0,
+			.sched_period = period,
+			.sched_runtime = period,
+			.sched_deadline = period
+		};
+
+		lret = sched_setattr(0, &attr, 0);
+		if (-1 == lret) {
+			err(EXIT_FAILURE, "Failed to set SCHED_DEADLINE");
+		}
+		// Drop root priviledges (only needed to set the SCHED_DEADLINE)
+		setuid(getuid());
+	} else {
+		warn("You do not have priviledges to create a realtime task\n" \
+			"Continuing with the default scheduler");
 	}
 
 	const struct dfr_board *board = board_init(1, 0x10);
@@ -83,15 +90,10 @@ int main (int argc, char *argv[])
 	encoder_enable(board, 1);
 
 	struct pid_t pid = {
-	//	.command = 500.0,
 		.feedback = 0.0,
 		.delta_t = 0.0,
 
 		.deadband = 1.0,
-
-	//	.p_gain = 0.185,
-	//	.i_gain = 0.070,
-	//	.d_gain = 0.000,
 
 		.max_error = 100000.0,
 		.max_i_error = 100000.0,
@@ -100,6 +102,7 @@ int main (int argc, char *argv[])
 
 		.previous_error = 0.0,
 	};
+	// Set parameters from command line arguments
 	sscanf(argv[2], "%lf", &(pid.command));
 	sscanf(argv[3], "%lf", &(pid.p_gain));
 	sscanf(argv[4], "%lf", &(pid.i_gain));
@@ -108,23 +111,29 @@ int main (int argc, char *argv[])
 	FILE *d_file = NULL;
 	long iter = 0;
 	double tstamp;
+	struct timespec first_time, prev_time, cur_time;
+	int fb;
+
 	if (use_debug) {
 		d_file = init_pid_debug(&pid, d_filename);
-		if (NULL == d_file) {
+		if (NULL != d_file) {
+			debug_append_iteration(&pid, d_file, iter, 0.0);
+		} else {
 			fprintf(stderr, "Failed to open debug file \"%s\": ", d_filename);
 			perror(NULL);
 			use_debug = 0;
 			puts("Continuing without debug output");
 		}
+		free(d_filename);
 	}
 
-	struct timespec first_time, prev_time, cur_time;
-	int fb;
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 	first_time = prev_time;
+
 	sched_yield();
 
 	while (keep_running) {
+		// Acquire inputs
 		encoder_get_speed(board, 1, &fb);
 		pid.feedback = (double) fb;
 
@@ -132,11 +141,14 @@ int main (int argc, char *argv[])
 		pid.delta_t = (cur_time.tv_sec - prev_time.tv_sec) + \
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 
+		// Execute computations
 		do_calcs(&pid);
 
+		// Update outputs
 		motor_set_speed(board, 1, (float) get_output(&pid));
 		prev_time = cur_time;
 
+		// Debug stuff
 		if (use_debug) {
 			iter++;
 			tstamp = (cur_time.tv_sec - first_time.tv_sec) + \
@@ -144,19 +156,20 @@ int main (int argc, char *argv[])
 			debug_append_iteration(&pid, d_file, iter, tstamp);
 		}
 
+		// Wait for next iteraction
 		sched_yield();
 	}
 
-	puts("Exiting now...");
+	// When CTRL+C is hit, terminate gracefully
+	printf("Shutting down...");
 	motor_stop(board, 1);
 	board_close(board);
-	if (NULL != d_filename)
-		free(d_filename);
 	if (NULL != d_file) {
 		fflush(d_file);
 		fclose(d_file);
 	}
 	free((struct dfr_board*) board);
+	puts("OK");
 
 	return EXIT_SUCCESS;
 }

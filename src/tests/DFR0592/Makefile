@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS ?= -Wall
+CFLAGS ?= -Wall -g
 LDFLAGS ?= -I. -li2c
 TARGET ?= dfr0592_test
 OBJECTS ?= dfr0592.o
@@ -16,12 +16,14 @@ $(TARGET) : $(TARGET).c $(OBJECTS)
 
 %.so : %.o
 	$(CC) $(CFLAGS) -shared $< -o $@
-	
+
 docs: Doxyfile
 	doxygen Doxyfile
 
 docs_edit: Doxyfile
 	doxywizard Doxyfile
+
+test: dfr0592_test
 
 .PHONY: clean
 
