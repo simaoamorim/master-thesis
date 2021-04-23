@@ -18,6 +18,9 @@
 - https://www.dfrobot.com/product-634.html
 - https://www.dfrobot.com/product-1619.html
 
+## Raspberry Pi Proto board with screw terminals
+- https://www.ptrobotics.com/hat-placas-de-expansao-raspberry-pi/3854-raspberry-pi-20-pin-connector-screw-terminals-prototype-board-add-on-v20.html
+
 ## I2C
 ### Example
 - https://www.pololu.com/docs/0J73/15.8

@@ -1,26 +1,29 @@
-CC = gcc
-CFLAGS = -Wall
-LDFLAGS = -I. -li2c
+CC ?= gcc
+CFLAGS ?= -Wall -g
+LDFLAGS ?= -I. -li2c
 TARGET ?= dfr0592_test
 OBJECTS ?= dfr0592.o
 DOCS ?= docs/
+ODIR ?= ${PWD}
 
-all: $(TARGET)
+all: $(OBJECTS)
 
 $(TARGET) : $(TARGET).c $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -fpic $< -o $@
+	$(CC) $(CFLAGS) -c -fpic $< -o ${ODIR}/$@
 
 %.so : %.o
 	$(CC) $(CFLAGS) -shared $< -o $@
-	
+
 docs: Doxyfile
 	doxygen Doxyfile
 
 docs_edit: Doxyfile
 	doxywizard Doxyfile
+
+test: dfr0592_test
 
 .PHONY: clean
 
