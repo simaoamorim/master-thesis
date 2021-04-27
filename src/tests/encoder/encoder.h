@@ -4,6 +4,8 @@
 #include <errno.h>
 #include <gpiod.h>
 
+#define	CONSUMER_NAME	"ENCODER"
+
 struct encoder {
 	struct gpiod_chip *chip_handle;
 	struct gpiod_line *a_line;

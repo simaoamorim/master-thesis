@@ -16,8 +16,8 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 
 int encoder_start (struct encoder *e)
 {
-	if (-1 == gpiod_line_request_both_edges_events(e->a_line, "ENCODER") || \
-	    -1 == gpiod_line_request_both_edges_events(e->b_line, "ENCODER"))
+	if (-1 == gpiod_line_request_both_edges_events(e->a_line, CONSUMER_NAME) || \
+	    -1 == gpiod_line_request_both_edges_events(e->b_line, CONSUMER_NAME))
 		return -1;
 	return 0;
 }
