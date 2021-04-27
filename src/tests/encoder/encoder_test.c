@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
 		perror("Failed to request events for the inputs");
 		goto end;
 	}
-	int vals[2];
+	int vals[20];
 	while (keep_running) {
 		if (1 == encoder_wait(&enc)) {
 			printf("\e[1;1H\e[2J"); // clear console
