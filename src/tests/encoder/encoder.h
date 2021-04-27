@@ -19,7 +19,7 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b);
 
 int encoder_start (struct encoder *e);
 
-void encoder_wait (struct encoder *e);
+int encoder_wait (struct encoder *e);
 
 int encoder_end (struct encoder *e);
 
