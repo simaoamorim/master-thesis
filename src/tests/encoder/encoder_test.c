@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
 			printf("Line A: %d\n", vals[0]);
 			printf("Line B: %d\n", vals[1]);
 			int size = gpiod_line_bulk_num_lines(enc.events);
-			for (int i = 0; i < size; i++) {
+			for (int i = 1; i <= size; i++) {
 				struct gpiod_line_event event;
 				gpiod_line_event_read(
 					gpiod_line_bulk_get_line(enc.events, i),
