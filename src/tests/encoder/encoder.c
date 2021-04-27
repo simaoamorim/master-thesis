@@ -31,7 +31,12 @@ int encoder_start (struct encoder *e)
 
 int encoder_end (struct encoder *e)
 {
-	gpiod_line_release_bulk(e->inputs);
+	if (NULL != e->inputs) {
+		gpiod_line_release_bulk(e->inputs);
+	} else {
+		gpiod_line_release(e->a_line);
+		gpiod_line_release(e->b_line);
+	}
 	e->inputs = NULL;
 	e->a_line = NULL;
 	e->b_line = NULL;

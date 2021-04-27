@@ -19,7 +19,7 @@ void sighandler (int signum)
 int main (int argc, char *argv[])
 {
 	signal(SIGINT, sighandler);
-	struct encoder enc;
+	struct encoder enc = {0};
 	if (-1 == encoder_init(&enc, 0, 17, 18)) {
 		perror("Failed to initialize 'encoder'");
 		return -1;
