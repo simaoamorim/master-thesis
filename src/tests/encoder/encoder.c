@@ -34,14 +34,15 @@ int encoder_end (struct encoder *e)
 	if (NULL != e->inputs) {
 		gpiod_line_release_bulk(e->inputs);
 		free(e->inputs);
-	} else {
+	} else if (NULL != e->a_line && NULL != e->b_line) {
 		gpiod_line_release(e->a_line);
 		gpiod_line_release(e->b_line);
 	}
 	e->inputs = NULL;
 	e->a_line = NULL;
 	e->b_line = NULL;
-	gpiod_chip_close(e->chip_handle);
+	if (NULL != e->chip_handle)
+		gpiod_chip_close(e->chip_handle);
 	e->chip_handle = NULL;
 	return 0;
 }
