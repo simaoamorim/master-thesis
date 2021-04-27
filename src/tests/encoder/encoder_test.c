@@ -13,7 +13,7 @@ void sighandler (int signum)
 {
 	if (SIGINT == signum) {
 		keep_running = 0;
-		write(1, "^[[2K\n", 6);
+		write(1, "\33[[2K\n", 6);
 	}
 }
 
