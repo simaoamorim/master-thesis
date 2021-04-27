@@ -15,7 +15,7 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 		return -1;
 	if (-1 == gpiod_line_request_input(e->b_line, CONSUMER_NAME))
 		return -1;
-	e->inputs = (struct gpiod_line_bulk *) {0};
+	e->inputs = (struct gpiod_line_bulk *) malloc(sizeof(*e->inputs));
 	gpiod_line_bulk_init(e->inputs);
 	gpiod_line_bulk_add(e->inputs, e->a_line);
 	gpiod_line_bulk_add(e->inputs, e->b_line);
@@ -33,6 +33,7 @@ int encoder_end (struct encoder *e)
 {
 	if (NULL != e->inputs) {
 		gpiod_line_release_bulk(e->inputs);
+		free(e->inputs);
 	} else {
 		gpiod_line_release(e->a_line);
 		gpiod_line_release(e->b_line);
