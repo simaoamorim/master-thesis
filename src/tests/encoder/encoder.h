@@ -11,6 +11,7 @@ struct encoder {
 	struct gpiod_line *a_line;
 	struct gpiod_line *b_line;
 	struct gpiod_line_bulk *inputs;
+	struct gpiod_line_bulk *events;
 	char stage;
 	long count;
 };
