@@ -15,13 +15,14 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 		return -1;
 	if (-1 == gpiod_line_request_input(e->b_line, CONSUMER_NAME))
 		return -1;
+	gpiod_line_bulk_add(e->inputs, e->a_line);
+	gpiod_line_bulk_add(e->inputs, e->b_line);
 	return 0;
 }
 
 int encoder_start (struct encoder *e)
 {
-	if (-1 == gpiod_line_request_both_edges_events(e->a_line, CONSUMER_NAME) || \
-	    -1 == gpiod_line_request_both_edges_events(e->b_line, CONSUMER_NAME))
+	if (-1 == gpiod_line_request_bulk_both_edges_events(e->inputs, CONSUMER_NAME))
 		return -1;
 	return 0;
 }
