@@ -18,20 +18,29 @@ void sighandler (int signum)
 
 int main (int argc, char *argv[])
 {
+	int ret = 0;
 	signal(SIGINT, sighandler);
 	struct encoder enc = {0};
 	if (-1 == encoder_init(&enc, 0, 17, 18)) {
 		perror("Failed to initialize 'encoder'");
-		return -1;
+		ret = -1;
+		goto end;
 	}
 	puts("Encoder open OK");
+	if (-1 == encoder_start(&enc)) {
+		ret = -1;
+		perror("Failed to request events for the inputs");
+		goto end;
+	}
 	while (keep_running) {
 		printf("\e[1;1H\e[2J"); // clear console
 		printf("Line A: %d\n", gpiod_line_get_value(enc.a_line));
 		printf("Line B: %d\n", gpiod_line_get_value(enc.b_line));
 		usleep(100);
 	}
+
+end:	
 	printf("\33[2K\n");
 	encoder_end(&enc);
-	return 0;
+	return ret;
 }
