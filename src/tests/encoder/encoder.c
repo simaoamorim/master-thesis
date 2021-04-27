@@ -15,6 +15,7 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 		return -1;
 	if (-1 == gpiod_line_request_input(e->b_line, CONSUMER_NAME))
 		return -1;
+	gpiod_line_bulk_init(e->inputs);
 	gpiod_line_bulk_add(e->inputs, e->a_line);
 	gpiod_line_bulk_add(e->inputs, e->b_line);
 	return 0;
