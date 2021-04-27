@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
 	while (keep_running) {
 		printf("\e[1;1H\e[2J"); // clear console
 		printf("Line A: %d\n", gpiod_line_get_value(enc.a_line));
-		printf("Line B: %d", gpiod_line_get_value(enc.b_line));
+		printf("Line B: %d\n", gpiod_line_get_value(enc.b_line));
 		usleep(100);
 	}
 	return 0;
