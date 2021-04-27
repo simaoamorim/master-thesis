@@ -27,3 +27,14 @@ int encoder_start (struct encoder *e)
 		return -1;
 	return 0;
 }
+
+int encoder_end (struct encoder *e)
+{
+	gpiod_line_release_bulk(e->inputs);
+	e->inputs = NULL;
+	e->a_line = NULL;
+	e->b_line = NULL;
+	gpiod_chip_close(e->chip_handle);
+	e->chip_handle = NULL;
+	return 0;
+}
