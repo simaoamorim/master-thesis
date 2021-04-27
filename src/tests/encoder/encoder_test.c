@@ -39,6 +39,7 @@ int main (int argc, char *argv[])
 			gpiod_line_get_value_bulk(enc.inputs, vals);
 			printf("Line A: %d\n", vals[0]);
 			printf("Line B: %d\n", vals[1]);
+			/*
 			int size = gpiod_line_bulk_num_lines(enc.events);
 			for (int i = 1; i <= size; i++) {
 				struct gpiod_line_event event;
@@ -49,6 +50,7 @@ int main (int argc, char *argv[])
 					gpiod_line_offset(gpiod_line_bulk_get_line(enc.events,i)),
 					event.event_type);
 			}
+			*/
 		}
 	}
 
