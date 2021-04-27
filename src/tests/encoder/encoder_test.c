@@ -1,4 +1,4 @@
-#include "quad_enc.h"
+#include "encoder.h"
 
 int main (int argc, char *argv[])
 {

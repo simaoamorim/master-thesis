@@ -2,16 +2,15 @@ CC = gcc
 CFLAGS = -Wall
 LDFLAGS = -lgpiod
 
-all: quad_enc.o
+all: encoder.o
 
-quad_enc.o: quad_enc.c
+encoder.o: encoder.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o ${PWD}/$@
 
-test: quad_enc_test.c quad_enc.o
+test: encoder_test.c encoder.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o ${PWD}/$@
 
 .PHONY: clean
 
 clean:
 	find ${PWD} \( -iname '*.o' -or -iname 'test' \) -exec rm {} \;
-	#find ${PWD} -iname 'test' -exec rm {} \;
