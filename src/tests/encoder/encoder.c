@@ -51,7 +51,7 @@ void encoder_decode_stage (struct encoder *e)
 
 void encoder_update_counter (struct encoder *e)
 {
-	if (0 <= e->stage) {
+	if (4 > e->stage) {
 		int diff = e->new_stage - e->stage;
 		if ((0 < diff && 3 > diff) || -3 == diff)
 			e->count += diff;
