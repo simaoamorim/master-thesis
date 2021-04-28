@@ -133,11 +133,12 @@ int main (int argc, char *argv[])
 	sched_yield();
 
 	while (keep_running) {
+		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+
 		// Acquire inputs
 		encoder_get_speed(board, 1, &fb);
 		pid.feedback = (double) fb;
 
-		clock_gettime(CLOCK_MONOTONIC, &cur_time);
 		pid.delta_t = (cur_time.tv_sec - prev_time.tv_sec) + \
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 

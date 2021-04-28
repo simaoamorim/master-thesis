@@ -26,5 +26,6 @@ dfr0592.o:
 
 clean:
 	find ${ODIR}/ -iname '${TARGET}' -exec rm {} \;
+	find ${ODIR}/ -iname '*.csv' -exec rm {} \;
 	$(MAKE) -C../pid/ clean
 	$(MAKE) -C../DFR0592/ clean
