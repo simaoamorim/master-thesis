@@ -26,12 +26,6 @@ int encoder_start (struct encoder *e)
 	return 0;
 }
 
-int encoder_wait (struct encoder *e)
-{
-	static struct timespec timeout = {.tv_sec = 1, .tv_nsec = 0};
-	return gpiod_line_event_wait_bulk(e->inputs, &timeout, e->events);
-}
-
 int encoder_end (struct encoder *e)
 {
 	if (NULL != e->inputs) {
