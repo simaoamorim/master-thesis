@@ -26,11 +26,6 @@ int main (int argc, char *argv[])
 		ret = -1;
 		goto end;
 	}
-	if (-1 == encoder_start(&enc)) {
-		perror("Failed to request events on the encoder");
-		ret = -1;
-		goto end;
-	}
 	puts("Encoder open OK");
 	printf("Number of bulked lines: %d\n", gpiod_line_bulk_num_lines(enc.inputs));
 	puts("Press enter to continue...");
