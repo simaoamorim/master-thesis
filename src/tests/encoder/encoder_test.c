@@ -36,6 +36,7 @@ int main (int argc, char *argv[])
 		gpiod_line_get_value_bulk(enc.inputs, vals);
 		printf("Line A: %d\n", vals[0]);
 		printf("Line B: %d\n", vals[1]);
+		fflush(stdout);
 		usleep(10);
 	}
 
