@@ -32,25 +32,13 @@ int main (int argc, char *argv[])
 		perror("Failed to request events for the inputs");
 		goto end;
 	}
-	int vals[20];
+	int vals[2];
 	while (keep_running) {
 		if (1 == encoder_wait(&enc)) {
 			printf("\e[1;1H\e[2J"); // clear console
 			gpiod_line_get_value_bulk(enc.inputs, vals);
-			printf("Line A: %d\n", vals[0]);
-			printf("Line B: %d\n", vals[1]);
-			/*
-			int size = gpiod_line_bulk_num_lines(enc.events);
-			for (int i = 1; i <= size; i++) {
-				struct gpiod_line_event event;
-				gpiod_line_event_read(
-					gpiod_line_bulk_get_line(enc.events, i),
-					&event);
-				printf("Event on line %d: %d\n",
-					gpiod_line_offset(gpiod_line_bulk_get_line(enc.events,i)),
-					event.event_type);
-			}
-			*/
+			printf("Line A: %d (%d)\n", vals[0], gpiod_line_get_value(enc.a_line));
+			printf("Line B: %d (%d)\n", vals[1], gpiod_line_get_value(enc.b_line));
 		}
 	}
 
