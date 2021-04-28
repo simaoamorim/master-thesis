@@ -34,12 +34,11 @@ int main (int argc, char *argv[])
 	}
 	int vals[2];
 	while (keep_running) {
-		if (1 == encoder_wait(&enc)) {
-			printf("\e[1;1H\e[2J"); // clear console
-			gpiod_line_get_value_bulk(enc.inputs, vals);
-			printf("Line A: %d (%d)\n", vals[0], gpiod_line_get_value(enc.a_line));
-			printf("Line B: %d (%d)\n", vals[1], gpiod_line_get_value(enc.b_line));
-		}
+		printf("\e[1;1H\e[2J"); // clear console
+		gpiod_line_get_value_bulk(enc.inputs, vals);
+		printf("Line A: %d (%d)\n", vals[0], gpiod_line_get_value(enc.a_line));
+		printf("Line B: %d (%d)\n", vals[1], gpiod_line_get_value(enc.b_line));
+		usleep(10);
 	}
 
 end:	
