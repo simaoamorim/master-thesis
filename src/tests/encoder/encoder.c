@@ -10,31 +10,57 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 	if (NULL == e->a_line || NULL == e->b_line)
 		return -1;
 	e->stage = -1;
+	e->new_stage = -1;
 	e->count = 0;
-	/*
-	if (-1 == gpiod_line_request_input(e->a_line, CONSUMER_NAME))
-		return -1;
-	if (-1 == gpiod_line_request_input(e->b_line, CONSUMER_NAME))
-		return -1;
-	*/
+	e->values[0] = 0;
+	e->values[1] = 0;
 	e->inputs = (struct gpiod_line_bulk *) malloc(sizeof(*e->inputs));
 	gpiod_line_bulk_init(e->inputs);
 	gpiod_line_bulk_add(e->inputs, e->a_line);
 	gpiod_line_bulk_add(e->inputs, e->b_line);
+	gpiod_line_request_bulk_input(e->inputs, CONSUMER_NAME);
 	return 0;
 }
 
-int encoder_start (struct encoder *e)
+void encoder_read_values (struct encoder *e)
 {
-	if (-1 == gpiod_line_request_bulk_both_edges_events(e->inputs, CONSUMER_NAME))
-		return -1;
-	return 0;
+	gpiod_line_get_value_bulk(e->inputs, e->values);
 }
 
-int encoder_wait (struct encoder *e)
+void encoder_decode_stage (struct encoder *e)
 {
-	static struct timespec timeout = {.tv_sec = 1, .tv_nsec = 0};
-	return gpiod_line_event_wait_bulk(e->inputs, &timeout, e->events);
+	switch (e->values[0]) {
+		case 0: {
+			if (e->values[1])
+				e->new_stage = 3;
+			else
+				e->new_stage = 0;
+			break;
+		}
+		case 1: {
+			if (e->values[1])
+				e->new_stage = 2;
+			else
+				e->new_stage = 1;
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+void encoder_update_counter (struct encoder *e)
+{
+	if (4 > e->stage) {
+		int diff = (int) (e->new_stage - e->stage);
+		if (diff > -3 && diff < 3)
+			e->count += diff;
+		else if (-3 == diff)
+			e->count++;
+		else if (3 == diff)
+			e->count--;
+	}
+	e->stage = e->new_stage;
 }
 
 int encoder_end (struct encoder *e)
