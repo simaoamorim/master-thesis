@@ -30,12 +30,17 @@ int main (int argc, char *argv[])
 	printf("Number of bulked lines: %d\n", gpiod_line_bulk_num_lines(enc.inputs));
 	puts("Press enter to continue...");
 	getchar();
-	int vals[2];
+
 	while (keep_running) {
 		printf("\e[1;1H\e[2J"); // clear console
-		gpiod_line_get_value_bulk(enc.inputs, vals);
-		printf("Line A: %d\n", vals[0]);
-		printf("Line B: %d\n", vals[1]);
+		encoder_read_values(&enc);
+		encoder_decode_stage(&enc);
+		encoder_update_counter(&enc);
+		printf("Line A: %d\n", enc.values[0]);
+		printf("Line B: %d\n", enc.values[1]);
+		printf("Stage: %d\n", enc.stage);
+		printf("New stage: %d\n", enc.new_stage);
+		printf("Count: %ld\n", enc.count);
 		fflush(stdout);
 		usleep(10);
 	}
