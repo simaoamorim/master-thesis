@@ -10,13 +10,56 @@ int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b)
 	if (NULL == e->a_line || NULL == e->b_line)
 		return -1;
 	e->stage = -1;
+	e->new_stage = -1;
 	e->count = 0;
+	e->values[0] = 0;
+	e->values[1] = 0;
 	e->inputs = (struct gpiod_line_bulk *) malloc(sizeof(*e->inputs));
 	gpiod_line_bulk_init(e->inputs);
 	gpiod_line_bulk_add(e->inputs, e->a_line);
 	gpiod_line_bulk_add(e->inputs, e->b_line);
 	gpiod_line_request_bulk_input(e->inputs, CONSUMER_NAME);
 	return 0;
+}
+
+void encoder_read_values (struct encoder *e)
+{
+	gpiod_line_get_value_bulk(e->inputs, e->values);
+}
+
+void encoder_decode_stage (struct encoder *e)
+{
+	switch (e->values[0]) {
+		case 0: {
+			if (e->values[1])
+				e->new_stage = 3;
+			else
+				e->new_stage = 0;
+			break;
+		}
+		case 1: {
+			if (e->values[1])
+				e->new_stage = 2;
+			else
+				e->new_stage = 1;
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+void encoder_update_counter (struct encoder *e)
+{
+	if (0 <= e->stage) {
+		int diff = e->new_stage - e->stage;
+		if ((0 < diff && 3 > diff) || -3 == diff)
+			e->count += diff;
+		else if ((0 > diff && -3 < diff) || 3 == diff)
+			e->count -= diff;
+	} else { // Set first stage without updating the counter
+		e->stage = e->new_stage;
+	}
 }
 
 int encoder_end (struct encoder *e)
