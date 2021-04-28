@@ -32,6 +32,7 @@ int main (int argc, char *argv[])
 		perror("Failed to request events for the inputs");
 		goto end;
 	}
+	printf("Number of bulked lines: %d\n", gpiod_line_bulk_num_lines(enc.inputs));
 	int vals[2];
 	while (keep_running) {
 		printf("\e[1;1H\e[2J"); // clear console
