@@ -42,7 +42,7 @@ int main (int argc, char *argv[])
 		printf("New stage: %d\n", enc.new_stage);
 		printf("Count: %ld\n", enc.count);
 		fflush(stdout);
-		usleep(10);
+		usleep(10000);
 	}
 
 end:	
