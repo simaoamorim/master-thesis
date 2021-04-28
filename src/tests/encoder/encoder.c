@@ -57,9 +57,8 @@ void encoder_update_counter (struct encoder *e)
 			e->count += diff;
 		else if ((0 > diff && -3 < diff) || 3 == diff)
 			e->count -= diff;
-	} else { // Set first stage without updating the counter
-		e->stage = e->new_stage;
 	}
+	e->stage = e->new_stage;
 }
 
 int encoder_end (struct encoder *e)
