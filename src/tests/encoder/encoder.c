@@ -53,10 +53,14 @@ void encoder_update_counter (struct encoder *e)
 {
 	if (4 > e->stage) {
 		int diff = e->new_stage - e->stage;
-		if ((0 < diff && 3 > diff) || -3 == diff)
+		if (0 < diff && 3 > diff)
 			e->count += diff;
-		else if ((0 > diff && -3 < diff) || 3 == diff)
+		else if (0 > diff && -3 < diff)
 			e->count -= diff;
+		else if (-3 == diff)
+			e->count++;
+		else if (3 == diff)
+			e->count--;
 	}
 	e->stage = e->new_stage;
 }
