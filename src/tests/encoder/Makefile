@@ -2,13 +2,13 @@ CC = gcc
 CFLAGS = -Wall
 LDFLAGS = -lgpiod
 
-all: encoder.o
+all: encoder.o encoder_task.o
 
-encoder.o: encoder.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o ${PWD}/$@
+%.o: %.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
 
 test: encoder_test.c encoder.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o ${PWD}/$@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 .PHONY: clean
 
