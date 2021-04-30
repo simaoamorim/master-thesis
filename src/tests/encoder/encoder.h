@@ -3,6 +3,7 @@
 
 #include <errno.h>
 #include <gpiod.h>
+#include <pthread.h>
 
 #define	CONSUMER_NAME	"ENCODER"
 

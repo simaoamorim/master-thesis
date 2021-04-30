@@ -14,6 +14,9 @@
 - https://www.sg-electronic-systems.com/ethercat-shield-for-raspberry-pi-etherc-v1-6/
 - https://www.engineersgarage.com/raspberrypi/articles-raspberry-pi-i2c-bus-pins-smbus-smbus2-python/
 
+### Creating Debian \*.deb packages
+- https://linuxconfig.org/easy-way-to-create-a-debian-package-and-local-package-repository
+
 ## DFRobot motor
 - https://www.dfrobot.com/product-634.html
 - https://www.dfrobot.com/product-1619.html
