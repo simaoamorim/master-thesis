@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/
-LDFLAGS = -li2c -lgpiod
+LDFLAGS = -li2c -lgpiod -lpthread
 
 VPATH = ${PWD}
 
@@ -9,10 +9,13 @@ all: pid_test_2
 pid_test_2.o: pid_test_2.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-pid_test_2: pid_test_2.o encoder.o pid.o dfr0592.o
+pid_test_2: pid_test_2.o encoder.o encoder_task.o pid.o dfr0592.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 encoder.o:
+	@$(MAKE) VPATH=../encoder/ -f ../encoder/Makefile $@
+
+encoder_task.o:
 	@$(MAKE) VPATH=../encoder/ -f ../encoder/Makefile $@
 
 pid.o:
@@ -24,6 +27,5 @@ dfr0592.o:
 .PHONY: clean all
 
 clean:
-	@find ${PWD} -type f -iname 'pid_test_2' -exec rm {} \;
-	@find ${OBJPATH} -type f -iname '*.o' -exec rm {} \;
+	@find ${PWD} -type f \( -iname 'pid_test_2' -or -iname '*.o' \) -exec rm -v {} \;
 	
