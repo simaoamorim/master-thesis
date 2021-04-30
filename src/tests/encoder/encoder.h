@@ -17,7 +17,6 @@ struct encoder {
 	char stage;
 	char new_stage;
 	long count;
-	pthread_mutex_t counter_mutex;
 };
 
 int encoder_init (struct encoder *e, int gpiochip, int pin_a, int pin_b);

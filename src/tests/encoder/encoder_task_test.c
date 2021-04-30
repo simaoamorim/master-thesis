@@ -8,8 +8,8 @@
 int main (int argc, char *argv[])
 {
 	int retval;
-	struct encoder enc = {0};
-	if (-1 == encoder_init(&enc, 0, 17, 18)) {
+	struct encoder_task enc = {0};
+	if (-1 == encoder_init(&enc.encoder, 0, 17, 18)) {
 		perror("Failed to open encoder GPIO");
 		return -1;
 	}
@@ -22,7 +22,7 @@ int main (int argc, char *argv[])
 	pthread_kill(tid, SIGINT);
 	pthread_join(tid, (void *) &retval);
 	printf("Return value: %d\n", retval);
-	printf("Final stage: %d\n", enc.stage);
-	printf("Counter: %ld\n", enc.count);
+	printf("Final stage: %d\n", enc.encoder.stage);
+	printf("Counter: %ld\n", enc.encoder.count);
 	return 0;
 }
