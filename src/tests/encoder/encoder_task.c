@@ -15,7 +15,7 @@ void * encoder_task (void *args)
 	if (SIG_ERR == signal(SIGINT, sighandler)) {
 		pthread_exit((void *) -1);
 	}
-	struct sched_param sched_params = {.sched_priority = 30,};
+	struct sched_param sched_params = {.sched_priority = 1};
 	if (-1 == sched_setscheduler(0, SCHED_FIFO, &sched_params)) {
 		pthread_exit((void *) -1);
 	}
