@@ -5,7 +5,8 @@
 #include <errno.h>
 #include <stdio.h>
 
-#define ENCODER_PPR 12
+#define ENCODER_PPR 12.0
+#define GEARBOX_RATIO 30.0
 
 int main (int argc, char *argv[])
 {
@@ -29,7 +30,8 @@ int main (int argc, char *argv[])
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 		count = encoder_task_get_count(&enc);
 		revs = apply_scale(count, ENCODER_PPR);
-		velocity = (double) (revs - prev_revs) / delta_t; // RPS
+		velocity = (double) (revs - prev_revs) / delta_t; // RPS motor
+		velocity = apply_scale(velocity, GEARBOX_RATIO); // RPS output
 		prev_time = cur_time;
 		prev_revs = revs;
 
@@ -43,5 +45,6 @@ int main (int argc, char *argv[])
 	printf("Return value: %d\n", retval);
 	printf("Final stage: %d\n", enc.encoder.stage);
 	printf("Counter: %ld\n", enc.encoder.count);
+	encoder_end(&enc.encoder);
 	return 0;
 }
