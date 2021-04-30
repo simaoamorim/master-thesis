@@ -23,7 +23,7 @@ int main (int argc, char *argv[])
 	struct timespec cur_time, prev_time;
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 	for (int i = 0; i < 1000; i++) {
-		usleep(10);
+		usleep(10000);
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
 		delta_t = (cur_time.tv_sec - prev_time.tv_sec) + \
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
