@@ -18,11 +18,25 @@ int main (int argc, char *argv[])
 	pthread_t tid;
 	pthread_create(&tid, NULL, encoder_task, &enc);
 	long count;
-	for (int i = 0; i < 10; i++) {
-		sleep(1);
+	double prev_revs = 0;
+	double revs, velocity, delta_t;
+	struct timespec cur_time, prev_time;
+	clock_gettime(CLOCK_MONOTONIC, &prev_time);
+	for (int i = 0; i < 1000; i++) {
+		usleep(10);
+		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+		delta_t = (cur_time.tv_sec - prev_time.tv_sec) + \
+			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 		count = encoder_task_get_count(&enc);
+		revs = apply_scale(count, ENCODER_PPR);
+		velocity = apply_scale(prev_revs - revs, delta_t);
+		prev_time = cur_time;
+		prev_revs = revs;
+
 		printf("Counter: %ld\n", count);
-		printf("Revolutions: %f\n", apply_scale(count, ENCODER_PPR));
+		printf("Revolutions: %f\n", revs);
+		printf("Velocity: %f\n", velocity);
+		printf("Delta t: %f\n", delta_t);
 	}
 	pthread_kill(tid, SIGINT);
 	pthread_join(tid, (void *) &retval);
