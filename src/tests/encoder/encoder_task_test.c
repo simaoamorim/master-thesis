@@ -18,5 +18,7 @@ int main (int argc, char *argv[])
 	pthread_kill(tid, SIGINT);
 	pthread_join(tid, (void *) &retval);
 	printf("Return value: %d\n", retval);
+	printf("Final stage: %d\n", enc.stage);
+	printf("Counter: %ld\n", enc.count);
 	return 0;
 }
