@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <stdio.h>
 
+#define ENCODER_PPR 12
+
 int main (int argc, char *argv[])
 {
 	int retval;
@@ -15,9 +17,12 @@ int main (int argc, char *argv[])
 	}
 	pthread_t tid;
 	pthread_create(&tid, NULL, encoder_task, &enc);
+	long count;
 	for (int i = 0; i < 10; i++) {
 		sleep(1);
-		printf("Counter: %ld\n", encoder_task_get_count(&enc));
+		count = encoder_task_get_count(&enc);
+		printf("Counter: %ld\n", count);
+		printf("Revolutions: %f\n", apply_scale(count, ENCODER_PPR));
 	}
 	pthread_kill(tid, SIGINT);
 	pthread_join(tid, (void *) &retval);
