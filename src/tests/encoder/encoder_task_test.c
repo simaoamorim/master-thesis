@@ -15,7 +15,10 @@ int main (int argc, char *argv[])
 	}
 	pthread_t tid;
 	pthread_create(&tid, NULL, encoder_task, &enc);
-	sleep(10);
+	for (int i = 0; i < 10; i++) {
+		sleep(1);
+		printf("Counter: %ld\n", encoder_task_get_count(&enc));
+	}
 	pthread_kill(tid, SIGINT);
 	pthread_join(tid, (void *) &retval);
 	printf("Return value: %d\n", retval);
