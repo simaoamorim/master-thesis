@@ -16,7 +16,7 @@ void * encoder_task (void *args)
 		pthread_exit((void *) -1);
 	}
 	struct sched_param sched_params = {.sched_priority = 1};
-	if (-1 == sched_setscheduler(0, SCHED_FIFO, &sched_params)) {
+	if (0 != sched_setscheduler(0, SCHED_FIFO, &sched_params)) {
 		pthread_exit((void *) -1);
 	}
 	struct encoder *enc = (struct encoder *) args;
