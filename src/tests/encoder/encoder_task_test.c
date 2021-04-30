@@ -29,7 +29,7 @@ int main (int argc, char *argv[])
 			(cur_time.tv_nsec - prev_time.tv_nsec) / 1000000000.0;
 		count = encoder_task_get_count(&enc);
 		revs = apply_scale(count, ENCODER_PPR);
-		velocity = (revs - prev_revs) * 60.0 / delta_t;
+		velocity = (double) (revs - prev_revs) / delta_t; // RPS
 		prev_time = cur_time;
 		prev_revs = revs;
 
