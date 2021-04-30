@@ -1,7 +1,0 @@
-# Get configure script path
-makepath=$(dirname $(realpath $0))
-
-# Make symlink to the real makefile
-#cp -v ${makepath}/Makefile ./Makefile
-
-sed -i -E "s:^(VPATH.=).*$:\1 $makepath:" ./Makefile
