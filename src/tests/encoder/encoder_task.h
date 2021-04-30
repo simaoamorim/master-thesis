@@ -2,8 +2,9 @@
 #define _ENCODER_TASK_H
 
 #include "encoder.h"
-#include <stdio.h>
 #include <signal.h>
+#include <unistd.h>
+#include <sched.h>
 
 void * encoder_task (void *args);
 
