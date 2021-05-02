@@ -54,7 +54,7 @@ int main (int argc, char *argv[])
 	if (0 != board_set_mode(dfr_board, DC))
 		FAIL("board_set_mode(DC) failed");
 	set_pwm_frequency(dfr_board, 5000);
-	for (int i = 0; i < 2; i++) {
+	for (int i = 1; i < 3; i++) {
 		if (0 != encoder_disable(dfr_board, i))
 			FAIL("encoder_disable() failed");
 		if (0 != motor_stop(dfr_board, i))
