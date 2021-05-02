@@ -33,6 +33,7 @@ int main (int argc, char *argv[])
 	long encoder_count = 0;
 	long revs = 0, prev_revs = 0;
 	double motor_velocity = 0.0, output_velocity = 0.0;
+	pthread_t thread_id;
 
 	// Check argument count
 	if (argc != 6) {
@@ -73,7 +74,6 @@ int main (int argc, char *argv[])
 		FAIL("Failed to initialize encoder GPIO");
 
 	// Initialize encoder task thread
-	pthread_t thread_id;
 	pthread_create(&thread_id, NULL, encoder_task, &encoder_struct);
 
 	if (argc == 7) {
