@@ -19,6 +19,15 @@ int main (int argc, char *argv[])
 {
 	int retval = 0;
 	struct dfr_board *dfr_board = NULL;
+	struct timespec first_time, prev_time, cur_time;
+	FILE *debug_file = NULL;
+	int iter = 0;
+	struct encoder_task encoder_struct = {0};
+	struct pid_t pid_s = NEW_PID_T;
+	double tstamp;
+	long encoder_count = 0;
+	long revs = 0, prev_revs = 0;
+	double motor_velocity = 0.0, output_velocity = 0.0;
 
 	// Check argument count
 	if (argc != 6) {
@@ -48,7 +57,6 @@ int main (int argc, char *argv[])
 	}
 
 	// Initialize PID
-	struct pid_t pid_s = NEW_PID_T;
 	sscanf(argv[1], "%lf", &pid_s.p_gain);
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
@@ -56,7 +64,6 @@ int main (int argc, char *argv[])
 	sscanf(argv[5], "%lf", &pid_s.command);
 
 	// Initializer encoder interface
-	struct encoder_task encoder_struct = {0};
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
 
