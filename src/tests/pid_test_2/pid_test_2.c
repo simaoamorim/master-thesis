@@ -79,12 +79,7 @@ int main (int argc, char *argv[])
 		FAIL("Failed to initialize encoder GPIO");
 
 	// Initialize encoder task thread
-	sigset_t sigset;
-	sigemptyset(&sigset);
-	sigaddset(&sigset, SIGINT);
-	pthread_sigmask(SIG_BLOCK, &sigset, NULL);
 	pthread_create(&thread_id, NULL, encoder_task, &encoder_struct);
-	pthread_sigmask(SIG_UNBLOCK, &sigset, NULL);
 
 	if (SIG_ERR == signal(SIGINT, sighandler)) {
 		perror("signal(SIGINT, sighandler) failed");
