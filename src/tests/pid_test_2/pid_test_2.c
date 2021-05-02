@@ -135,8 +135,10 @@ int main (int argc, char *argv[])
 	}
 
 end:
-	if (0 == pthread_kill(thread_id, SIGINT))
+	if (0 == pthread_kill(thread_id, SIGINT)) {
 		pthread_join(thread_id, (void *) &retval);
+		encoder_task_cleanup(&encoder_struct);
+	}
 
 	if (NULL != dfr_board) {
 		motor_stop(dfr_board, 1);

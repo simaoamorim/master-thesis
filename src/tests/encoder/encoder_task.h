@@ -14,6 +14,8 @@ struct encoder_task {
 
 void * encoder_task (void *args);
 
+void encoder_task_cleanup (struct encoder_task *e);
+
 long encoder_task_get_count (struct encoder_task *e);
 
 #endif
