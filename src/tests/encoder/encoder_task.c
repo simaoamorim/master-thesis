@@ -18,7 +18,6 @@ void * encoder_task (void *args)
 		pthread_mutex_unlock(&e->counter_mutex);
 		usleep(150);
 	}
-	printf("Exited encoder loop\n");
 	pthread_mutex_destroy(&e->counter_mutex);
 	pthread_exit((void *) 0);
 }
