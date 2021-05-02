@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
 	pthread_t thread_id;
 
 	// Check argument count
-	if (argc != 6) {
+	if (argc != 6 && argc != 7) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
