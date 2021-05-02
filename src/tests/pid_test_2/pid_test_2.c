@@ -11,11 +11,22 @@
 
 int keep_running = 1;
 
+void print_help (char *argv[]);
+
 void sighandler (int signum);
 
 int main (int argc, char *argv[])
 {
-	int retval;
+	int retval = 0;
+	struct dfr_board *dfr_board = NULL;
+
+	// Check argument count
+	if (argc != 6) {
+		if (argc != 1)
+			fprintf(stderr, "Wrong usage\n\n");
+		print_help(argv);
+		goto end;
+	}
 
 	// Set real-time scheduler
 	struct sched_param sched_param = {.sched_priority = 10};
@@ -23,7 +34,7 @@ int main (int argc, char *argv[])
 		FAIL("Failed to create a realtime task");
 
 	// Open connection with DFR0592 board
-	const struct dfr_board *dfr_board = board_init(1, 0x10);
+	dfr_board = (struct dfr_board *) board_init(1, 0x10);
 	if (NULL == dfr_board)
 		FAIL("board_init(1, 0x10) failed");
 	if (0 != board_set_mode(dfr_board, DC))
@@ -52,6 +63,19 @@ end:
 	if (NULL != dfr_board)
 		free((void *) dfr_board);
 	return retval;
+}
+
+void print_help (char *argv[])
+{
+	printf("Usage:\n");
+	printf("\t%s p_gain i_gain d_gain deadband command\n", argv[0]);
+	printf("\n");
+	printf("Arguments:\n");
+	printf("\tp_gain:\t\tProportional gain\n");
+	printf("\ti_gain:\t\tIntegral gain\n");
+	printf("\td_gain:\t\tDerivative gain\n");
+	printf("\tdeadband:\tDeadband value\n");
+	printf("\tcommand:\tCommand value\n");
 }
 
 void sighandler (int signum)
