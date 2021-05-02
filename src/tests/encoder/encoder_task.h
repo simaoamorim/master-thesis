@@ -5,6 +5,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sched.h>
+#include <stdio.h>
 
 struct encoder_task {
 	struct encoder encoder;

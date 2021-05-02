@@ -134,16 +134,22 @@ int main (int argc, char *argv[])
 		usleep(CONTROL_PERIOD);
 	}
 
-end:
-	if (0 == pthread_kill(thread_id, SIGINT)) {
-		pthread_join(thread_id, (void *) &retval);
-		encoder_task_cleanup(&encoder_struct);
-	}
+	printf("Exited main loop\n");
 
+end:
 	if (NULL != dfr_board) {
+		printf("Stopping motor...");
 		motor_stop(dfr_board, 1);
 		free((void *) dfr_board);
+		printf("OK\n");
 	}
+	if (0 == pthread_kill(thread_id, SIGINT)) {
+		printf("Stopping auxiliary thread...");
+		pthread_join(thread_id, (void *) &retval);
+		encoder_task_cleanup(&encoder_struct);
+		printf("OK\n");
+	}
+
 	return retval;
 }
 
