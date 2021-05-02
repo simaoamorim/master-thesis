@@ -53,12 +53,6 @@ int main (int argc, char *argv[])
 	if (0 != sched_setscheduler(0, SCHED_FIFO, &sched_param))
 		FAIL("Failed to create a realtime task");
 
-	if (SIG_ERR == signal(SIGINT, sighandler)) {
-		perror("signal(SIGINT, sighandler) failed");
-		retval = -1;
-		goto end;
-	}
-
 	// Open connection with DFR0592 board
 	dfr_board = (struct dfr_board *) board_init(1, 0x10);
 	if (NULL == dfr_board)
@@ -86,6 +80,12 @@ int main (int argc, char *argv[])
 
 	// Initialize encoder task thread
 	pthread_create(&thread_id, NULL, encoder_task, &encoder_struct);
+
+	if (SIG_ERR == signal(SIGINT, sighandler)) {
+		perror("signal(SIGINT, sighandler) failed");
+		retval = -1;
+		goto end;
+	}
 
 	if (argc == 7) {
 		debug_file = init_pid_debug(&pid_s, argv[6]);
