@@ -9,7 +9,6 @@
 
 #define	ENC_PPR			12.0
 #define	MOTOR_GEARBOX_RATIO	30.0
-#define	CONTROL_PERIOD			10000	// microseconds
 
 #define	FAIL(str)		{perror(str); retval = -1; goto end;}
 #define	delta(t1, t2)		(t2.tv_sec - t1.tv_sec) + ((t2.tv_nsec - t1.tv_nsec) / 1000000000.0)
@@ -39,9 +38,10 @@ int main (int argc, char *argv[])
 	long revs = 0, prev_revs = 0;
 	double motor_velocity = 0.0, output_velocity = 0.0;
 	pthread_t thread_id;
+	int control_period;
 
 	// Check argument count
-	if (argc != 6 && argc != 7) {
+	if (argc != 7 && argc != 8) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
@@ -72,7 +72,8 @@ int main (int argc, char *argv[])
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
 	sscanf(argv[4], "%lf", &pid_s.deadband);
-	sscanf(argv[5], "%lf", &pid_s.command);
+	sscanf(argv[5], "%d", &control_period);
+	sscanf(argv[6], "%lf", &pid_s.command);
 
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
@@ -87,13 +88,13 @@ int main (int argc, char *argv[])
 		goto end;
 	}
 
-	if (argc == 7) {
-		debug_file = init_pid_debug(&pid_s, argv[6]);
+	if (argc == 8) {
+		debug_file = init_pid_debug(&pid_s, argv[7]);
 		if (NULL != debug_file) {
 			debug_append_iteration(&pid_s, debug_file, iter, 0.0);
 		} else {
 			char string[100];
-			sprintf(string, "Failed to open debug file \"%s\": ", argv[6]);
+			sprintf(string, "Failed to open debug file \"%s\": ", argv[7]);
 			perror(string);
 			puts("Continuing without debug output");
 		}
@@ -101,7 +102,7 @@ int main (int argc, char *argv[])
 
 	clock_gettime(CLOCK_MONOTONIC, &first_time);
 	prev_time = first_time;
-	usleep(CONTROL_PERIOD);
+	usleep(control_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
@@ -132,7 +133,7 @@ int main (int argc, char *argv[])
 			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
 		}
 
-		usleep(CONTROL_PERIOD);
+		usleep(control_period);
 	}
 
 	printf("Exited main loop\n");
@@ -155,13 +156,14 @@ end:
 void print_help (char *argv[])
 {
 	printf("Usage:\n");
-	printf("\t%s p_gain i_gain d_gain deadband command [debug_filename]\n", argv[0]);
+	printf("\t%s p_gain i_gain d_gain deadband period command [debug_filename]\n", argv[0]);
 	printf("\n");
 	printf("Arguments:\n");
 	printf("\tp_gain:\t\tProportional gain\n");
 	printf("\ti_gain:\t\tIntegral gain\n");
 	printf("\td_gain:\t\tDerivative gain\n");
 	printf("\tdeadband:\tDeadband value\n");
+	printf("\tperiod:\tControl period\n");
 	printf("\tcommand:\tCommand value\n");
 	printf("\tdebug_filename:\tFile name to output debug into [Optional]\n");
 }
