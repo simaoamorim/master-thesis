@@ -48,11 +48,7 @@ int main (int argc, char *argv[])
 	if (0 != sched_setscheduler(0, SCHED_FIFO, &sched_param))
 		FAIL("Failed to create a realtime task");
 
-	if (0 != signal(SIGINT, sighandler)) {
-		perror("signal(SIGINT, sighandler) failed");
-		retval = -1;
-		goto end;
-	}
+	signal(SIGINT, sighandler);
 
 	// Open connection with DFR0592 board
 	dfr_board = (struct dfr_board *) board_init(1, 0x10);
