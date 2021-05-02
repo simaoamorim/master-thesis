@@ -88,6 +88,38 @@ int main (int argc, char *argv[])
 		}
 	}
 
+	clock_gettime(CLOCK_MONOTONIC, &first_time);
+	prev_time = first_time;
+	sched_yield();
+
+	while (keep_running) {
+		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+
+		// Acquire inputs (including needed calculations)
+		pid_s.delta_t = delta(prev_time, cur_time);
+		encoder_count = encoder_task_get_count(&encoder_struct);
+		revs = apply_scale(encoder_count, ENC_PPR);
+		motor_velocity = (revs - prev_revs) / pid_s.delta_t;
+		output_velocity = apply_scale(motor_velocity, MOTOR_GEARBOX_RATIO);
+		pid_s.feedback = output_velocity;
+
+
+		// Execute computations
+		do_calcs(&pid_s);
+
+		// Update outputs
+		motor_set_speed(dfr_board, 1, (float) get_output(&pid_s));
+		prev_time = cur_time;
+
+		if (NULL != debug_file) {
+			iter++;
+			tstamp = delta(first_time, cur_time);
+			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
+		}
+
+		usleep(CONTROL_PERIOD);
+	}
+
 end:
 	if (NULL != dfr_board)
 		free((void *) dfr_board);
