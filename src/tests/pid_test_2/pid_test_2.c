@@ -7,8 +7,8 @@
 #include <pid.h>
 #include <dfr0592.h>
 
-#define	ENC_PPR			12
-#define	MOTOR_GEARBOX_RATIO	30
+#define	ENC_PPR			12.0
+#define	MOTOR_GEARBOX_RATIO	30.0
 #define	CONTROL_PERIOD			10000	// microseconds
 
 #define	FAIL(str)		{perror(str); retval = -1; goto end;}

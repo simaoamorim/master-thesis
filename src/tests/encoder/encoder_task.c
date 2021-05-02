@@ -24,7 +24,7 @@ void * encoder_task (void *args)
 
 long encoder_task_get_count (struct encoder_task *e)
 {
-	long tmp;
+	static long tmp;
 	pthread_mutex_lock(&e->counter_mutex);
 	tmp = e->encoder.count;
 	pthread_mutex_unlock(&e->counter_mutex);
