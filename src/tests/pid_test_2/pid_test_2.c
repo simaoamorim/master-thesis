@@ -101,7 +101,7 @@ int main (int argc, char *argv[])
 
 	clock_gettime(CLOCK_MONOTONIC, &first_time);
 	prev_time = first_time;
-	sched_yield();
+	usleep(CONTROL_PERIOD);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
