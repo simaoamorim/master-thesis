@@ -11,12 +11,7 @@
 
 int keep_running = 1;
 
-void sighandler (int signum)
-{
-	if (SIGINT == signum) {
-		keep_running = 0;
-	}
-}
+void sighandler (int signum);
 
 int main (int argc, char *argv[])
 {
@@ -57,4 +52,11 @@ end:
 	if (NULL != dfr_board)
 		free((void *) dfr_board);
 	return retval;
+}
+
+void sighandler (int signum)
+{
+	if (SIGINT == signum) {
+		keep_running = 0;
+	}
 }
