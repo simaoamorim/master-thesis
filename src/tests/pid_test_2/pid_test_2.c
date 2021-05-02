@@ -48,6 +48,12 @@ int main (int argc, char *argv[])
 	}
 
 	// Initialize PID
+	struct pid_t pid_s = NEW_PID_T;
+	sscanf(argv[1], "%lf", &pid_s.p_gain);
+	sscanf(argv[2], "%lf", &pid_s.i_gain);
+	sscanf(argv[3], "%lf", &pid_s.d_gain);
+	sscanf(argv[4], "%lf", &pid_s.deadband);
+	sscanf(argv[5], "%lf", &pid_s.command);
 
 	// Initializer encoder interface
 	struct encoder_task encoder_struct = {0};
