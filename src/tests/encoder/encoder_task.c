@@ -16,7 +16,7 @@ void * encoder_task (void *args)
 		pthread_mutex_lock(&e->counter_mutex);
 		encoder_update_counter(&e->encoder);
 		pthread_mutex_unlock(&e->counter_mutex);
-		usleep(150);
+		usleep(10);
 	}
 	pthread_mutex_destroy(&e->counter_mutex);
 	pthread_exit((void *) 0);
