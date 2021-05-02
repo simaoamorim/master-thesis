@@ -127,8 +127,13 @@ int main (int argc, char *argv[])
 	}
 
 end:
-	if (NULL != dfr_board)
+	if (0 == pthread_kill(thread_id, SIGINT))
+		pthread_join(thread_id, (void *) &retval);
+
+	if (NULL != dfr_board) {
+		motor_stop(dfr_board, 1);
 		free((void *) dfr_board);
+	}
 	return retval;
 }
 
