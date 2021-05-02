@@ -4,7 +4,7 @@ volatile int encoder_task_keep_running = 1;
 
 void * encoder_task (void *args)
 {
-	struct sched_param sched_params = {.sched_priority = 1};
+	struct sched_param sched_params = {.sched_priority = 11};
 	if (0 != sched_setscheduler(0, SCHED_FIFO, &sched_params)) {
 		pthread_exit((void *) -1);
 	}
