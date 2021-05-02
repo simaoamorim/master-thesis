@@ -148,12 +148,10 @@ end:
 		free((void *) dfr_board);
 		printf("OK\n");
 	}
-	if (0 == pthread_kill(thread_id, SIGINT)) {
-		printf("Stopping auxiliary thread...");
-		pthread_join(thread_id, (void *) &retval);
-		encoder_task_cleanup(&encoder_struct);
-		printf("OK\n");
-	}
+	printf("Stopping auxiliary thread...");
+	encoder_task_stop();
+	pthread_join(thread_id, (void *) &retval);
+	printf("OK\n");
 
 	return retval;
 }
