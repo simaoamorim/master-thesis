@@ -18,7 +18,12 @@ int keep_running = 1;
 
 void print_help (char *argv[]);
 
-void sighandler (int signum);
+void sighandler (int signum)
+{
+	if (SIGINT == signum) {
+		keep_running = 0;
+	}
+}
 
 int main (int argc, char *argv[])
 {
@@ -149,11 +154,4 @@ void print_help (char *argv[])
 	printf("\tdeadband:\tDeadband value\n");
 	printf("\tcommand:\tCommand value\n");
 	printf("\tdebug_filename:\tFile name to output debug into [Optional]\n");
-}
-
-void sighandler (int signum)
-{
-	if (SIGINT == signum) {
-		keep_running = 0;
-	}
 }
