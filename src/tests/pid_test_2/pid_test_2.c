@@ -76,6 +76,17 @@ int main (int argc, char *argv[])
 	pthread_t thread_id;
 	pthread_create(&thread_id, NULL, encoder_task, &encoder_struct);
 
+	if (argc == 7) {
+		debug_file = init_pid_debug(&pid_s, argv[6]);
+		if (NULL != debug_file) {
+			debug_append_iteration(&pid_s, debug_file, iter, 0.0);
+		} else {
+			char string[100];
+			sprintf(string, "Failed to open debug file \"%s\": ", argv[6]);
+			perror(string);
+			puts("Continuing without debug output");
+		}
+	}
 
 end:
 	if (NULL != dfr_board)
@@ -86,7 +97,7 @@ end:
 void print_help (char *argv[])
 {
 	printf("Usage:\n");
-	printf("\t%s p_gain i_gain d_gain deadband command\n", argv[0]);
+	printf("\t%s p_gain i_gain d_gain deadband command [debug_filename]\n", argv[0]);
 	printf("\n");
 	printf("Arguments:\n");
 	printf("\tp_gain:\t\tProportional gain\n");
@@ -94,6 +105,7 @@ void print_help (char *argv[])
 	printf("\td_gain:\t\tDerivative gain\n");
 	printf("\tdeadband:\tDeadband value\n");
 	printf("\tcommand:\tCommand value\n");
+	printf("\tdebug_filename:\tFile name to output debug into [Optional]\n");
 }
 
 void sighandler (int signum)
