@@ -1,5 +1,7 @@
 #include "encoder_task.h"
 
+volatile int encoder_task_keep_running = 1;
+
 void * encoder_task (void *args)
 {
 	struct sched_param sched_params = {.sched_priority = 1};
@@ -8,7 +10,7 @@ void * encoder_task (void *args)
 	}
 	struct encoder_task *e = (struct encoder_task *) args;
 	pthread_mutex_init(&e->counter_mutex, NULL);
-	while (1) {
+	while (encoder_task_keep_running) {
 		encoder_read_values(&e->encoder);
 		encoder_decode_stage(&e->encoder);
 		pthread_mutex_lock(&e->counter_mutex);
