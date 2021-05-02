@@ -120,7 +120,10 @@ int main (int argc, char *argv[])
 
 		// Update outputs
 		motor_set_speed(dfr_board, 1, (float) get_output(&pid_s));
+
+		// Update memories
 		prev_time = cur_time;
+		prev_revs = revs;
 
 		if (NULL != debug_file) {
 			iter++;
