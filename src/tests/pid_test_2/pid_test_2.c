@@ -14,7 +14,7 @@
 #define	FAIL(str)		{perror(str); retval = -1; goto end;}
 #define	delta(t1, t2)		(t2.tv_sec - t1.tv_sec) + ((t2.tv_nsec - t1.tv_nsec) / 1000000000.0)
 
-int keep_running = 1;
+volatile int keep_running = 1;
 
 void print_help (char *argv[]);
 
