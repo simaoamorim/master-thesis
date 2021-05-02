@@ -48,7 +48,7 @@ int main (int argc, char *argv[])
 	if (0 != sched_setscheduler(0, SCHED_FIFO, &sched_param))
 		FAIL("Failed to create a realtime task");
 
-	if (0 != signal(SIGINT, sighandler)) {
+	if (SIG_ERR == signal(SIGINT, sighandler)) {
 		perror("signal(SIGINT, sighandler) failed");
 		retval = -1;
 		goto end;
