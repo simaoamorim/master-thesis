@@ -7,7 +7,12 @@
 #include <pid.h>
 #include <dfr0592.h>
 
-#define	FAIL(str)	{perror(str); retval = -1; goto end;}
+#define	ENC_PPR			12
+#define	MOTOR_GEARBOX_RATIO	30
+#define	CONTROL_PERIOD			10000	// microseconds
+
+#define	FAIL(str)		{perror(str); retval = -1; goto end;}
+#define	delta(t1, t2)		(t2.tv_sec - t1.tv_sec) + ((t2.tv_nsec - t1.tv_nsec) / 1000000000.0)
 
 int keep_running = 1;
 
