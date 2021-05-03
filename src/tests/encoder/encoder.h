@@ -29,6 +29,6 @@ void encoder_update_counter (struct encoder *e);
 
 int encoder_end (struct encoder *e);
 
-double apply_scale (long count, int scale);
+double apply_scale (long count, double scale);
 
 #endif

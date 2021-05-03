@@ -81,7 +81,7 @@ int encoder_end (struct encoder *e)
 	return 0;
 }
 
-double apply_scale (long count, int scale)
+double apply_scale (long count, double scale)
 {
-	return (double) count / (double) scale;
+	return (double) count / -scale;
 }
