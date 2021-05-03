@@ -16,4 +16,6 @@ void * encoder_task (void *args);
 
 long encoder_task_get_count (struct encoder_task *e);
 
+void encoder_task_stop ();
+
 #endif

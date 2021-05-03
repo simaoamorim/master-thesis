@@ -16,6 +16,7 @@ void _apply_deadband (double *value, double deadband)
 
 void _calc_errors (struct pid_t *p)
 {
+	p->previous_error = p->error;
 	// Proportional error
 	p->error = (double) p->command - p->feedback;
 	_apply_deadband(&(p->error), p->deadband);
@@ -29,7 +30,6 @@ void _calc_errors (struct pid_t *p)
 	p->d_error = ((double)(p->error - p->previous_error)) / p->delta_t;
 	_apply_limit(&(p->d_error), p->max_d_error);
 
-	p->previous_error = p->error;
 }
 
 void _calc_internal_outputs (struct pid_t *p)

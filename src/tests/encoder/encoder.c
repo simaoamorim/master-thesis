@@ -80,3 +80,8 @@ int encoder_end (struct encoder *e)
 	e->chip_handle = NULL;
 	return 0;
 }
+
+double apply_scale (long count, double scale)
+{
+	return (double) count / -scale;
+}
