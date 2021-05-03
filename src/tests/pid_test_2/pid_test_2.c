@@ -35,7 +35,7 @@ int main (int argc, char *argv[])
 	struct pid_t pid_s = NEW_PID_T;
 	double tstamp;
 	long encoder_count = 0;
-	long revs = 0, prev_revs = 0;
+	double revs = 0, prev_revs = 0;
 	double motor_velocity = 0.0, output_velocity = 0.0;
 	pthread_t thread_id;
 	int control_period;
