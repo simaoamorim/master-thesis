@@ -111,7 +111,7 @@ int main (int argc, char *argv[])
 		pid_s.delta_t = delta(prev_time, cur_time);
 		encoder_count = encoder_task_get_count(&encoder_struct);
 		revs = apply_scale(encoder_count, ENC_PPR);
-		motor_velocity = (revs - prev_revs) / pid_s.delta_t;
+		motor_velocity = ((double) (revs - prev_revs)) / pid_s.delta_t;
 		output_velocity = apply_scale(motor_velocity, MOTOR_GEARBOX_RATIO);
 		output_velocity *= 60.0; // RPS to RPM
 		pid_s.feedback = output_velocity;
