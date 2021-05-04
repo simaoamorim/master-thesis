@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <errno.h>
 #include <sched.h>
+#include <string.h>
+#include <sys/poll.h>
 
 #include <encoder.h>
 #include <encoder_task.h>
@@ -39,6 +41,10 @@ int main (int argc, char *argv[])
 	double motor_velocity = 0.0, output_velocity = 0.0;
 	pthread_t thread_id;
 	int control_period;
+	unsigned int inbuf_size = 80;
+	char *inbuf = calloc(sizeof(char), inbuf_size);
+	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
+	int lret;
 
 	// Check argument count
 	if (argc != 7 && argc != 8) {
@@ -100,6 +106,8 @@ int main (int argc, char *argv[])
 		}
 	}
 
+	printf("> ");
+
 	clock_gettime(CLOCK_MONOTONIC, &first_time);
 	prev_time = first_time;
 	usleep(control_period);
@@ -115,7 +123,18 @@ int main (int argc, char *argv[])
 		output_velocity = apply_scale(motor_velocity, MOTOR_GEARBOX_RATIO);
 		output_velocity *= 60.0; // RPS to RPM
 		pid_s.feedback = output_velocity;
-
+		// Check stdin for new command value
+		lret = poll(&fds, 1, 0);
+		if (0 < lret) {
+			getline(&inbuf, &inbuf_size, stdin);
+			if (0 == strcmp("q\n", inbuf))
+				keep_running = 0;
+			else if (0 == sscanf(inbuf, "%lf", &pid_s.command))
+				 puts("Huh?");
+			printf("> ");
+		} else if (0 > lret) {
+			FAIL("poll() on STDIN failed");
+		}
 
 		// Execute computations
 		do_calcs(&pid_s);
@@ -132,10 +151,11 @@ int main (int argc, char *argv[])
 			tstamp = delta(first_time, cur_time);
 			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
 		}
-
+		fflush(stdout);
 		usleep(control_period);
 	}
 
+	putchar('\n');
 	printf("Exited main loop\n");
 
 end:
