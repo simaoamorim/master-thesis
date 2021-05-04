@@ -23,6 +23,8 @@
 
 ## Raspberry Pi Proto board with screw terminals
 - https://www.ptrobotics.com/hat-placas-de-expansao-raspberry-pi/3854-raspberry-pi-20-pin-connector-screw-terminals-prototype-board-add-on-v20.html
+### Pinout (NOT TRIVIAL)
+- https://raspberrypiwiki.com/RPI_Screws_Prototype_Add-on_V2.0#Pinmap
 
 ## I2C
 ### Example
