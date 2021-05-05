@@ -9,9 +9,9 @@
 	.d_gain = 0.0,\
 	.deadband = 0.0,\
 \
-	.max_error = 1000.0,\
-	.max_i_error = 1000.0,\
-	.max_d_error = 1000.0,\
+	.max_error = 1000000.0,\
+	.max_i_error = 1000000.0,\
+	.max_d_error = 1000000.0,\
 	.max_output = 100.0,\
 \
 	.error = 0.0,\
