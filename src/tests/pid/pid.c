@@ -23,7 +23,8 @@ void _calc_errors (struct pid_t *p)
 	_apply_limit(&(p->error), p->max_error);
 
 	// Integral error
-	p->i_error += p->error * p->delta_t;
+	if (p->output != p->max_output)
+		p->i_error += p->error * p->delta_t;
 	_apply_limit(&(p->i_error), p->max_i_error);
 
 	// Derivative error
