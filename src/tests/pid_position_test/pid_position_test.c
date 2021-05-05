@@ -37,11 +37,9 @@ int main (int argc, char *argv[])
 	struct pid_t pid_s = NEW_PID_T;
 	double tstamp;
 	long encoder_count = 0;
-	double revs = 0, prev_revs = 0;
-	double motor_velocity = 0.0, output_velocity = 0.0;
 	pthread_t thread_id;
 	int control_period;
-	unsigned int inbuf_size = 80;
+	unsigned long inbuf_size = 80;
 	char *inbuf = calloc(sizeof(char), inbuf_size);
 	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
@@ -65,7 +63,7 @@ int main (int argc, char *argv[])
 		FAIL("board_init(1, 0x10) failed");
 	if (0 != board_set_mode(dfr_board, DC))
 		FAIL("board_set_mode(DC) failed");
-	set_pwm_frequency(dfr_board, 5000);
+	set_pwm_frequency(dfr_board, 10000);
 	for (int i = 1; i < 3; i++) {
 		if (0 != encoder_disable(dfr_board, i))
 			FAIL("encoder_disable() failed");
@@ -74,6 +72,7 @@ int main (int argc, char *argv[])
 	}
 
 	// Initialize PID
+	pid_s.max_output = 50.0;
 	sscanf(argv[1], "%lf", &pid_s.p_gain);
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
@@ -118,11 +117,7 @@ int main (int argc, char *argv[])
 		// Acquire inputs (including needed calculations)
 		pid_s.delta_t = delta(prev_time, cur_time);
 		encoder_count = encoder_task_get_count(&encoder_struct);
-		revs = apply_scale(encoder_count, ENC_PPR);
-		motor_velocity = ((double) (revs - prev_revs)) / pid_s.delta_t;
-		output_velocity = apply_scale(motor_velocity, MOTOR_GEARBOX_RATIO);
-		output_velocity *= 60.0; // RPS to RPM
-		pid_s.feedback = output_velocity;
+		pid_s.feedback = encoder_count;
 		// Check stdin for new command value
 		lret = poll(&fds, 1, 0);
 		if (0 < lret) {
@@ -144,7 +139,6 @@ int main (int argc, char *argv[])
 
 		// Update memories
 		prev_time = cur_time;
-		prev_revs = revs;
 
 		if (NULL != debug_file) {
 			iter++;
