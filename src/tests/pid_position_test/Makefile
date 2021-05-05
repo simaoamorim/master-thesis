@@ -5,12 +5,12 @@ ENCOBJ = encoder.o encoder_task.o
 
 VPATH = ${PWD}
 
-all: pid_test_2
+all: pid_position_test
 
-pid_test_2.o: pid_test_2.c
+pid_position_test.o: pid_position_test.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-pid_test_2: pid_test_2.o encoder.o encoder_task.o pid.o dfr0592.o
+pid_position_test: pid_position_test.o encoder.o encoder_task.o pid.o dfr0592.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(ENCOBJ):
@@ -25,5 +25,5 @@ dfr0592.o:
 .PHONY: clean all
 
 clean:
-	@find ${PWD} -type f \( -iname 'pid_test_2' -or -iname '*.o' \) -exec rm -v {} \;
-	
+	@find ${PWD} -type f \( -iname 'pid_position_test' -or -iname '*.o' \) -exec rm -v {} \;
+
