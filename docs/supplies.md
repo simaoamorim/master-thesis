@@ -24,6 +24,7 @@
 | Spacer 17mm | M2.5 17mm Spacer        | [Link][19] |  4  |
 | M2.5 Screw  | M2.5 6mm Screws         | [Link][20] |  4  |
 | M2.5 Nut    | M2.5 Nut                | [Link][21] |  4  |
+| M3 Screw    | M3 6mm Screw            | [Link][22] |  6  |
 
 # Cancelados
 
@@ -62,6 +63,7 @@ Tentar levar ao limite o tempo de resposta
 [19]: https://www.ptrobotics.com/parafusos/3218-espacador-hexagonal-m25-17mm-m-f.html
 [20]: https://www.ptrobotics.com/parafusos/3220-parafuso-m25-6mm-pozidriv.html
 [21]: https://www.ptrobotics.com/parafusos/4426-porca-m25.html
+[22]: https://www.ptrobotics.com/parafusos/6356-parafuso-m3-6mm-pozidriv.html
 
 [30]: https://store.arduino.cc/tinkerkit-braccio-robot
 [31]: https://pt.farnell.com/arduino/t050000/tinkerkit-braccio-arduino-robotic/dp/2831002
