@@ -1,0 +1,8 @@
+package "Test package"
+version "v1.2.3"
+#purpose "Test the gengetopt functionality"
+#description "This package does not do anything special..."
+
+option "verbose" v "Be verbose" flag off
+
+#option "FILE" - "File to open" string typestr="filename" required
