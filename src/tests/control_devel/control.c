@@ -118,7 +118,7 @@ int main (int argc, char *argv[])
 		// Acquire inputs (including needed calculations)
 		pid_s.delta_t = delta(prev_time, cur_time);
 		encoder_count = encoder_task_get_count(&encoder_struct);
-		output_velocity = calc_velocity(encoder_count, pid_s.delta_t);
+		calc_velocity(encoder_count, pid_s.delta_t, &output_velocity);
 		pid_s.feedback = output_velocity;
 		// Check stdin for new command value
 		lret = poll(&fds, 1, 0);
