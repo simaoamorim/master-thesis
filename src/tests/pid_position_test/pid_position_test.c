@@ -4,7 +4,6 @@
 #include <string.h>
 #include <sys/poll.h>
 
-#include <encoder.h>
 #include <encoder_task.h>
 #include <pid.h>
 #include <dfr0592.h>
