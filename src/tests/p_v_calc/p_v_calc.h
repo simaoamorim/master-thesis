@@ -7,4 +7,6 @@ void set_gearbox_ratio (double ratio);
 
 int calc_velocity (long enc_count, double delta_t, double *output_w);
 
+int calc_position (long enc_count, double *output_p);
+
 #endif
