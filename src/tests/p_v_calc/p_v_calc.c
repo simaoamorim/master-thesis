@@ -3,6 +3,16 @@
 long encoder_ppr = 0;
 double gearbox_ratio = 0.0;
 
+void set_encoder_ppr (long ppr)
+{
+	encoder_ppr = ppr;
+}
+
+void set_gearbox_ratio (double ratio)
+{
+	gearbox_ratio = ratio;
+}
+
 double calc_velocity (long enc_count, double delta_t)
 {
 	static double prev_revs = 0.0;
