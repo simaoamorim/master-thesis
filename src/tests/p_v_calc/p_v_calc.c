@@ -5,17 +5,17 @@
 
 int p_v_task_keep_running = 1;
 
-void set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr)
+void p_v_set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr)
 {
 	p_v_task->encoder_ppr = ppr;
 }
 
-void set_gearbox_ratio (struct p_v_task_s *p_v_task, double ratio)
+void p_v_set_gearbox_ratio (struct p_v_task_s *p_v_task, double ratio)
 {
 	p_v_task->gearbox_ratio = ratio;
 }
 
-int calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t)
+int _calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t)
 {
 	static double prev_revs = 0.0;
 	static double revs = 0.0;
@@ -32,7 +32,7 @@ int calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t)
 	return 0;
 }
 
-int calc_position (struct p_v_task_s *p_v_task, long enc_count)
+int _calc_position (struct p_v_task_s *p_v_task, long enc_count)
 {
 	if (0.0 == OUTPUT_PPR)
 		return -1;
@@ -73,8 +73,8 @@ disabled:
 		// Calculate velocity and position
 		count = encoder_task_get_count(p_v_task->enc_task);
 		delta_t = delta(prev_time, cur_time);
-		calc_position(p_v_task, count);
-		calc_velocity(p_v_task, count, delta_t);
+		_calc_position(p_v_task, count);
+		_calc_velocity(p_v_task, count, delta_t);
 
 		prev_time = cur_time;
 		if (!p_v_task->enabled)

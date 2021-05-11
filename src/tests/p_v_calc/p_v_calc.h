@@ -33,12 +33,22 @@ struct p_v_task_s {
 	bool enabled;
 };
 
-void set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr);
+void p_v_set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr);
 
-void set_gearbox_ratio (struct p_v_task_s *p_v_task, double ratio);
+void p_v_set_gearbox_ratio (struct p_v_task_s *p_v_task, double ratio);
 
 int calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t);
 
 int calc_position (struct p_v_task_s *p_v_task, long enc_count);
+
+void * p_v_task (void *args);
+
+double p_v_get_velocity (struct p_v_task_s *p_v_task);
+
+double p_v_get_position (struct p_v_task_s *p_v_task);
+
+void p_v_enable_task (struct p_v_task_s *p_v_task);
+
+void p_v_disable_task (struct p_v_task_s *p_v_task);
 
 #endif
