@@ -1,5 +1,5 @@
-#ifndef _ENCODER_TASK_H_
-#define _ENCODER_TASK_H
+#ifndef ENCODER_TASK_H_
+#define ENCODER_TASK_H_
 
 #include "encoder.h"
 #include <signal.h>
@@ -11,6 +11,8 @@ struct encoder_task {
 	pthread_mutex_t counter_mutex;
 	int period;
 };
+
+extern int encoder_task_keep_running;
 
 void * encoder_task (void *args);
 
