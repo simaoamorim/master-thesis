@@ -7,17 +7,17 @@
 #include <time.h>
 #include <encoder_task.h>
 
-#define NEW_P_V_TASK_S	{\
+#define NEW_P_V_TASK_S {\
 	.period = 1000,\
 	.priority = 10,\
-	.enc_task = NULL,\
-	.velocity_mutex = NULL,\
-	.position_mutex = NULL,\
+	.enc_task = 0,\
+	.velocity_mutex = {0},\
+	.position_mutex = {0},\
 	.encoder_ppr = 1,\
 	.gearbox_ratio = 1.0,\
 	.output_w = 0.0,\
 	.output_p = 0.0,\
-	.enabled = false,\
+	.enabled = false\
 }
 
 struct p_v_task_s {
