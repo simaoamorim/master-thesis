@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/ -I../p_v_calc/
 LDFLAGS = -li2c -lgpiod -lpthread
 ENCOBJ = encoder.o encoder_task.o
