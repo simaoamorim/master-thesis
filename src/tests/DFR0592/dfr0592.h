@@ -11,6 +11,12 @@
 
 #define	_STEPPER_COUNT	1
 #define	_MOTOR_COUNT	2
+#define NEW_DFR_BOARD {\
+	.i2c_fd = -1,\
+	.addr = -1,\
+	.pid = -1,\
+	.vid = -1,\
+}
 
 /// Board definition structure
 struct dfr_board {
@@ -43,7 +49,7 @@ enum modes {
  * In the event that an error occurs, errno will be set accordingly, so use
  * it to get the error cause.
  */
-const struct dfr_board * board_init(int i2c_bus, int addr);
+int board_init(struct dfr_board * new_board, int i2c_bus, int addr);
 
 /**
  * Close existing connection to a board

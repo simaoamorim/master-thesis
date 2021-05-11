@@ -4,13 +4,13 @@
 #define	NULLBOARD	"struct dfr_board *board is NULL\n"
 #define	INVALIDMOTOR	"motor %d is invalid: needs to be within [%d,%d]\n", motor, 1, _MOTOR_COUNT
 
-const struct dfr_board * board_init(int i2c_bus, int addr)
+int board_init(struct dfr_board * new_board, int i2c_bus, int addr)
 {
 	char i2c_filename[17];
 	snprintf(i2c_filename, 16, "/dev/i2c-%d", i2c_bus);
 	int fd = open(i2c_filename, O_RDWR);
 	if (fd < 0 || ioctl(fd, I2C_SLAVE, addr) < 0)
-		return NULL;
+		return -1;
 	int pid = i2c_smbus_read_byte_data(fd, _REG_PID);
 	int vid = i2c_smbus_read_byte_data(fd, _REG_PVD);
 	if (pid != _REG_DEF_PID || vid != _REG_DEF_VID) {
@@ -18,14 +18,13 @@ const struct dfr_board * board_init(int i2c_bus, int addr)
 		fprintf(stderr, "PID is 0x%x, should be 0x%x\n", pid, _REG_DEF_PID);
 		fprintf(stderr, "VID is 0x%x, should be 0x%x\n", vid, _REG_DEF_VID);
 		errno = ENXIO;
-		return NULL;
+		return -1;
 	}
-	struct dfr_board *new_board = malloc(sizeof(struct dfr_board));
 	new_board->i2c_fd = fd;
 	new_board->addr = addr;
 	new_board->pid = pid;
 	new_board->vid = vid;
-	return new_board;
+	return 0;
 }
 
 int board_close(const struct dfr_board *board)
