@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -I../encoder/
 LDFLAGS =
 
 all: p_v_calc.o

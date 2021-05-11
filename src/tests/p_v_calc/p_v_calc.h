@@ -1,12 +1,30 @@
 #ifndef P_V_CALC_H_
 #define P_V_CALC_H_
 
-void set_encoder_ppr (long ppr);
+#include <sched.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <time.h>
+#include <encoder_task.h>
 
-void set_gearbox_ratio (double ratio);
+struct p_v_task_s {
+	long period;
+	int priority;
+	struct encoder_task *enc_task;
+	pthread_mutex_t velocity_mutex;
+	pthread_mutex_t position_mutex;
+	long encoder_ppr;
+	double gearbox_ratio;
+	double output_w;
+	double output_p;
+};
 
-int calc_velocity (long enc_count, double delta_t, double *output_w);
+void set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr);
 
-int calc_position (long enc_count, double *output_p);
+void set_gearbox_ratio (struct p_v_task_s *p_v_task, double ratio);
+
+int calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t);
+
+int calc_position (struct p_v_task_s *p_v_task, long enc_count);
 
 #endif
