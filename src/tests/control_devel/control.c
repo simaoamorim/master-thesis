@@ -89,6 +89,7 @@ int main (int argc, char *argv[])
 
 	// Initialize encoder task thread
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
+	pv_task_s.enc_task = &encoder_struct;
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
 
 	if (SIG_ERR == signal(SIGINT, sighandler)) {
