@@ -20,6 +20,7 @@
 	.enabled = false\
 }
 
+
 struct p_v_task_s {
 	long period;
 	int priority;
@@ -32,6 +33,8 @@ struct p_v_task_s {
 	double output_p;
 	bool enabled;
 };
+
+extern int p_v_task_keep_running;
 
 void p_v_set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr);
 
@@ -50,5 +53,7 @@ double p_v_get_position (struct p_v_task_s *p_v_task);
 void p_v_enable_task (struct p_v_task_s *p_v_task);
 
 void p_v_disable_task (struct p_v_task_s *p_v_task);
+
+void p_v_task_stop ();
 
 #endif

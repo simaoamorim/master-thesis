@@ -113,3 +113,8 @@ void p_v_disable_task (struct p_v_task_s *p_v_task)
 {
 	p_v_task->enabled = false;
 }
+
+void p_v_task_stop ()
+{
+	p_v_task_keep_running = 0;
+}
