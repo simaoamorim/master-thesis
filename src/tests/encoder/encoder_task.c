@@ -1,6 +1,6 @@
 #include "encoder_task.h"
 
-volatile int encoder_task_keep_running = 1;
+int encoder_task_keep_running = 1;
 
 void * encoder_task (void *args)
 {
