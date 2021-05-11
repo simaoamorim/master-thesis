@@ -17,6 +17,7 @@ struct p_v_task_s {
 	double gearbox_ratio;
 	double output_w;
 	double output_p;
+	bool enabled;
 };
 
 void set_encoder_ppr (struct p_v_task_s *p_v_task, long ppr);

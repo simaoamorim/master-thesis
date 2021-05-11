@@ -23,7 +23,9 @@ int calc_velocity (struct p_v_task_s *p_v_task, long enc_count, double delta_t)
 		return -1;
 
 	revs = (double) enc_count / OUTPUT_PPR;
+	pthread_mutex_lock(&p_v_task->velocity_mutex);
 	p_v_task->output_w = (revs - prev_revs) / delta_t * 60.0;
+	pthread_mutex_unlock(&p_v_task->velocity_mutex);
 
 	prev_revs = revs;
 
@@ -35,7 +37,9 @@ int calc_position (struct p_v_task_s *p_v_task, long enc_count)
 	if (0.0 == OUTPUT_PPR)
 		return -1;
 
+	pthread_mutex_lock(&p_v_task->position_mutex);
 	p_v_task->output_p = (double) enc_count * 360.0 / OUTPUT_PPR;
+	pthread_mutex_unlock(&p_v_task->position_mutex);
 
 	return 0;
 }
@@ -52,6 +56,14 @@ void * p_v_task (void *args)
 	long count;
 	double delta_t;
 	struct timespec prev_time, cur_time;
+
+disabled:
+	pthread_mutex_lock(&p_v_task->velocity_mutex);
+	p_v_task->output_w = 0.0;
+	pthread_mutex_unlock(&p_v_task->velocity_mutex);
+	while (!p_v_task->enabled)
+		usleep(p_v_task->period);
+
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	while(p_v_task_keep_running) {
@@ -65,6 +77,8 @@ void * p_v_task (void *args)
 		calc_velocity(p_v_task, count, delta_t);
 
 		prev_time = cur_time;
+		if (!p_v_task->enabled)
+			goto disabled;
 	}
 
 	pthread_mutex_destroy(&p_v_task->velocity_mutex);
@@ -72,12 +86,30 @@ void * p_v_task (void *args)
 	pthread_exit((void *) 0);
 }
 
-double get_velocity (struct p_v_task_s *p_v_task)
+double p_v_get_velocity (struct p_v_task_s *p_v_task)
 {
-	return -1;
+	double tmp = 0.0;
+	pthread_mutex_lock(&p_v_task->velocity_mutex);
+	tmp = p_v_task->output_w;
+	pthread_mutex_unlock(&p_v_task->velocity_mutex);
+	return tmp;
 }
 
-double get_position (struct p_v_task_s *p_v_task)
+double p_v_get_position (struct p_v_task_s *p_v_task)
 {
-	return -1;
+	double tmp = 0.0;
+	pthread_mutex_lock(&p_v_task->position_mutex);
+	tmp = p_v_task->output_p;
+	pthread_mutex_unlock(&p_v_task->position_mutex);
+	return tmp;
+}
+
+void p_v_enable_task (struct p_v_task_s *p_v_task)
+{
+	p_v_task->enabled = true;
+}
+
+void p_v_disable_task (struct p_v_task_s *p_v_task)
+{
+	p_v_task->enabled = false;
 }
