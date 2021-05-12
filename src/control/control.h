@@ -2,8 +2,8 @@
 #define CONTROL_H_
 
 #define	NEW_CONTROL_S {\
-	.pid_pos = 0,\
-	.pid_vel = 0,\
+	.pid_pos = NULL,\
+	.pid_vel = NULL,\
 	.period = 1000,\
 	.priority = 11,\
 	.enabled = false,\
