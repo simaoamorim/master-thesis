@@ -102,9 +102,7 @@ int main (int argc, char *argv[])
 	int policy;
 	pthread_getschedparam(control_thread_id, &policy, &sched_param);
 	if (SCHED_FIFO != policy)
-		puts("Control thread did NOT inherit RT_FIFO scheduler");
-	else
-		puts("Control thread DID inherit RT_FIFO scheduler");
+		fputs("Control thread did NOT inherit RT_FIFO scheduler", stderr);
 
 
 	if (SIG_ERR == signal(SIGINT, sighandler)) {
