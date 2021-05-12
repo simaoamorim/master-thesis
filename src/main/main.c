@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
 	FILE *debug_file = NULL;
 	int iter = 0;
 	struct encoder_task encoder_struct = {0};
-	struct pid_t pid_s = NEW_PID_T;
+	struct pid_s pid_s = NEW_PID_T;
 	struct p_v_task_s pv_task_s = NEW_P_V_TASK_S;
 	double tstamp;
 	pthread_t encoder_thread_id = -1;

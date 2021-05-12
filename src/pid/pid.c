@@ -14,7 +14,7 @@ void _apply_deadband (double *value, double deadband)
 		*value = (double) 0.0;
 }
 
-void _calc_errors (struct pid_t *p)
+void _calc_errors (struct pid_s *p)
 {
 	p->previous_error = p->error;
 	// Proportional error
@@ -32,7 +32,7 @@ void _calc_errors (struct pid_t *p)
 
 }
 
-void _calc_internal_outputs (struct pid_t *p)
+void _calc_internal_outputs (struct pid_s *p)
 {
 	// Proportional
 	p->p_output = p->p_gain * p->error;
@@ -42,7 +42,7 @@ void _calc_internal_outputs (struct pid_t *p)
 	p->d_output = p->d_gain * p->d_error;
 }
 
-void _calc_output (struct pid_t *p)
+void _calc_output (struct pid_s *p)
 {
 	p->output = p->p_output + p->i_output + p->d_output;
 	_apply_limit(&(p->output), p->max_output);
@@ -53,7 +53,7 @@ FILE * _create_csv (char filename[])
 	return fopen(filename, "w");
 }
 
-void _write_header (struct pid_t *p, FILE *f)
+void _write_header (struct pid_s *p, FILE *f)
 {
 	// Ensure beginning of the file
 	rewind(f);
@@ -68,7 +68,7 @@ void _write_header (struct pid_t *p, FILE *f)
 		"p_output,i_output,d_output,output\n");
 }
 
-FILE * init_pid_debug (struct pid_t *p, char filename[])
+FILE * init_pid_debug (struct pid_s *p, char filename[])
 {
 	FILE * tmp = _create_csv(filename);
 	if (NULL != tmp)
@@ -76,19 +76,19 @@ FILE * init_pid_debug (struct pid_t *p, char filename[])
 	return tmp;
 }
 
-void do_calcs (struct pid_t *p)
+void do_calcs (struct pid_s *p)
 {
 	_calc_errors(p);
 	_calc_internal_outputs(p);
 	_calc_output(p);
 }
 
-double get_output (struct pid_t *p)
+double get_output (struct pid_s *p)
 {
 	return p->output;
 }
 
-void debug_append_iteration (struct pid_t *p, FILE *f, long iter, double tstamp)
+void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp)
 {
 	fprintf(f, "%ld,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", \
 		iter, tstamp, p->command, p->feedback, p->delta_t, p->error, p->previous_error, \

@@ -25,7 +25,7 @@
 	.output = 0.0\
 }
 
-struct pid_t
+struct pid_s
 {
 	// Inputs
 	double command;		///< Desired set-point
@@ -57,10 +57,10 @@ struct pid_t
 	double output;
 };
 
-void do_calcs (struct pid_t *p);
+void do_calcs (struct pid_s *p);
 
-double get_output (struct pid_t *p);
+double get_output (struct pid_s *p);
 
-FILE * init_pid_debug (struct pid_t *p, char filename[]);
+FILE * init_pid_debug (struct pid_s *p, char filename[]);
 
-void debug_append_iteration (struct pid_t *p, FILE *f, long iter, double tstamp);
+void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp);
