@@ -31,7 +31,7 @@ int main (int argc, char *argv[])
 {
 	int retval = 0;
 	struct dfr_board dfr_board = NEW_DFR_BOARD;
-	struct timespec first_time, prev_time, cur_time;
+	struct timespec first_time, cur_time;
 	FILE *debug_file = NULL;
 	int iter = 0;
 	struct encoder_task encoder_struct = {0};
@@ -48,6 +48,7 @@ int main (int argc, char *argv[])
 	char *inbuf = calloc(sizeof(char), inbuf_size);
 	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
+	double new_command = 0.0;
 
 	// Check argument count
 	if (argc != 10 && argc != 11) {
@@ -87,7 +88,11 @@ int main (int argc, char *argv[])
 	sscanf(argv[8], "%ld", &pv_task_s.encoder_ppr);
 	sscanf(argv[9], "%lf", &pv_task_s.gearbox_ratio);
 
-	control_s.pid_pos = &pid_s;
+	pv_task_s.enc_task = &encoder_struct;
+	control_s.dfr_board = &dfr_board;
+	control_s.pid_vel = &pid_s;
+	control_s.pv_s = &pv_task_s;
+	control_s.period = control_period;
 
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
@@ -97,7 +102,6 @@ int main (int argc, char *argv[])
 	pthread_attr_init(&pthread_attrs);
 	pthread_attr_setinheritsched(&pthread_attrs, PTHREAD_INHERIT_SCHED);
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
-	pv_task_s.enc_task = &encoder_struct;
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
 
@@ -126,47 +130,33 @@ int main (int argc, char *argv[])
 	}
 
 	printf("> ");
-
 	p_v_enable_task(&pv_task_s);
 	clock_gettime(CLOCK_MONOTONIC, &first_time);
-	prev_time = first_time;
 	usleep(control_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
-
-		// Acquire inputs (including needed calculations)
-		pid_s.delta_t = delta(prev_time, cur_time);
-
-		//calc_velocity(encoder_count, pid_s.delta_t, &output_velocity);
-		pid_s.feedback = p_v_get_velocity(&pv_task_s);
 		// Check stdin for new command value
 		lret = poll(&fds, 1, 0);
 		if (0 < lret) {
 			getline(&inbuf, &inbuf_size, stdin);
 			if (0 == strcmp("q\n", inbuf))
 				keep_running = 0;
-			else if (0 == sscanf(inbuf, "%lf", &pid_s.command))
+			else if (0 == sscanf(inbuf, "%lf", &new_command))
 				 puts("Huh?");
+			else
+				control_task_set_velocity_command(&control_s, new_command);
 			printf("> ");
 		} else if (0 > lret) {
 			FAIL("poll() on STDIN failed");
 		}
-
-		// Execute computations
-		do_calcs(&pid_s);
-
-		// Update outputs
-		motor_set_speed(&dfr_board, 1, (float) get_output(&pid_s));
-
-		// Update memories
-		prev_time = cur_time;
 
 		if (NULL != debug_file) {
 			iter++;
 			tstamp = delta(first_time, cur_time);
 			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
 		}
+
 		fflush(stdout);
 		usleep(control_period);
 	}
