@@ -2,7 +2,6 @@
 #define CONTROL_H_
 
 #define	NEW_CONTROL_S {\
-	.pid_pos = NULL,\
 	.pid_vel = NULL,\
 	.period = 1000,\
 	.priority = 11,\
@@ -14,11 +13,15 @@
 #include <sched.h>
 #include <stdbool.h>
 #include <unistd.h>
+
 #include <pid.h>
+#include <dfr0592.h>
+#include <p_v_calc.h>
 
 struct control_s {
-	struct pid_s *pid_pos;
 	struct pid_s *pid_vel;
+	struct p_v_task_s *pv_s;
+	struct dfr_board *dfr_board;
 	long period;
 	long priority;
 	bool enabled;
@@ -28,5 +31,7 @@ struct control_s {
 void * control_task (void *arg);
 
 void control_task_stop (struct control_s *cs);
+
+void control_task_set_velocity_command (struct control_s *cs, double command);
 
 #endif
