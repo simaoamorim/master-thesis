@@ -90,7 +90,7 @@ double get_output (struct pid_s *p)
 
 void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp)
 {
-	fprintf(f, "%4ld,%3.6lf,%4.3lf,%4.3lf,%1.6lf,%4.3lf,%4.3lf      ,%4.3lf,%4.3lf,%3.1lf   ,%3.1lf   ,%3.1lf   ,%3.1lf\n", \
+	fprintf(f, "%04ld,%03.6lf,%04.3lf,%04.3lf,%01.6lf,%04.3lf,%04.3lf      ,%04.3lf,%04.3lf,%03.1lf   ,%03.1lf   ,%03.1lf   ,%03.1lf\n", \
 		iter, tstamp, p->command, p->feedback, p->delta_t, p->error, p->previous_error, \
 		p->i_error, p->d_error, p->p_output, p->i_output, p->d_output, p->output);
 }
