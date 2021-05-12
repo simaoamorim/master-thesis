@@ -173,10 +173,13 @@ end:
 	printf("Stopping auxiliary threads... ");
 	encoder_task_stop();
 	p_v_task_stop();
+	control_task_stop(&control_s);
 	if (-1 != encoder_thread_id)
 		pthread_join(encoder_thread_id, (void *) &retval);
 	if (-1 != p_v_thread_id)
 		pthread_join(p_v_thread_id, (void *) &retval);
+	if (-1 != control_thread_id)
+		pthread_join(control_thread_id, (void *) &retval);
 	puts("OK");
 	puts("All done. Goodbye!");
 	return retval;
