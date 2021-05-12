@@ -3,11 +3,7 @@
 void * control_task (void *arg)
 {
 	struct control_s *cs = (struct control_s *) arg;
-/*
-	struct sched_param sp = {.sched_priority = cs->priority};
-	if (0 != sched_setscheduler(0, SCHED_FIFO, &sp))
-		goto fail;
-*/
+
 	struct timespec prev_time, cur_time;
 
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
