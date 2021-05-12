@@ -87,6 +87,8 @@ int main (int argc, char *argv[])
 	sscanf(argv[8], "%ld", &pv_task_s.encoder_ppr);
 	sscanf(argv[9], "%lf", &pv_task_s.gearbox_ratio);
 
+	control_s.pid_pos = &pid_s;
+
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
