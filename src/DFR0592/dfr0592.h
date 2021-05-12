@@ -1,3 +1,6 @@
+#ifndef DFR0592_H_
+#define DFR0592_H_
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -179,3 +182,5 @@ int motor_set_speed(const struct dfr_board *board, int motor, float speed);
  * In the event of failure, check errno to get the cause.
  */
 int motor_stop(const struct dfr_board *board, int motor);
+
+#endif
