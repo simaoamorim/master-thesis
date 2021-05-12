@@ -1,16 +1,16 @@
 CC = clang
-CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/ -I../p_v_calc/
+CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/ -I../p_v_calc/ -I../control/
 LDFLAGS = -li2c -lgpiod -lpthread
 ENCOBJ = encoder.o encoder_task.o
 
 VPATH = ${PWD}
 
-all: control
+all: main
 
-control.o: control.c
+main.o: main.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-control: control.o encoder.o encoder_task.o pid.o dfr0592.o p_v_calc.o
+main: main.o encoder.o encoder_task.o pid.o dfr0592.o p_v_calc.o control.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(ENCOBJ):
@@ -25,8 +25,11 @@ dfr0592.o:
 p_v_calc.o:
 	@$(MAKE) VPATH=../p_v_calc/ -f ../p_v_calc/Makefile $@
 
+control.o:
+	@$(MAKE) VPATH=../control/ -f ../control/Makefile $@
+
 .PHONY: clean all $(ENCOBJ) pid.o dfr0592.o p_v_calc.o
 
 clean:
-	@find ${PWD} -type f \( -iname 'control' -or -iname '*.o' \) -exec rm -v {} \;
+	@find ${PWD} -type f \( -iname 'main' -or -iname '*.o' \) -exec rm -v {} \;
 	
