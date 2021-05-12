@@ -64,7 +64,7 @@ void _write_header (struct pid_s *p, FILE *f)
 		p->max_d_error, p->max_output);
 	fprintf(f, "\n");
 	// Write main table header
-	fprintf(f, "N,Timestamp,Command,Feedback,delta_t,error,previous_error,i_error,d_error," \
+	fprintf(f, "N   ,Timestamp ,Command ,Feedback,delta_t ,error   ,previous_error,i_error ,d_error ," \
 		"p_output,i_output,d_output,output\n");
 }
 
@@ -90,7 +90,7 @@ double get_output (struct pid_s *p)
 
 void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp)
 {
-	fprintf(f, "%ld,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", \
+	fprintf(f, "%4ld,%3.6lf,%4.3lf,%4.3lf,%1.6lf,%4.3lf,%4.3lf      ,%4.3lf,%4.3lf,%3.1lf   ,%3.1lf   ,%3.1lf   ,%3.1lf\n", \
 		iter, tstamp, p->command, p->feedback, p->delta_t, p->error, p->previous_error, \
 		p->i_error, p->d_error, p->p_output, p->i_output, p->d_output, p->output);
 }
