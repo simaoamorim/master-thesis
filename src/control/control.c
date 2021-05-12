@@ -7,9 +7,6 @@ void * control_task (void *arg)
 	struct control_s *cs = (struct control_s *) arg;
 	struct timespec prev_time, cur_time;
 
-	if (cs->pid_vel != NULL)
-		puts("Using velocity PID");
-
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	do {
