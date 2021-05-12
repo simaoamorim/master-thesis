@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -I../pid/
+CFLAGS = -Wall -I../pid/ -I../DFR0592/ -I../p_v_calc/ -I../encoder/
 
 all: control.o
 
