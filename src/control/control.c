@@ -23,8 +23,6 @@ void * control_task (void *arg)
 	} while (cs->keep_running);
 
 	pthread_exit((void *) 0);
-fail:
-	pthread_exit((void *) -1);
 }
 
 void control_task_stop (struct control_s *cs)
