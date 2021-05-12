@@ -1,3 +1,6 @@
+#ifndef PID_H_
+#define PID_H_
+
 #include <stdio.h>
 
 #define NEW_PID_T {\
@@ -64,3 +67,5 @@ double get_output (struct pid_s *p);
 FILE * init_pid_debug (struct pid_s *p, char filename[]);
 
 void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp);
+
+#endif
