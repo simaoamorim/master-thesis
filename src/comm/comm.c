@@ -1,13 +1,12 @@
 #include "comm.h"
 
-
-void _perror(const char *s)
+void _perror (const char *s)
 {
 	printf("ERROR: %s\n", s);
 	return;
 }
 
-void _xerror(const char *s, const int32_t lret)
+void _xerror (const char *s, const int32_t lret)
 {
 	_perror(s);
 	char tmpbuf[BUFFER_SIZE] = {0};
@@ -15,7 +14,7 @@ void _xerror(const char *s, const int32_t lret)
 	printf("Cause: %s\n", tmpbuf);
 }
 
-int _cifx_init(const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
+int _cifx_init (const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 {
 	int lret;
 	struct CIFX_LINUX_INIT init =
@@ -54,7 +53,7 @@ exit_error:
 	return EXIT_FAILURE;
 }
 
-int _cifx_end(const CIFXHANDLE *driver, const CIFXHANDLE *channel)
+int _cifx_end (const CIFXHANDLE *driver, const CIFXHANDLE *channel)
 {
 	int lret;
 	lret = xChannelClose(&channel);
