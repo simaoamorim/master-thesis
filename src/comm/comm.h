@@ -2,6 +2,7 @@
 #define COMM_H_
 
 #include <cifx/cifxlinux.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define	BUFFER_SIZE	512
