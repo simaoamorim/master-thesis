@@ -1,7 +1,12 @@
 #ifndef COMM_H_
 #define COMM_H_
 
-#include <cifx/cifxlinux.h>
+#if defined(__arm__) || defined(__aarch64__)
+#	include <cifx/cifxlinux.h>
+#else
+#	error Not on the apropriate platform
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
