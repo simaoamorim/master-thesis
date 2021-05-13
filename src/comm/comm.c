@@ -76,5 +76,5 @@ exit_error:
 
 int comm_init (struct comm_s *cs)
 {
-	_cifx_init(cs->spiport, cs->driver, cs->channel);
+	return _cifx_init(cs->spiport, cs->driver, cs->channel);
 }
