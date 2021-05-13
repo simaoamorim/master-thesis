@@ -74,4 +74,7 @@ exit_error:
 	return EXIT_FAILURE;
 }
 
-
+int comm_init (struct comm_s *cs)
+{
+	_cifx_init(cs->spiport, cs->driver, cs->channel);
+}

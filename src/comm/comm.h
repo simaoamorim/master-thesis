@@ -9,4 +9,16 @@
 #define CIFX_DEV	"cifX0"
 #define	CIFX_INIT_DIR	NULL
 
+#define NEW_COMM_S {\
+	.spiport = NULL,\
+	.driver = NULL,\
+	.channel = NULL,\
+}
+
+struct comm_s {
+	char *spiport;
+	CIFXHANDLE *driver;
+	CIFXHANDLE *channel;
+};
+
 #endif
