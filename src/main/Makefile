@@ -10,7 +10,7 @@ all: main
 main.o: main.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-main: main.o encoder.o encoder_task.o pid.o dfr0592.o p_v_calc.o control.o
+main: main.o encoder.o encoder_task.o pid.o dfr0592.o p_v_calc.o control.o comm.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(ENCOBJ):
@@ -28,7 +28,10 @@ p_v_calc.o:
 control.o:
 	@$(MAKE) VPATH=../control/ -f ../control/Makefile $@
 
-.PHONY: clean all $(ENCOBJ) pid.o dfr0592.o p_v_calc.o control.o
+comm.o:
+	@$(MAKE) VPATH=../comm/ -f ../comm/Makefile $@
+
+.PHONY: clean all $(ENCOBJ) pid.o dfr0592.o p_v_calc.o control.o comm.o
 
 clean:
 	@find ${PWD} -type f \( -iname 'main' -or -iname '*.o' \) -exec rm -v {} \;
