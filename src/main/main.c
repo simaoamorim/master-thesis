@@ -95,6 +95,7 @@ int main (int argc, char *argv[])
 	control_s.dfr_board = &dfr_board;
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
+	control_s.comm_s = &comm_s;
 	control_s.period = control_period;
 
 	// Initializer encoder interface
