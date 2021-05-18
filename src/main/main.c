@@ -179,17 +179,19 @@ int main (int argc, char *argv[])
 	printf("Exited main loop\n");
 
 end:
-	printf("Stopping auxiliary threads... ");
-	encoder_task_stop();
-	p_v_task_stop();
-	control_task_stop(&control_s);
-	if (-1 != encoder_thread_id)
-		pthread_join(encoder_thread_id, (void *) &retval);
-	if (-1 != p_v_thread_id)
-		pthread_join(p_v_thread_id, (void *) &retval);
-	if (-1 != control_thread_id)
-		pthread_join(control_thread_id, (void *) &retval);
-	puts("OK");
+	if (-1 != (encoder_thread_id & p_v_thread_id & control_thread_id)) {
+		printf("Stopping auxiliary threads... ");
+		encoder_task_stop();
+		p_v_task_stop();
+		control_task_stop(&control_s);
+		if (-1 != encoder_thread_id)
+			pthread_join(encoder_thread_id, (void *) &retval);
+		if (-1 != p_v_thread_id)
+			pthread_join(p_v_thread_id, (void *) &retval);
+		if (-1 != control_thread_id)
+			pthread_join(control_thread_id, (void *) &retval);
+		puts("OK");
+	}
 	if (-1 != dfr_board.i2c_fd) {
 		printf("Stopping motor... ");
 		motor_stop(&dfr_board, 1);
