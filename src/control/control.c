@@ -13,8 +13,10 @@ void * control_task (void *arg)
 		// Control loop here
 		usleep(cs->period);
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+		comm_update_inputs(cs->comm_s);
 
 		// Get inputs
+		cs->pid_vel->command = comm_get_input_word(cs->comm_s, 0);
 		cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
 		cs->pid_vel->delta_t = delta(prev_time, cur_time);
 

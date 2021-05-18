@@ -20,11 +20,13 @@
 #include <pid.h>
 #include <dfr0592.h>
 #include <p_v_calc.h>
+#include <comm.h>
 
 struct control_s {
 	struct pid_s *pid_vel;
 	struct p_v_task_s *pv_s;
 	struct dfr_board *dfr_board;
+	struct comm_s *comm_s;
 	long period;
 	long priority;
 	bool enabled;
