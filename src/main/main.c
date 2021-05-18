@@ -101,6 +101,10 @@ int main (int argc, char *argv[])
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
 
+	printf("Initializing comm... ");
+	comm_init(&comm_s);
+	puts("OK");
+
 	// Initialize encoder task thread
 	pthread_attr_init(&pthread_attrs);
 	pthread_attr_setinheritsched(&pthread_attrs, PTHREAD_INHERIT_SCHED);
@@ -112,10 +116,6 @@ int main (int argc, char *argv[])
 	puts("OK");
 	printf("Creating control thread... ");
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
-	puts("OK");
-
-	printf("Initializing comm... ");
-	comm_init(&comm_s);
 	puts("OK");
 
 	int policy;
