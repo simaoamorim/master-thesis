@@ -40,4 +40,8 @@ int comm_update_inputs (struct comm_s *cs);
 
 int comm_update_outputs (struct comm_s *cs);
 
+uint8_t comm_get_input_byte (struct comm_s *cs, int offset);
+
+uint16_t comm_get_input_word (struct comm_s *cs, int offset);
+
 #endif

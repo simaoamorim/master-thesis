@@ -123,3 +123,13 @@ int comm_update_outputs (struct comm_s *cs)
 	else
 		return -1;
 }
+
+uint8_t comm_get_input_byte (struct comm_s *cs, int offset)
+{
+	return cs->recvData[offset];
+}
+
+uint16_t comm_get_input_word (struct comm_s *cs, int offset)
+{
+	return ((cs->recvData[offset] & 0xFF) << 8) + (cs->recvData[offset+1] & 0xFF);
+}
