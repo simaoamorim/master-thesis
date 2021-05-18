@@ -104,9 +104,15 @@ int main (int argc, char *argv[])
 	// Initialize encoder task thread
 	pthread_attr_init(&pthread_attrs);
 	pthread_attr_setinheritsched(&pthread_attrs, PTHREAD_INHERIT_SCHED);
+	printf("Creating encoder thread... ");
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
+	puts("OK");
+	printf("Creating p_v thread... ");
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
+	puts("OK");
+	printf("Creating control thread... ");
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
+	puts("OK");
 
 	printf("Initializing comm... ");
 	comm_init(&comm_s);
