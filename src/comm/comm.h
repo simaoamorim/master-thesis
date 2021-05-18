@@ -18,14 +18,26 @@
 	.spiport = NULL,\
 	.driver = NULL,\
 	.channel = NULL,\
+	.sendData = {0},\
+	.recvData = {0},\
+	.ulState = 0,\
+	.timeout = 10,\
 }
 
 struct comm_s {
 	char *spiport;
 	CIFXHANDLE *driver;
 	CIFXHANDLE *channel;
+	uint8_t  sendData[32];
+	uint8_t  recvData[32];
+	uint32_t ulState;
+	uint32_t timeout;
 };
 
 int comm_init (struct comm_s *cs);
+
+int comm_update_inputs (struct comm_s *cs);
+
+int comm_update_outputs (struct comm_s *cs);
 
 #endif

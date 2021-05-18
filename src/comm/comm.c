@@ -1,5 +1,9 @@
 #include "comm.h"
 
+int comm_get_inputs (struct comm_s *cs);
+
+int comm_set_outputs (struct comm_s *cs);
+
 void _perror (const char *s)
 {
 	printf("ERROR: %s\n", s);
@@ -81,4 +85,41 @@ int comm_init (struct comm_s *cs)
 	if (NULL == cs->channel)
 		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	return _cifx_init(cs->spiport, cs->driver, cs->channel);
+}
+
+int comm_end (struct comm_s *cs)
+{
+	return _cifx_end(cs->driver, cs->channel);
+}
+
+void comm_bus_wait (struct comm_s *cs)
+{
+	int lret;
+	char str[] = "Waiting for bus communication...";
+	char spinner[4] = {'-', '\\', '|', '/'};
+	short spinner_i = 0;
+	do {
+		printf("%s %c\r", str, spinner[spinner_i]);
+		spinner_i = spinner_i < 3 ? spinner_i + 1 : 0;
+		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+	} while (CIFX_DEV_NO_COM_FLAG == lret);
+	printf("%s OK\n", str);
+}
+
+int comm_update_inputs (struct comm_s *cs)
+{
+	int lret = xChannelIORead(cs->channel, 0, 0, sizeof(cs->recvData), cs->recvData, cs->timeout);
+	if (CIFX_NO_ERROR == lret)
+		return 0;
+	else
+		return -1;
+}
+
+int comm_update_outputs (struct comm_s *cs)
+{
+	int lret = xChannelIOWrite(cs->channel, 0, 0, sizeof(cs->sendData), cs->sendData, cs->timeout);
+	if (CIFX_NO_ERROR == lret)
+		return 0;
+	else
+		return -1;
 }
