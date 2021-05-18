@@ -11,8 +11,8 @@
 	.period = 1000,\
 	.priority = 10,\
 	.enc_task = 0,\
-	.velocity_mutex = {0},\
-	.position_mutex = {0},\
+	.velocity_mutex = PTHREAD_MUTEX_INITIALIZER,\
+	.position_mutex = PTHREAD_MUTEX_INITIALIZER,\
 	.encoder_ppr = 1,\
 	.gearbox_ratio = 1.0,\
 	.output_w = 0.0,\
