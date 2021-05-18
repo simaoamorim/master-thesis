@@ -76,5 +76,9 @@ exit_error:
 
 int comm_init (struct comm_s *cs)
 {
+	if (NULL == cs->driver)
+		cs->driver = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
+	if (NULL == cs->channel)
+		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	return _cifx_init(cs->spiport, cs->driver, cs->channel);
 }
