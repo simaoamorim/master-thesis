@@ -26,4 +26,6 @@ struct comm_s {
 	CIFXHANDLE *channel;
 };
 
+int comm_init (struct comm_s *cs);
+
 #endif
