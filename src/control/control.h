@@ -3,6 +3,9 @@
 
 #define	NEW_CONTROL_S {\
 	.pid_vel = NULL,\
+	.p_v_task_s = NULL,\
+	.dfr_board = NULL,\
+	.comm_s 0 NULL,\
 	.period = 1000,\
 	.priority = 11,\
 	.enabled = false,\
