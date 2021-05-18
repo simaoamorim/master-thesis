@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/ -I../p_v_calc/ -I../control/
+CFLAGS = -Wall -I../encoder/ -I../pid/ -I../DFR0592/ -I../p_v_calc/ -I../control/ -I../comm/
 LDFLAGS = -li2c -lgpiod -lpthread -lcifx
 ENCOBJ = encoder.o encoder_task.o
 

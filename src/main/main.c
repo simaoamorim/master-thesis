@@ -9,6 +9,7 @@
 #include <dfr0592.h>
 #include <p_v_calc.h>
 #include <control.h>
+#include <comm.h>
 
 #define	ENC_PPR			12.0
 #define	MOTOR_GEARBOX_RATIO	30.0
@@ -38,6 +39,7 @@ int main (int argc, char *argv[])
 	struct pid_s pid_s = NEW_PID_T;
 	struct p_v_task_s pv_task_s = NEW_P_V_TASK_S;
 	struct control_s control_s = NEW_CONTROL_S;
+	struct comm_s comm_s = NEW_COMM_S;
 	double tstamp;
 	pthread_t encoder_thread_id = -1;
 	pthread_t p_v_thread_id = -1;
@@ -105,6 +107,8 @@ int main (int argc, char *argv[])
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
+
+	comm_init(&comm_s);
 
 	int policy;
 	pthread_getschedparam(control_thread_id, &policy, &sched_param);
