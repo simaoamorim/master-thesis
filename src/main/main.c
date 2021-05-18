@@ -108,7 +108,9 @@ int main (int argc, char *argv[])
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
 
+	printf("Initializing comm... ");
 	comm_init(&comm_s);
+	puts("OK");
 
 	int policy;
 	pthread_getschedparam(control_thread_id, &policy, &sched_param);
