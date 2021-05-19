@@ -26,8 +26,8 @@
 
 struct comm_s {
 	char *spiport;
-	CIFXHANDLE *driver;
-	CIFXHANDLE *channel;
+	CIFXHANDLE driver;
+	CIFXHANDLE channel;
 	uint8_t  sendData[32];
 	uint8_t  recvData[32];
 	uint32_t ulState;

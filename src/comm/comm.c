@@ -85,7 +85,7 @@ int comm_init (struct comm_s *cs)
 		cs->driver = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	if (NULL == cs->channel)
 		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
-	lret = _cifx_init(cs->spiport, cs->driver, cs->channel);
+	lret = _cifx_init(cs->spiport, &cs->driver, &cs->channel);
 
 	comm_bus_wait(cs);
 
@@ -94,7 +94,7 @@ int comm_init (struct comm_s *cs)
 
 int comm_end (struct comm_s *cs)
 {
-	return _cifx_end(cs->driver, cs->channel);
+	return _cifx_end(&cs->driver, &cs->channel);
 }
 #ifdef SPINNER
 void comm_bus_wait (struct comm_s *cs)
@@ -106,7 +106,7 @@ void comm_bus_wait (struct comm_s *cs)
 	do {
 		printf("%s %c\r", str, spinner[spinner_i]);
 		spinner_i = spinner_i < 3 ? spinner_i + 1 : 0;
-		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+		lret = xChannelBusState(&cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
 	printf("%s OK\n", str);
 }
@@ -117,7 +117,7 @@ void comm_bus_wait (struct comm_s *cs)
 	char str[] = "Waiting for bus communication...";
 	do {
 		printf("%s", str);
-		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+		lret = xChannelBusState(&cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
 	puts(" OK");
 }
