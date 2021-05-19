@@ -46,7 +46,7 @@ int _cifx_init (const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 		goto exit_error;
 	}
 
-	lret = xChannelOpen(driver, CIFX_DEV, 0, channel);
+	lret = xChannelOpen(*driver, CIFX_DEV, 0, channel);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Could not open channel", lret);
 		goto exit_error;
@@ -106,7 +106,7 @@ void comm_bus_wait (struct comm_s *cs)
 	do {
 		printf("%s %c\r", str, spinner[spinner_i]);
 		spinner_i = spinner_i < 3 ? spinner_i + 1 : 0;
-		lret = xChannelBusState(&cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
 	printf("%s OK\n", str);
 }
@@ -116,8 +116,8 @@ void comm_bus_wait (struct comm_s *cs)
 	int lret;
 	char str[] = "Waiting for bus communication...";
 	do {
-		printf("%s", str);
-		lret = xChannelBusState(&cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+		printf("%s\n", str);
+		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
 	puts(" OK");
 }
