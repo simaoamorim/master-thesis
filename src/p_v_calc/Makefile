@@ -1,6 +1,6 @@
-CC = gcc
-CFLAGS = -Wall -I../encoder/
-LDFLAGS =
+CC ?= gcc
+CFLAGS ?= -Wall -I../encoder/
+LDFLAGS ?=
 
 all: p_v_calc.o
 

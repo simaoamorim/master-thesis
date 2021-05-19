@@ -1,6 +1,6 @@
-CC = clang
-CFLAGS = -Wall
-LDFLAGS =
+CC ?= clang
+CFLAGS ?= -Wall
+LDFLAGS ?=
 
 all: comm.o
 
