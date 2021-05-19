@@ -48,7 +48,7 @@ int main (int argc, char *argv[])
 		goto exit_error;
 	}
 
-	lret = xChannelOpen(&driver, CIFX_DEV, 0, &channel);
+	lret = xChannelOpen(driver, CIFX_DEV, 0, &channel);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Could not open channel", lret);
 		goto exit_error;
