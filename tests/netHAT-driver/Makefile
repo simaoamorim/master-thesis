@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS ?= --target=arm -Wall -g
+CFLAGS ?= --target=arm-linux-gnueabihf -Wall -g
 LDFLAGS ?= -lcifx
 
 all: driver
