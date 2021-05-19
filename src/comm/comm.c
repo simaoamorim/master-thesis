@@ -105,6 +105,7 @@ void comm_bus_wait (struct comm_s *cs)
 	short spinner_i = 0;
 	do {
 		printf("%s %c\r", str, spinner[spinner_i]);
+		fflush(stdout);
 		spinner_i = spinner_i < 3 ? spinner_i + 1 : 0;
 		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
