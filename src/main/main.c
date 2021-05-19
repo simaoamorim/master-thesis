@@ -103,7 +103,9 @@ int main (int argc, char *argv[])
 		FAIL("Failed to initialize encoder GPIO");
 
 	printf("Initializing comm... ");
-	comm_init(&comm_s);
+	lret = comm_init(&comm_s);
+	if (-1 == lret)
+		FAIL("Failed to initialise COMM");
 	puts("OK");
 
 	printf("  COMM spiport: %s\n", comm_s.spiport);
