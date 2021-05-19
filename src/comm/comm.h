@@ -21,7 +21,7 @@
 	.sendData = {0},\
 	.recvData = {0},\
 	.ulState = 0,\
-	.timeout = 10,\
+	.timeout = 1000,\
 }
 
 struct comm_s {
