@@ -91,7 +91,7 @@ int comm_end (struct comm_s *cs)
 {
 	return _cifx_end(cs->driver, cs->channel);
 }
-
+#ifdef SPINNER
 void comm_bus_wait (struct comm_s *cs)
 {
 	int lret;
@@ -105,6 +105,18 @@ void comm_bus_wait (struct comm_s *cs)
 	} while (CIFX_DEV_NO_COM_FLAG == lret);
 	printf("%s OK\n", str);
 }
+#else
+void comm_bus_wait (struct comm_s *cs)
+{
+	int lret;
+	char str[] = "Waiting for bus communication...";
+	do {
+		printf("%s", str);
+		lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout);
+	} while (CIFX_DEV_NO_COM_FLAG == lret);
+	puts(" OK");
+}
+#endif
 
 int comm_update_inputs (struct comm_s *cs)
 {
