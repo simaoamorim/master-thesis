@@ -7,28 +7,28 @@ void * control_task (void *arg)
 	struct control_s *cs = (struct control_s *) arg;
 	struct timespec prev_time, cur_time;
 
-	comm_bus_wait(cs->comm_s);
-
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	do {
-		// Control loop here
-		usleep(cs->period);
-		clock_gettime(CLOCK_MONOTONIC, &cur_time);
-		comm_update_inputs(cs->comm_s);
+		if (comm_bus_active(cs)) {
+			// Control loop here
+			usleep(cs->period);
+			clock_gettime(CLOCK_MONOTONIC, &cur_time);
+			comm_update_inputs(cs->comm_s);
 
-		// Get inputs
-		cs->pid_vel->command = comm_get_input_word(cs->comm_s, 0);
-		cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
-		cs->pid_vel->delta_t = delta(prev_time, cur_time);
+			// Get inputs
+			cs->pid_vel->command = comm_get_input_word(cs->comm_s, 0);
+			cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
+			cs->pid_vel->delta_t = delta(prev_time, cur_time);
 
-		// Do calculations
-		do_calcs(cs->pid_vel);
+			// Do calculations
+			do_calcs(cs->pid_vel);
 
-		// Update outputs
-		motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
+			// Update outputs
+			motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
 
-		prev_time = cur_time;
+			prev_time = cur_time;
+		}
 	} while (cs->keep_running);
 
 	pthread_exit((void *) 0);

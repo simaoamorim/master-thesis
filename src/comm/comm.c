@@ -121,6 +121,14 @@ void comm_bus_wait (struct comm_s *cs)
 }
 #endif
 
+int comm_bus_active (struct comm_s *cs)
+{
+	if (CIFX_DEV_NO_COM_FLAG == xChannelBusState(cs->channel, CIFX_BUS_STATE_ON, &cs->ulState, cs->timeout))
+		return 0;
+	else
+		return 1;
+}
+
 int comm_update_inputs (struct comm_s *cs)
 {
 	int lret = xChannelIORead(cs->channel, 0, 0, sizeof(cs->recvData), cs->recvData, cs->timeout);
