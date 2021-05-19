@@ -6,11 +6,11 @@ void * control_task (void *arg)
 {
 	struct control_s *cs = (struct control_s *) arg;
 	struct timespec prev_time, cur_time;
-
+/*
 	printf("Calling bus wait function...");
 	comm_bus_wait(cs->comm_s);
 	puts(" OK");
-
+*/
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	do {
