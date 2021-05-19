@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
 		.base_dir            = NULL,
 		.poll_interval       = 0,
 		.poll_StackSize      = 0,
-		.trace_level         = 255,
+		.trace_level         = 0x08 | 0x04, // Warning + Error
 		.user_card_cnt       = 0,
 		.user_cards          = NULL,
 	};
