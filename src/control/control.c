@@ -10,7 +10,7 @@ void * control_task (void *arg)
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	do {
-		if (comm_bus_active(cs)) {
+		if (comm_bus_active(cs->comm_s)) {
 			// Control loop here
 			usleep(cs->period);
 			clock_gettime(CLOCK_MONOTONIC, &cur_time);
