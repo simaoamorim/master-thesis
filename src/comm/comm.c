@@ -86,9 +86,6 @@ int comm_init (struct comm_s *cs)
 	if (NULL == cs->channel)
 		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	lret = _cifx_init(cs->spiport, &cs->driver, &cs->channel);
-
-	comm_bus_wait(cs);
-
 	return lret;
 }
 
