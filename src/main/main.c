@@ -108,7 +108,7 @@ int main (int argc, char *argv[])
 
 	printf("  COMM spiport: %s\n", comm_s.spiport);
 	printf("  COMM driver: %X\n", comm_s.driver);
-	printf("  COMM channel: %X\n", comm_s.driver);
+	printf("  COMM channel: %X\n", comm_s.channel);
 
 	// Initialize encoder task thread
 	pthread_attr_init(&pthread_attrs);
