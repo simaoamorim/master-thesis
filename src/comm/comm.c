@@ -80,11 +80,16 @@ exit_error:
 
 int comm_init (struct comm_s *cs)
 {
+	int lret;
 	if (NULL == cs->driver)
 		cs->driver = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	if (NULL == cs->channel)
 		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
-	return _cifx_init(cs->spiport, cs->driver, cs->channel);
+	lret = _cifx_init(cs->spiport, cs->driver, cs->channel);
+
+	comm_bus_wait(cs);
+
+	return lret;
 }
 
 int comm_end (struct comm_s *cs)
