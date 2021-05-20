@@ -36,9 +36,13 @@ struct comm_s {
 
 int comm_init (struct comm_s *cs);
 
+int comm_end (struct comm_s *cs);
+
 void comm_bus_wait (struct comm_s *cs);
 
 int comm_bus_active (struct comm_s *cs);
+
+int comm_bus_config_lock (struct comm_s *cs);
 
 int comm_update_inputs (struct comm_s *cs);
 

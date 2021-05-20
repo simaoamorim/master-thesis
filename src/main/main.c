@@ -199,6 +199,7 @@ end:
 		motor_stop(&dfr_board, 1);
 		printf("OK\n");
 	}
+	comm_end(&comm_s);
 	puts("All done. Goodbye!");
 	return retval;
 }

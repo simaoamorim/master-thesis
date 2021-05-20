@@ -52,6 +52,7 @@ int _cifx_init (const char *spiport, CIFXHANDLE *driver, CIFXHANDLE *channel)
 		goto exit_error;
 	}
 
+
 	return EXIT_SUCCESS;
 exit_error:
 	return EXIT_FAILURE;
@@ -60,6 +61,7 @@ exit_error:
 int _cifx_end (const CIFXHANDLE *driver, const CIFXHANDLE *channel)
 {
 	int lret;
+
 	lret = xChannelClose(&channel);
 	if (CIFX_NO_ERROR != lret) {
 		_xerror("Failed to close the channel", lret);
@@ -85,12 +87,26 @@ int comm_init (struct comm_s *cs)
 		cs->driver = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
 	if (NULL == cs->channel)
 		cs->channel = (CIFXHANDLE *) malloc(sizeof(CIFXHANDLE));
+
+
 	lret = _cifx_init(cs->spiport, &cs->driver, &cs->channel);
+//	lret |= xChannelReset(cs->channel, CIFX_SYSTEMSTART, cs->timeout);
+	lret |= xChannelHostState(cs->channel, CIFX_HOST_STATE_READY, &cs->ulState, cs->timeout);
+	lret |= xChannelConfigLock(cs->channel, CIFX_CONFIGURATION_UNLOCK, &cs->ulState, cs->timeout);
+
 	return lret;
 }
 
 int comm_end (struct comm_s *cs)
 {
+
+	int lret = xChannelBusState(cs->channel, CIFX_BUS_STATE_OFF, &cs->ulState, cs->timeout);
+	lret |= xChannelConfigLock(cs->channel, CIFX_CONFIGURATION_UNLOCK, &cs->ulState, cs->timeout);
+	lret |= xChannelHostState(cs->channel, CIFX_HOST_STATE_NOT_READY, &cs->ulState, cs->timeout);
+
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Failed to set host state", lret);
+	}
 	return _cifx_end(&cs->driver, &cs->channel);
 }
 #ifdef SPINNER
@@ -127,6 +143,16 @@ int comm_bus_active (struct comm_s *cs)
 		return 0;
 	else
 		return 1;
+}
+
+int comm_bus_config_lock (struct comm_s *cs)
+{
+	int lret = xChannelConfigLock(cs->channel, CIFX_CONFIGURATION_LOCK, &cs->ulState, cs->timeout);
+	if (CIFX_NO_ERROR != lret) {
+		_xerror("Failed to lock configuration", lret);
+		return -1;
+	}
+	return 0;
 }
 
 int comm_update_inputs (struct comm_s *cs)
