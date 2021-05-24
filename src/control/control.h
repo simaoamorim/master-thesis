@@ -16,6 +16,7 @@
 #include <sched.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <stdint.h>
 
 #include <pid.h>
 #include <dfr0592.h>
