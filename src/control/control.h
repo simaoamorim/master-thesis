@@ -34,6 +34,17 @@ struct control_s {
 	bool keep_running;
 };
 
+/**
+ *
+ * Control task function
+ * @param[in] *arg Pointer to a control_s structure
+ *
+ * This task creates a velocity controller, fetching the velocity command value from the EtherCAT bytes 
+ * 2-3 as a WORD type (2-byte), the maximum acceleration value as a WORD from bytes 4-5 and bit 0 from
+ * from EtherCAT byte 6 is used as the enable signal.
+ *
+ * @param[out] void* Return value, 0 if all OK, -1 otherwise.
+ */
 void * control_task (void *arg);
 
 void control_task_stop (struct control_s *cs);
