@@ -44,8 +44,15 @@ void _calc_internal_outputs (struct pid_s *p)
 
 void _calc_output (struct pid_s *p)
 {
-	p->output = p->p_output + p->i_output + p->d_output;
-	_apply_limit(&(p->output), p->max_output);
+	static double new_output;
+	new_output = p->p_output + p->i_output + p->d_output;
+	_apply_limit(&new_output, p->max_output);
+	if (0.0 != p->max_output_delta) {
+		static double output_delta = new_output - p->output;
+		_apply_limit(&output_delta, p->max_output_delta);
+		new_output = p->output + output_delta;
+	}
+	p->output = new_output;
 }
 
 FILE * _create_csv (char filename[])
