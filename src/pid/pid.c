@@ -20,15 +20,18 @@ void _calc_errors (struct pid_s *p)
 	// Proportional error
 	p->error = (double) p->command - p->feedback;
 	_apply_deadband(&(p->error), p->deadband);
-	_apply_limit(&(p->error), p->max_error);
+	if (0.0 != p->max_error)
+		_apply_limit(&(p->error), p->max_error);
 
 	// Integral error
 	p->i_error += p->error * p->delta_t;
-	_apply_limit(&(p->i_error), p->max_i_error);
+	if (0.0 != p->max_i_error)
+		_apply_limit(&(p->i_error), p->max_i_error);
 
 	// Derivative error
 	p->d_error = ((double)(p->error - p->previous_error)) / p->delta_t;
-	_apply_limit(&(p->d_error), p->max_d_error);
+	if (0.0 != p->max_d_error)
+		_apply_limit(&(p->d_error), p->max_d_error);
 
 }
 
@@ -46,7 +49,8 @@ void _calc_output (struct pid_s *p)
 {
 	static double new_output;
 	new_output = p->p_output + p->i_output + p->d_output;
-	_apply_limit(&new_output, p->max_output);
+	if (0.0 != p->max_output)
+		_apply_limit(&new_output, p->max_output);
 	if (0.0 != p->max_output_delta) {
 		static double output_delta = new_output - p->output;
 		_apply_limit(&output_delta, p->max_output_delta);
