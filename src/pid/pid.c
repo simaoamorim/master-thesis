@@ -52,7 +52,8 @@ void _calc_output (struct pid_s *p)
 	if (0.0 != p->max_output)
 		_apply_limit(&new_output, p->max_output);
 	if (0.0 != p->max_output_delta) {
-		static double output_delta = new_output - p->output;
+		static double output_delta = 0;
+		output_delta = new_output - p->output;
 		_apply_limit(&output_delta, p->max_output_delta);
 		new_output = p->output + output_delta;
 	}
