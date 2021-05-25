@@ -46,11 +46,11 @@ int main (int argc, char *argv[])
 	pthread_t control_thread_id = -1;
 	pthread_attr_t pthread_attrs;
 	int control_period;
-	size_t inbuf_size = 80;
-	char *inbuf = calloc(sizeof(char), inbuf_size);
-	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
+//	size_t inbuf_size = 80;
+//	char *inbuf = calloc(sizeof(char), inbuf_size);
+//	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
-	double new_command = 0.0;
+//	double new_command = 0.0;
 	int enable_logging = 0;
 
 	// Check argument count
