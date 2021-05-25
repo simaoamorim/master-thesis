@@ -51,6 +51,7 @@ int main (int argc, char *argv[])
 	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
 	double new_command = 0.0;
+	int enable_logging = 0;
 
 	// Check argument count
 	if (argc != 11 && argc != 12) {
@@ -135,8 +136,6 @@ int main (int argc, char *argv[])
 
 	if (argc == 12) {
 		debug_file = init_pid_debug(&pid_s, argv[11]);
-		if (NULL != debug_file) {
-			debug_append_iteration(&pid_s, debug_file, iter, 0.0);
 		} else {
 			char string[100];
 			sprintf(string, "Failed to open debug file \"%s\": ", argv[11]);
@@ -147,11 +146,12 @@ int main (int argc, char *argv[])
 
 	printf("> ");
 	p_v_enable_task(&pv_task_s);
-	clock_gettime(CLOCK_MONOTONIC, &first_time);
 	usleep(control_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+		enable_logging = comm_get_input_bit(&comm_s, 6, 1); 
+/*
 		// Check stdin for new command value
 		lret = poll(&fds, 1, 0);
 		if (0 < lret) {
@@ -166,11 +166,15 @@ int main (int argc, char *argv[])
 		} else if (0 > lret) {
 			FAIL("poll() on STDIN failed");
 		}
-
-		if (NULL != debug_file) {
-			iter++;
-			tstamp = delta(first_time, cur_time);
-			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
+*/
+		if (NULL != debug_file && enable_logging) {
+			if (0 == iter) {
+				debug_append_iteration(&pid_s, debug_file, iter++, 0.0);
+				clock_gettime(CLOCK_MONOTONIC, &first_time);
+			} else {
+				tstamp = delta(first_time, cur_time);
+				debug_append_iteration(&pid_s, debug_file, iter++, tstamp);
+			}
 		}
 
 		fflush(stdout);
