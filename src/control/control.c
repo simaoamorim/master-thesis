@@ -37,7 +37,7 @@ void * control_task (void *arg)
 			motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
 
 			prev_time = cur_time;
-		} else
+		} else {
 			if (!comm_ok)
 				puts("Waiting to establish communication with master...");
 			motor_stop(cs->dfr_board, 1);
