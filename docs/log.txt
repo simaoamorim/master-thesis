@@ -115,10 +115,20 @@ _Por registar_
 - Testar se todos os componentes estão OK
 
 == Semana 6 - 22/03/2021 ==
-_Por registar_
+=== Trabalho realizado ===
+- Estudada a possibilidade de comunicação I2C programada no CODESYS. (Possível mas não viável,
+seria preciso ligação com um módulo de código externo para comunicação)
+- Pesquisado possível shield EtherCAT alternativo, mas o princípio de funcionamento é o mesmo da Hilscher.
+- Pesquisadas implementações de librarias de I2C para linux, encontrado um exemplo em Python e a documentação
+do driver de I2C do kernel Linux.
+
+=== Tarefas ===
+- Testar as librarias de I2C encontradas
 
 == Semana 7 - 29/03/2021 ==
-_Por registar_
+=== Trabalho realizado ===
+- Librarias de I2C testadas, ambas funcionam, a mais interessante para ser usada será a implementada em C, usando
+o driver do kernel Linux.
 
 == Semana 8 - 05/04/2021 ==
 _Por registar_
