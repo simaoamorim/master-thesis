@@ -136,7 +136,7 @@ int main (int argc, char *argv[])
 
 	if (argc == 12) {
 		debug_file = init_pid_debug(&pid_s, argv[11]);
-		} else {
+		if (NULL == debug_file) {
 			char string[100];
 			sprintf(string, "Failed to open debug file \"%s\": ", argv[11]);
 			perror(string);
@@ -144,7 +144,7 @@ int main (int argc, char *argv[])
 		}
 	}
 
-	printf("> ");
+//	printf("> ");
 	p_v_enable_task(&pv_task_s);
 	usleep(control_period);
 
