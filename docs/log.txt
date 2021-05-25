@@ -101,7 +101,16 @@ comunicar com o CODESYS
 comunicar com o módulo de controlo do motor.
 
 == Semana 4 - 08/03/2021 ==
-_Por registar_
+=== Trabalho realizado ===
+- Testes de código para a criação de tarefas de tempo-real com perído constante, utilizando
+diferentes métodos:
+-- Escalonador de tarefas FIFO e temporizador a gerar um sinal de interrupção periódico;
+-- Escalonador de tarefas FIFO e temporizador a criar uma thread de execução nova, do estilo
+_pthreads_;
+-- Escalonador de tarefas DEADLINE que executa a tarefa em períodos constantes, definidos
+durante a mudança de escalonador do processo.
+- Criação de um programa de teste de comunicação EtherCAT que use uma tarefa periódica de
+tempo-real.
 
 == Semana 5 - 15/03/2021 ==
 
