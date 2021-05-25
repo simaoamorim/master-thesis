@@ -7,6 +7,7 @@ void * control_task (void *arg)
 	struct control_s *cs = (struct control_s *) arg;
 	struct timespec prev_time, cur_time;
 	int lret;
+	int comm_ok = 0, enable = 0;
 
 	lret = comm_bus_config_lock(cs->comm_s);
 	if (0 != lret)
@@ -15,9 +16,11 @@ void * control_task (void *arg)
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);
 
 	do {
-		if (comm_bus_active(cs->comm_s)) {
+		comm_ok = comm_bus_active(cs->comm_s);
+		enable = comm_get_input_bit(cs->comm_s, 6, 0);
+
+		if (comm_ok && enable) {
 			// Control loop here
-			usleep(cs->period);
 			clock_gettime(CLOCK_MONOTONIC, &cur_time);
 			comm_update_inputs(cs->comm_s);
 
@@ -34,9 +37,14 @@ void * control_task (void *arg)
 			motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
 
 			prev_time = cur_time;
-		} else {
-			puts("Waiting to establish communication with master...");
+		} else
+			if (!comm_ok)
+				puts("Waiting to establish communication with master...");
+			motor_stop(cs->dfr_board, 1);
 		}
+
+		usleep(cs->period);
+
 	} while (cs->keep_running);
 
 	pthread_exit((void *) 0);
