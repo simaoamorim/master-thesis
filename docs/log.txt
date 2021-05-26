@@ -143,10 +143,10 @@ o driver do kernel Linux.
 == Semana 8 - 05/04/2021 ==
 _Por registar_
 
-== Semana 9 - 12/05/2021 ==
+== Semana 9 - 12/04/2021 ==
 _Por registar_
 
-== Semana 10 - 19/05/2021 ==
+== Semana 10 - 19/04/2021 ==
 === Discussão ===
 - Falar com Carlos Graph acerca de impressão 3D;
 - 'Esquecer' velocidades baixas para a leitura de impulsos;
