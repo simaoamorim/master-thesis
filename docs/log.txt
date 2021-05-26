@@ -3,7 +3,8 @@ Simão Amorim <up201605618@edu.fe.up.pt>
 0.1, 17-05-2021
 
 O presente documento pretende descrever, de forma não exaustiva, o processo de desenvolvimento
-da tese de mestrado _Ethernet de tempo real para aplicações robóticas_
+da tese de mestrado _Redes Ethernet de tempo real: uma abordagem prática à influência do tempo
+de ciclo em aplicações de controlo_
 
 [NOTE]
 As subseccões com a indicação \'_Por registar_' ainda não foram atualizadas neste documento. 
