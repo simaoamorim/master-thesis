@@ -13,16 +13,15 @@ void * control_task (void *arg)
 	if (0 != lret)
 		goto error_exit;
 
-	clock_gettime(CLOCK_MONOTONIC, &prev_time);
-
 	do {
+		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+
+		comm_update_inputs(cs->comm_s);
 		comm_ok = comm_bus_active(cs->comm_s);
 		enable = comm_get_input_bit(cs->comm_s, 6, 0);
 
 		if (comm_ok && enable) {
 			// Control loop here
-			clock_gettime(CLOCK_MONOTONIC, &cur_time);
-			comm_update_inputs(cs->comm_s);
 
 			// Get inputs
 			cs->pid_vel->command = comm_get_input_word(cs->comm_s, 2);
@@ -36,12 +35,13 @@ void * control_task (void *arg)
 			// Update outputs
 			motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
 
-			prev_time = cur_time;
 		} else {
 			if (!comm_ok)
 				puts("Waiting to establish communication with master...");
 			motor_stop(cs->dfr_board, 1);
 		}
+
+		prev_time = cur_time;
 
 		usleep(cs->period);
 
