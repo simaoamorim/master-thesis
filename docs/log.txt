@@ -1,6 +1,6 @@
 = Ethernet de tempo real para aplicações robóticas =
 Simão Amorim <up201605618@edu.fe.up.pt>
-0.1, 17-05-2021
+0.2
 
 O presente documento pretende descrever, de forma não exaustiva, o processo de desenvolvimento
 da tese de mestrado _Redes Ethernet de tempo real: uma abordagem prática à influência do tempo
