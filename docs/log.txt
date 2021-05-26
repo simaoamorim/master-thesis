@@ -10,62 +10,63 @@ de ciclo em aplicações de controlo_
 As subseccões com a indicação \'_Por registar_' ainda não foram atualizadas neste documento. 
 A informação existe e será aqui colocada atempadamente.
 
-== Revisão para o documento final ==
+== Revisão para o documento final
 
-=== State of the art ===
-- Melhorar explicação da EtherCAT
+.State of the art
+* Melhorar explicação da EtherCAT
  (explicação MUITO profunda acerca de TUDO)
 
-=== Soluções propostas
+.Soluções propostas
 
-- Explicar melhor o conceito: não focar tanto na parte técnica.
+* Explicar melhor o conceito: não focar tanto na parte técnica.
 E.g. "O que pode acontecer ao usar uma rede na malha de controlo"
 
-== Início dos trabalhos - 15-02-2021 ==
+== Início dos trabalhos - 15-02-2021
 
+.Tarefas
 - Criar um guião sobre o deve ser feito com o demonstrador e quais os
 resultados que devem ser esperados, quer eles sejam positivos ou
 negativos.
 
-- Arranjar um mecanismo de, sintéticamente, levar a rede ao simite:
-  * simular congestionamento na rede (p.ep alteração de tempos de ciclo
+* Arranjar um mecanismo de, sintéticamente, levar a rede ao simite:
+  ** simular congestionamento na rede (p.ep alteração de tempos de ciclo
 controlo);
-  * simular dessincronização (como???)
-  * simular falhas de rede (como???)
-  * ...
+  ** simular dessincronização (como???)
+  ** simular falhas de rede (como???)
+  ** ...
 
-== Semana 2 - 22/02/2021 ==
+== Semana 2 - 22/02/2021
 
-=== Discussão ===
-- O demonstrador é para ser *genérico* e *não* focado em EtherCAT !!!
-  * Assumindo que EtherCAT é a melhor rede de tempo real, vamos usá-la
+.Discussão
+* O demonstrador é para ser *genérico* e *não* focado em EtherCAT !!!
+  ** Assumindo que EtherCAT é a melhor rede de tempo real, vamos usá-la
   por permitir sintéticamente demonstrar redes mais "fracas" (o
   contrário não é verdade).
 
-=== Tarefas ===
-- Reformular ideias para apenas modificar, sintéticamente, o tempo de ciclo da rede.
-  * Esquecer por completo a "injeção de falhas"
-  * Permitir que o estudante altere manualmente o tempo de ciclo da rede
-  * *Abstrair por completo o programa de controlo*. Não está no contexto das redes
+.Tarefas
+* Reformular ideias para apenas modificar, sintéticamente, o tempo de ciclo da rede.
+  ** Esquecer por completo a "injeção de falhas"
+  ** Permitir que o estudante altere manualmente o tempo de ciclo da rede
+  ** *Abstrair por completo o programa de controlo*. Não está no contexto das redes
   de comunicação de tempo real.
-- Pensar em cenários apropriados para demonstrar _apenas_ tempo de ciclo da rede.
-- Definir bem o que controlar a nível físico:
-  * Controlo de velocidade ?
-  * Controlo de posição ?
-  * Será possível ter ambos ?
+* Pensar em cenários apropriados para demonstrar _apenas_ tempo de ciclo da rede.
+* Definir bem o que controlar a nível físico:
+  ** Controlo de velocidade ?
+  ** Controlo de posição ?
+  ** Será possível ter ambos ?
+* Estruturar o programa de controlo.
 
-- Estruturar o programa de controlo.
+== Semana 2 - 24/02/2021
 
-== Semana 2 - 24/02/2021 ==
-
-=== Discussão ===
-- Impacto do tempo de ciclo da rede (genérica).
-- Esquecer planos para braço robótico.
-- Esquecer Arduinos e passar para os slaves para Raspberry Pi com shields da
+.Discussão
+* Impacto do tempo de ciclo da rede (genérica).
+* Esquecer planos para braço robótico.
+* Esquecer Arduinos e passar para os slaves para Raspberry Pi com shields da
 Hilscher (NetHAT 52-RTE).
-- Arranjar shield para controlo TOTAL de motor para Raspberry Pi: tipo servo-motor.
+* Arranjar shield para controlo TOTAL de motor para Raspberry Pi: tipo servo-motor.
 
-==== Disco com 1 perfuração, led continuamente ligado, fotorrecetor do lado oposto ====
+=== Ideias
+.Disco com 1 perfuração, led continuamente ligado, fotorrecetor do lado oposto
 Manter LED constantemente ligado, controlar velocidade do motor em modo constante,
 calcular janela temporal em que o fotorrecetor irá estar ativo (de acordo com
 o tamanho da ranhura e a velocidade de rotação). Ter o slave a ler continuamente
@@ -74,35 +75,35 @@ para o Master. Este limita-se a controlar o tempo de ciclo da rede EtherCAT e a
 copiar para uma saída o valor da entrada que recebeu (idealmente o mais rápido
 possível). O slave recebe este valor da saída e verifica se o estado do recetor
 é igual ao da saída:
-  - Se fôr, o deadline de entrega das mensagens cumpre a especificação necessária.
-  - Senão, o tempo de ciclo da rede é demasiado baixo para cumprir os requisitos.
+  * Se fôr, o deadline de entrega das mensagens cumpre a especificação necessária.
+  * Senão, o tempo de ciclo da rede é demasiado baixo para cumprir os requisitos.
 
-==== Modificação para possível controlo de atuação ====
+.Modificação para possível controlo de atuação
 Colocar LED a piscar a frequencia constante e sincronizar o(s) disco(s)
 de modo a manter o feixe de lux a atingir o fotorrecetor.
 
-== Semana 3 - 01/03/2021 ==
+== Semana 3 - 01/03/2021
 
-=== Trabalho realizado ===
-- Pesquisa de controlador de motor DC com encoder para Raspberry Pi
-- Estudo de como implementar uma tarefa de tempo real em Linux, usando a API
+.Trabalho realizado
+* Pesquisa de controlador de motor DC com encoder para Raspberry Pi
+* Estudo de como implementar uma tarefa de tempo real em Linux, usando a API
 genérica do kernel.
 
-=== Discussão ===
-- Como implementar o slave?
-  * Usar Raspberry Pi com placa DFRobot DFR0592
-  * Motor diz funcionar confortávelmente entre os 3-9V, embora seja de 6V nominal.
-  * Esquecer arduino
+.Discussão
+* Como implementar o slave?
+  ** Usar Raspberry Pi com placa DFRobot DFR0592
+  ** Motor diz funcionar confortávelmente entre os 3-9V, embora seja de 6V nominal.
+  ** Esquecer arduino
 
-=== Tarefas ===
-- Verificar o que é o "MegaIO" e se é relevante
-- Juntar execução RT e a API da Hilscher para ter uma tarefa de tempo real a
+.Tarefas
+* Verificar o que é o "MegaIO" e se é relevante
+* Juntar execução RT e a API da Hilscher para ter uma tarefa de tempo real a
 comunicar com o CODESYS
-- Verificar o funcionamento da comunicação I2C no raspberry, necessária para
+* Verificar o funcionamento da comunicação I2C no raspberry, necessária para
 comunicar com o módulo de controlo do motor.
 
-== Semana 4 - 08/03/2021 ==
-=== Trabalho realizado ===
+== Semana 4 - 08/03/2021
+.Trabalho realizado
 * Testes de código para a criação de tarefas de tempo-real com perído constante, utilizando
 diferentes métodos:
  ** Escalonador de tarefas FIFO e temporizador a gerar um sinal de interrupção periódico;
@@ -113,74 +114,75 @@ durante a mudança de escalonador do processo.
 * Criação de um programa de teste de comunicação EtherCAT que use uma tarefa periódica de
 tempo-real.
 
-== Semana 5 - 15/03/2021 ==
+== Semana 5 - 15/03/2021
 
-=== Trabalho realizado ===
-- Tarefa de tempo real para RPI terminada
-- API de I2C de Linux estudada
+.Trabalho realizado
+* Tarefa de tempo real para RPI terminada
+* API de I2C de Linux estudada
 
-=== Tarefas ===
-- Verificar implementação de slave Profinet com o CODESYS
-- Testar comunicação I2C com o controlador de motor
-- Testar se todos os componentes estão OK
+.Tarefas
+* Verificar implementação de slave Profinet com o CODESYS
+* Testar comunicação I2C com o controlador de motor
+* Testar se todos os componentes estão OK
 
-== Semana 6 - 22/03/2021 ==
-=== Trabalho realizado ===
-- Estudada a possibilidade de comunicação I2C programada no CODESYS. (Possível mas não viável,
+== Semana 6 - 22/03/2021
+.Trabalho realizado
+* Estudada a possibilidade de comunicação I2C programada no CODESYS. (Possível mas não viável,
 seria preciso ligação com um módulo de código externo para comunicação)
-- Pesquisado possível shield EtherCAT alternativo, mas o princípio de funcionamento é o mesmo da Hilscher.
-- Pesquisadas implementações de librarias de I2C para linux, encontrado um exemplo em Python e a documentação
+* Pesquisado possível shield EtherCAT alternativo, mas o princípio de funcionamento é o mesmo da Hilscher.
+* Pesquisadas implementações de librarias de I2C para linux, encontrado um exemplo em Python e a documentação
 do driver de I2C do kernel Linux.
 
-=== Tarefas ===
-- Testar as librarias de I2C encontradas
+.Tarefas
+* Testar as librarias de I2C encontradas
 
-== Semana 7 - 29/03/2021 ==
-=== Trabalho realizado ===
-- Librarias de I2C testadas, ambas funcionam, a mais interessante para ser usada será a implementada em C, usando
+== Semana 7 - 29/03/2021
+.Trabalho realizado
+* Librarias de I2C testadas, ambas funcionam, a mais interessante para ser usada será a implementada em C, usando
 o driver do kernel Linux.
 
-== Semana 8 - 05/04/2021 ==
+== Semana 8 - 05/04/2021
 _Por registar_
 
-== Semana 9 - 12/04/2021 ==
+== Semana 9 - 12/04/2021
 _Por registar_
 
-== Semana 10 - 19/04/2021 ==
-=== Discussão ===
-- Falar com Carlos Graph acerca de impressão 3D;
-- 'Esquecer' velocidades baixas para a leitura de impulsos;
-* Possivelmente ajustar o timeout para assumir RPM=0 em função da RPM de comando,
-atravez do tempo medio entre impulsos.
+== Semana 10 - 19/04/2021
+.Discussão
+* Falar com Carlos Graph acerca de impressão 3D;
+* Esquecer velocidades baixas para a leitura de impulsos;
+  ** Possivelmente ajustar o timeout para assumir RPM=0 em função da RPM de comando,
+  atravez do tempo medio entre impulsos.
 
-== Semana 11 - 26/04/2021 ==
+== Semana 11 - 26/04/2021
 _Por registar_
 
-== Semana 12 - 03/05/2021 ==
+== Semana 12 - 03/05/2021
 _Por Registar_
 
-== Semana 13 - 10/05/2021 ==
+== Semana 13 - 10/05/2021
 _Por Registar_
 
-== Semana 14 - 17/05/2021 ==
+== Semana 14 - 17/05/2021
 _Por Registar_
 
-== Semana 15 - 24/05/2021 ==
+== Semana 15 - 24/05/2021
 _A decoorer_
-
-== Semana 16 - 31/05/2021 ==
+== Semana 16 - 31/05/2021
 _Futuro_
 
-== Semana 17 - 07/06/2021 ==
+== Semana 17 - 07/06/2021
 _Futuro_
 
-== Semana 18 - 14/06/2021 ==
+== Semana 18 - 14/06/2021
 _Futuro_
 
-== Semana 19 - 21/06/2021 ==
+== Semana 19 - 21/06/2021
 _Futuro_
 
-== Semana 20 - 28/06/2021 ==
+== Semana 20 - 28/06/2021
+_Futuro_
+
 [IMPORTANT]
 *Entrega do documento*
 
