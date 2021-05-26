@@ -737,14 +737,14 @@ asciidoc.install();
 <h1>Ethernet de tempo real para aplicações robóticas</h1>
 <span id="author">Simão Amorim</span><br />
 <span id="email"><code>&lt;<a href="mailto:up201605618@edu.fe.up.pt">up201605618@edu.fe.up.pt</a>&gt;</code></span><br />
-<span id="revnumber">version 0.1,</span>
-<span id="revdate">17-05-2021</span>
+<span id="revnumber">version 0.2</span>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph"><p>O presente documento pretende descrever, de forma não exaustiva, o processo de desenvolvimento
-da tese de mestrado <em>Ethernet de tempo real para aplicações robóticas</em></p></div>
+da tese de mestrado <em>Redes Ethernet de tempo real: uma abordagem prática à influência do tempo
+de ciclo em aplicações de controlo</em></p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -759,9 +759,7 @@ A informação existe e será aqui colocada atempadamente.</td>
 <div class="sect1">
 <h2 id="_revisão_para_o_documento_final">Revisão para o documento final</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_state_of_the_art">State of the art</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">State of the art</div><ul>
 <li>
 <p>
 Melhorar explicação da EtherCAT
@@ -769,10 +767,7 @@ Melhorar explicação da EtherCAT
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_soluções_propostas">Soluções propostas</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Soluções propostas</div><ul>
 <li>
 <p>
 Explicar melhor o conceito: não focar tanto na parte técnica.
@@ -782,18 +777,17 @@ E.g. "O que pode acontecer ao usar uma rede na malha de controlo"
 </ul></div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="_início_dos_trabalhos_15_02_2021">Início dos trabalhos - 15-02-2021</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Tarefas</div><ul>
 <li>
 <p>
 Criar um guião sobre o deve ser feito com o demonstrador e quais os
 resultados que devem ser esperados, quer eles sejam positivos ou
 negativos.
 </p>
-</li>
+<div class="ulist"><ul>
 <li>
 <p>
 Arranjar um mecanismo de, sintéticamente, levar a rede ao simite:
@@ -823,14 +817,14 @@ simular falhas de rede (como???)
 </ul></div>
 </li>
 </ul></div>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_2_22_02_2021">Semana 2 - 22/02/2021</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_discussão">Discussão</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Discussão</div><ul>
 <li>
 <p>
 O demonstrador é para ser <strong>genérico</strong> e <strong>não</strong> focado em EtherCAT !!!
@@ -846,10 +840,7 @@ Assumindo que EtherCAT é a melhor rede de tempo real, vamos usá-la
 </ul></div>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_tarefas">Tarefas</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Tarefas</div><ul>
 <li>
 <p>
 Reformular ideias para apenas modificar, sintéticamente, o tempo de ciclo da rede.
@@ -908,13 +899,10 @@ Estruturar o programa de controlo.
 </ul></div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="_semana_2_24_02_2021">Semana 2 - 24/02/2021</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_discussão_2">Discussão</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Discussão</div><ul>
 <li>
 <p>
 Impacto do tempo de ciclo da rede (genérica).
@@ -937,9 +925,9 @@ Arranjar shield para controlo TOTAL de motor para Raspberry Pi: tipo servo-motor
 </p>
 </li>
 </ul></div>
-<div class="sect3">
-<h4 id="_disco_com_1_perfuração_led_continuamente_ligado_fotorrecetor_do_lado_oposto">Disco com 1 perfuração, led continuamente ligado, fotorrecetor do lado oposto</h4>
-<div class="paragraph"><p>Manter LED constantemente ligado, controlar velocidade do motor em modo constante,
+<div class="sect2">
+<h3 id="_ideias">Ideias</h3>
+<div class="paragraph"><div class="title">Disco com 1 perfuração, led continuamente ligado, fotorrecetor do lado oposto</div><p>Manter LED constantemente ligado, controlar velocidade do motor em modo constante,
 calcular janela temporal em que o fotorrecetor irá estar ativo (de acordo com
 o tamanho da ranhura e a velocidade de rotação). Ter o slave a ler continuamente
 o estado do recetor (a um período suficientemente elevado) e enviar esse estado
@@ -947,23 +935,17 @@ para o Master. Este limita-se a controlar o tempo de ciclo da rede EtherCAT e a
 copiar para uma saída o valor da entrada que recebeu (idealmente o mais rápido
 possível). O slave recebe este valor da saída e verifica se o estado do recetor
 é igual ao da saída:
-  - Se fôr, o deadline de entrega das mensagens cumpre a especificação necessária.
-  - Senão, o tempo de ciclo da rede é demasiado baixo para cumprir os requisitos.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_modificação_para_possível_controlo_de_atuação">Modificação para possível controlo de atuação</h4>
-<div class="paragraph"><p>Colocar LED a piscar a frequencia constante e sincronizar o(s) disco(s)
+  * Se fôr, o deadline de entrega das mensagens cumpre a especificação necessária.
+  * Senão, o tempo de ciclo da rede é demasiado baixo para cumprir os requisitos.</p></div>
+<div class="paragraph"><div class="title">Modificação para possível controlo de atuação</div><p>Colocar LED a piscar a frequencia constante e sincronizar o(s) disco(s)
 de modo a manter o feixe de lux a atingir o fotorrecetor.</p></div>
-</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_3_01_03_2021">Semana 3 - 01/03/2021</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_trabalho_realizado">Trabalho realizado</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Trabalho realizado</div><ul>
 <li>
 <p>
 Pesquisa de controlador de motor DC com encoder para Raspberry Pi
@@ -976,10 +958,7 @@ genérica do kernel.
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_discussão_3">Discussão</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Discussão</div><ul>
 <li>
 <p>
 Como implementar o slave?
@@ -1003,10 +982,7 @@ Esquecer arduino
 </ul></div>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_tarefas_2">Tarefas</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Tarefas</div><ul>
 <li>
 <p>
 Verificar o que é o "MegaIO" e se é relevante
@@ -1027,19 +1003,48 @@ comunicar com o módulo de controlo do motor.
 </ul></div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="_semana_4_08_03_2021">Semana 4 - 08/03/2021</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><em>Por registar</em></p></div>
+<div class="ulist"><div class="title">Trabalho realizado</div><ul>
+<li>
+<p>
+Testes de código para a criação de tarefas de tempo-real com perído constante, utilizando
+diferentes métodos:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Escalonador de tarefas FIFO e temporizador a gerar um sinal de interrupção periódico;
+</p>
+</li>
+<li>
+<p>
+Escalonador de tarefas FIFO e temporizador a criar uma thread de execução nova, do estilo
+<em>pthreads</em>;
+</p>
+</li>
+<li>
+<p>
+Escalonador de tarefas DEADLINE que executa a tarefa em períodos constantes, definidos
+durante a mudança de escalonador do processo.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Criação de um programa de teste de comunicação EtherCAT que use uma tarefa periódica de
+tempo-real.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_5_15_03_2021">Semana 5 - 15/03/2021</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_trabalho_realizado_2">Trabalho realizado</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Trabalho realizado</div><ul>
 <li>
 <p>
 Tarefa de tempo real para RPI terminada
@@ -1051,10 +1056,7 @@ API de I2C de Linux estudada
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_tarefas_3">Tarefas</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Tarefas</div><ul>
 <li>
 <p>
 Verificar implementação de slave Profinet com o CODESYS
@@ -1073,17 +1075,48 @@ Testar se todos os componentes estão OK
 </ul></div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="_semana_6_22_03_2021">Semana 6 - 22/03/2021</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><em>Por registar</em></p></div>
+<div class="ulist"><div class="title">Trabalho realizado</div><ul>
+<li>
+<p>
+Estudada a possibilidade de comunicação I2C programada no CODESYS. (Possível mas não viável,
+seria preciso ligação com um módulo de código externo para comunicação)
+</p>
+</li>
+<li>
+<p>
+Pesquisado possível shield EtherCAT alternativo, mas o princípio de funcionamento é o mesmo da Hilscher.
+</p>
+</li>
+<li>
+<p>
+Pesquisadas implementações de librarias de I2C para linux, encontrado um exemplo em Python e a documentação
+do driver de I2C do kernel Linux.
+</p>
+</li>
+</ul></div>
+<div class="ulist"><div class="title">Tarefas</div><ul>
+<li>
+<p>
+Testar as librarias de I2C encontradas
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_7_29_03_2021">Semana 7 - 29/03/2021</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><em>Por registar</em></p></div>
+<div class="ulist"><div class="title">Trabalho realizado</div><ul>
+<li>
+<p>
+Librarias de I2C testadas, ambas funcionam, a mais interessante para ser usada será a implementada em C, usando
+o driver do kernel Linux.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -1093,17 +1126,15 @@ Testar se todos os componentes estão OK
 </div>
 </div>
 <div class="sect1">
-<h2 id="_semana_9_12_05_2021">Semana 9 - 12/05/2021</h2>
+<h2 id="_semana_9_12_04_2021">Semana 9 - 12/04/2021</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><em>Por registar</em></p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_semana_10_19_05_2021">Semana 10 - 19/05/2021</h2>
+<h2 id="_semana_10_19_04_2021">Semana 10 - 19/04/2021</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_discussão_4">Discussão</h3>
-<div class="ulist"><ul>
+<div class="ulist"><div class="title">Discussão</div><ul>
 <li>
 <p>
 Falar com Carlos Graph acerca de impressão 3D;
@@ -1111,19 +1142,18 @@ Falar com Carlos Graph acerca de impressão 3D;
 </li>
 <li>
 <p>
-<em>Esquecer</em> velocidades baixas para a leitura de impulsos;
+Esquecer velocidades baixas para a leitura de impulsos;
 </p>
 <div class="ulist"><ul>
 <li>
 <p>
 Possivelmente ajustar o timeout para assumir RPM=0 em função da RPM de comando,
-atravez do tempo medio entre impulsos.
+  atravez do tempo medio entre impulsos.
 </p>
 </li>
 </ul></div>
 </li>
 </ul></div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -1141,18 +1171,71 @@ atravez do tempo medio entre impulsos.
 <div class="sect1">
 <h2 id="_semana_13_10_05_2021">Semana 13 - 10/05/2021</h2>
 <div class="sectionbody">
+<div class="paragraph"><p><em>Por Registar</em></p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_14_17_05_2021">Semana 14 - 17/05/2021</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><em>A decorrer</em></p></div>
+<div class="paragraph"><p><em>Por Registar</em></p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_semana_15_24_05_2021">Semana 15 - 24/05/2021</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><em>Futuro</em></p></div>
+<div class="ulist"><div class="title">A decorrer</div><ul>
+<li>
+<p>
+[PID] Adicionado controlo do delta máximo de saída
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Será útil para controlar a máxima aceleração quando o PID controla velocidade;
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+[COMM] Adicionados bytes para transferência de valores de comando de:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Posição [0-1];
+</p>
+</li>
+<li>
+<p>
+Velocidade [2-3];
+</p>
+</li>
+<li>
+<p>
+Aceleração máxima [4-5];
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+[COMM] Adicionado byte cujos bits servirão de controlo:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Ativação do controlo automático [6.0];
+</p>
+</li>
+<li>
+<p>
+Ativação do <em>log</em> de valores [6.1];
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -1182,6 +1265,7 @@ atravez do tempo medio entre impulsos.
 <div class="sect1">
 <h2 id="_semana_20_28_06_2021">Semana 20 - 28/06/2021</h2>
 <div class="sectionbody">
+<div class="paragraph"><p><em>Futuro</em></p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1203,9 +1287,9 @@ atravez do tempo medio entre impulsos.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1<br />
+Version 0.2<br />
 Last updated
- 2021-05-17 12:25:51 WEST
+ 2021-05-26 10:54:36 WEST
 </div>
 </div>
 </body>
