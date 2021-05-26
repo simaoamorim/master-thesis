@@ -167,7 +167,17 @@ _Por Registar_
 _Por Registar_
 
 == Semana 15 - 24/05/2021
-_A decoorer_
+.A decorrer
+ * [PID] Adicionado controlo do delta máximo de saída
+  ** Será útil para controlar a máxima aceleração quando o PID controla velocidade;
+ * [COMM] Adicionados bytes para transferência de valores de comando de:
+  ** Posição [0-1];
+  ** Velocidade [2-3];
+  ** Aceleração máxima [4-5];
+ * [COMM] Adicionado byte cujos bits servirão de controlo:
+  ** Ativação do controlo automático [6.0];
+  ** Ativação do _log_ de valores [6.1];
+
 == Semana 16 - 31/05/2021
 _Futuro_
 
