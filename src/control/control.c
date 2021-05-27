@@ -41,7 +41,12 @@ void * control_task (void *arg)
 			motor_stop(cs->dfr_board, 1);
 		}
 
+		comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));
+		comm_put_output_word(cs->comm_s, 2, (uint16_t) p_v_get_position(cs->pv_s));
+
 		prev_time = cur_time;
+
+		comm_update_outputs(cs->comm_s);
 
 		usleep(cs->period);
 
