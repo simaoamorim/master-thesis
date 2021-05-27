@@ -54,4 +54,10 @@ uint16_t comm_get_input_word (struct comm_s *cs, int offset);
 
 uint8_t comm_get_input_bit (struct comm_s *cs, int byte_offset, int bit_offset);
 
+void comm_put_output_byte (struct comm_s *cs, int offset, uint8_t data);
+
+void comm_put_output_bit (struct comm_s *cs, int byte_offset, int bit_offset, int data);
+
+void comm_put_output_word (struct comm_s *cs, int offset, uint16_t data);
+
 #endif

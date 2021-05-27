@@ -187,3 +187,22 @@ uint8_t comm_get_input_bit (struct comm_s *cs, int byte_offset, int bit_offset)
 {
 	return comm_get_input_byte(cs, byte_offset) & (1 << bit_offset);
 }
+
+void comm_put_output_byte (struct comm_s *cs, int offset, uint8_t data)
+{
+	cs->sendData[offset] = data;
+}
+
+void comm_put_output_bit (struct comm_s *cs, int byte_offset, int bit_offset, int data)
+{
+	uint8_t tmp = cs->sendData[byte_offset];
+	tmp &= 0xFF ^ (1 << bit_offset);
+	tmp += (data << bit_offset) & (1 << bit_offset);
+	cs->sendData[byte_offset] = tmp;
+}
+
+void comm_put_output_word (struct comm_s *cs, int offset, uint16_t data)
+{
+	cs->sendData[offset] = (0xFF00 & data) >> 8;
+	cs->sendData[offset+1] = 0xFF & data;
+}
