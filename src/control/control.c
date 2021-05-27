@@ -22,7 +22,7 @@ void * control_task (void *arg)
 
 		if (comm_ok && enable) {
 			// Control loop here
-
+			p_v_enable_task(cs->pv_s);
 			// Get inputs
 			cs->pid_vel->command = comm_get_input_word(cs->comm_s, 2);
 			cs->pid_vel->max_output_delta = comm_get_input_word(cs->comm_s, 4);
@@ -39,6 +39,7 @@ void * control_task (void *arg)
 			if (!comm_ok)
 				puts("Waiting to establish communication with master...");
 			motor_stop(cs->dfr_board, 1);
+			p_v_disable_task(cs->pv_s);
 		}
 
 		comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));

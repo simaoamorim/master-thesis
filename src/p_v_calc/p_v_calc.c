@@ -61,7 +61,7 @@ disabled:
 	pthread_mutex_lock(&p_v_task->velocity_mutex);
 	p_v_task->output_w = 0.0;
 	pthread_mutex_unlock(&p_v_task->velocity_mutex);
-	while (!p_v_task->enabled)
+	while (!p_v_task->enabled && p_v_task_keep_running)
 		usleep(p_v_task->period);
 
 	clock_gettime(CLOCK_MONOTONIC, &prev_time);

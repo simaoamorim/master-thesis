@@ -45,16 +45,16 @@ int main (int argc, char *argv[])
 	pthread_t p_v_thread_id = -1;
 	pthread_t control_thread_id = -1;
 	pthread_attr_t pthread_attrs;
-	int control_period;
 //	size_t inbuf_size = 80;
 //	char *inbuf = calloc(sizeof(char), inbuf_size);
 //	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
 //	double new_command = 0.0;
 	int enable_logging = 0;
+	long logging_period = 0;
 
 	// Check argument count
-	if (argc != 11 && argc != 12) {
+	if (argc != 12 && argc != 13) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
@@ -85,19 +85,19 @@ int main (int argc, char *argv[])
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
 	sscanf(argv[4], "%lf", &pid_s.deadband);
-	sscanf(argv[5], "%d", &control_period);
+	sscanf(argv[5], "%ld", &control_s.period);
 	sscanf(argv[6], "%lf", &pid_s.command);
 	sscanf(argv[7], "%ld", &pv_task_s.period);
 	sscanf(argv[8], "%ld", &pv_task_s.encoder_ppr);
 	sscanf(argv[9], "%lf", &pv_task_s.gearbox_ratio);
 	sscanf(argv[10], "%d", &encoder_struct.period);
+	sscanf(argv[11], "%ld", &logging_period);
 
 	pv_task_s.enc_task = &encoder_struct;
 	control_s.dfr_board = &dfr_board;
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
 	control_s.comm_s = &comm_s;
-	control_s.period = control_period;
 
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
@@ -134,22 +134,23 @@ int main (int argc, char *argv[])
 		goto end;
 	}
 
-	if (argc == 12) {
-		debug_file = init_pid_debug(&pid_s, argv[11]);
+	if (argc == 13) {
+		debug_file = init_pid_debug(&pid_s, argv[12]);
 		if (NULL == debug_file) {
 			char string[100];
-			sprintf(string, "Failed to open debug file \"%s\": ", argv[11]);
+			sprintf(string, "Failed to open debug file \"%s\": ", argv[12]);
 			perror(string);
 			puts("Continuing without debug output");
 		}
 	}
 
 //	printf("> ");
-	p_v_enable_task(&pv_task_s);
-	usleep(control_period);
+//	p_v_enable_task(&pv_task_s);
+	usleep(logging_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+		comm_update_inputs(&comm_s);
 		enable_logging = comm_get_input_bit(&comm_s, 6, 1); 
 /*
 		// Check stdin for new command value
@@ -170,7 +171,7 @@ int main (int argc, char *argv[])
 		if (NULL != debug_file && enable_logging) {
 			if (0 == iter) {
 				debug_append_iteration(&pid_s, debug_file, iter++, 0.0);
-				clock_gettime(CLOCK_MONOTONIC, &first_time);
+				first_time = cur_time;
 			} else {
 				tstamp = delta(first_time, cur_time);
 				debug_append_iteration(&pid_s, debug_file, iter++, tstamp);
@@ -178,7 +179,7 @@ int main (int argc, char *argv[])
 		}
 
 		fflush(stdout);
-		usleep(control_period);
+		usleep(logging_period);
 	}
 
 	putchar('\n');
@@ -225,5 +226,6 @@ void print_help (char *argv[])
 	printf("  encoder_ppr: Motor encoder PPR\n");
 	printf("  gbox_ratio:  Motor gearbox ratio\n");
 	printf("  enc_period:  Encoder I/O parse period\n");
+	printf("  log_period:  Logging period\n");
 	printf("  filename:    File name to output debug into [Optional]\n");
 }
