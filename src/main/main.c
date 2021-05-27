@@ -52,9 +52,10 @@ int main (int argc, char *argv[])
 	int lret;
 //	double new_command = 0.0;
 	int enable_logging = 0;
+	int logging_period = 0;
 
 	// Check argument count
-	if (argc != 11 && argc != 12) {
+	if (argc != 12 && argc != 13) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
@@ -91,6 +92,7 @@ int main (int argc, char *argv[])
 	sscanf(argv[8], "%ld", &pv_task_s.encoder_ppr);
 	sscanf(argv[9], "%lf", &pv_task_s.gearbox_ratio);
 	sscanf(argv[10], "%d", &encoder_struct.period);
+	sscanf(argv[11], "%d", &logging_period);
 
 	pv_task_s.enc_task = &encoder_struct;
 	control_s.dfr_board = &dfr_board;
@@ -134,11 +136,11 @@ int main (int argc, char *argv[])
 		goto end;
 	}
 
-	if (argc == 12) {
-		debug_file = init_pid_debug(&pid_s, argv[11]);
+	if (argc == 13) {
+		debug_file = init_pid_debug(&pid_s, argv[12]);
 		if (NULL == debug_file) {
 			char string[100];
-			sprintf(string, "Failed to open debug file \"%s\": ", argv[11]);
+			sprintf(string, "Failed to open debug file \"%s\": ", argv[12]);
 			perror(string);
 			puts("Continuing without debug output");
 		}
@@ -146,7 +148,7 @@ int main (int argc, char *argv[])
 
 //	printf("> ");
 	p_v_enable_task(&pv_task_s);
-	usleep(control_period);
+	usleep(logging_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
@@ -178,7 +180,7 @@ int main (int argc, char *argv[])
 		}
 
 		fflush(stdout);
-		usleep(control_period);
+		usleep(logging_period);
 	}
 
 	putchar('\n');
@@ -225,5 +227,6 @@ void print_help (char *argv[])
 	printf("  encoder_ppr: Motor encoder PPR\n");
 	printf("  gbox_ratio:  Motor gearbox ratio\n");
 	printf("  enc_period:  Encoder I/O parse period\n");
+	printf("  log_period:  Logging period\n");
 	printf("  filename:    File name to output debug into [Optional]\n");
 }
