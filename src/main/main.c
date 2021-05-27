@@ -145,7 +145,7 @@ int main (int argc, char *argv[])
 	}
 
 //	printf("> ");
-	p_v_enable_task(&pv_task_s);
+//	p_v_enable_task(&pv_task_s);
 	usleep(logging_period);
 
 	while (keep_running) {
