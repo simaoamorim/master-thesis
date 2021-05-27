@@ -16,6 +16,7 @@
 	.max_i_error = 1000000.0,\
 	.max_d_error = 1000000.0,\
 	.max_output = 100.0,\
+	.max_output_delta = 0.0,\
 \
 	.error = 0.0,\
 	.previous_error = 0.0,\
@@ -46,6 +47,7 @@ struct pid_s
 	double max_i_error;
 	double max_d_error;
 	double max_output;
+	double max_output_delta;
 	
 	// Internal computations
 	double error;

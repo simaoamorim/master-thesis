@@ -1,13 +1,13 @@
-CC ?= gcc
-CFLAGS ?= -Wall -I../encoder/
+CC ?= clang
+CFLAGS ?= -Wall -DSPINNER
 LDFLAGS ?=
 
-all: p_v_calc.o
+all: comm.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: all clean
+.PHONY: clean
 
 clean:
 	@find . -type f -iname '*.o' -exec rm -v {} \;

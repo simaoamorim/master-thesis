@@ -9,6 +9,7 @@
 #include <dfr0592.h>
 #include <p_v_calc.h>
 #include <control.h>
+#include <comm.h>
 
 #define	ENC_PPR			12.0
 #define	MOTOR_GEARBOX_RATIO	30.0
@@ -34,21 +35,23 @@ int main (int argc, char *argv[])
 	struct timespec first_time, cur_time;
 	FILE *debug_file = NULL;
 	int iter = 0;
-	struct encoder_task encoder_struct = {0};
+	struct encoder_task encoder_struct;
 	struct pid_s pid_s = NEW_PID_T;
 	struct p_v_task_s pv_task_s = NEW_P_V_TASK_S;
 	struct control_s control_s = NEW_CONTROL_S;
+	struct comm_s comm_s = NEW_COMM_S;
 	double tstamp;
 	pthread_t encoder_thread_id = -1;
 	pthread_t p_v_thread_id = -1;
 	pthread_t control_thread_id = -1;
 	pthread_attr_t pthread_attrs;
 	int control_period;
-	size_t inbuf_size = 80;
-	char *inbuf = calloc(sizeof(char), inbuf_size);
-	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
+//	size_t inbuf_size = 80;
+//	char *inbuf = calloc(sizeof(char), inbuf_size);
+//	struct pollfd fds = {.fd = fileno(stdin), .events = POLLIN};
 	int lret;
-	double new_command = 0.0;
+//	double new_command = 0.0;
+	int enable_logging = 0;
 
 	// Check argument count
 	if (argc != 11 && argc != 12) {
@@ -93,18 +96,31 @@ int main (int argc, char *argv[])
 	control_s.dfr_board = &dfr_board;
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
+	control_s.comm_s = &comm_s;
 	control_s.period = control_period;
 
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
 
+	printf("Initializing comm... ");
+	lret = comm_init(&comm_s);
+	if (-1 == lret)
+		FAIL("Failed to initialise COMM");
+	puts("OK");
+
 	// Initialize encoder task thread
 	pthread_attr_init(&pthread_attrs);
 	pthread_attr_setinheritsched(&pthread_attrs, PTHREAD_INHERIT_SCHED);
+	printf("Creating encoder thread... ");
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
+	puts("OK");
+	printf("Creating p_v thread... ");
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
+	puts("OK");
+	printf("Creating control thread... ");
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
+	puts("OK");
 
 	int policy;
 	pthread_getschedparam(control_thread_id, &policy, &sched_param);
@@ -120,9 +136,7 @@ int main (int argc, char *argv[])
 
 	if (argc == 12) {
 		debug_file = init_pid_debug(&pid_s, argv[11]);
-		if (NULL != debug_file) {
-			debug_append_iteration(&pid_s, debug_file, iter, 0.0);
-		} else {
+		if (NULL == debug_file) {
 			char string[100];
 			sprintf(string, "Failed to open debug file \"%s\": ", argv[11]);
 			perror(string);
@@ -130,13 +144,14 @@ int main (int argc, char *argv[])
 		}
 	}
 
-	printf("> ");
+//	printf("> ");
 	p_v_enable_task(&pv_task_s);
-	clock_gettime(CLOCK_MONOTONIC, &first_time);
 	usleep(control_period);
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
+		enable_logging = comm_get_input_bit(&comm_s, 6, 1); 
+/*
 		// Check stdin for new command value
 		lret = poll(&fds, 1, 0);
 		if (0 < lret) {
@@ -151,11 +166,15 @@ int main (int argc, char *argv[])
 		} else if (0 > lret) {
 			FAIL("poll() on STDIN failed");
 		}
-
-		if (NULL != debug_file) {
-			iter++;
-			tstamp = delta(first_time, cur_time);
-			debug_append_iteration(&pid_s, debug_file, iter, tstamp);
+*/
+		if (NULL != debug_file && enable_logging) {
+			if (0 == iter) {
+				debug_append_iteration(&pid_s, debug_file, iter++, 0.0);
+				clock_gettime(CLOCK_MONOTONIC, &first_time);
+			} else {
+				tstamp = delta(first_time, cur_time);
+				debug_append_iteration(&pid_s, debug_file, iter++, tstamp);
+			}
 		}
 
 		fflush(stdout);
@@ -166,22 +185,25 @@ int main (int argc, char *argv[])
 	printf("Exited main loop\n");
 
 end:
-	printf("Stopping auxiliary threads... ");
-	encoder_task_stop();
-	p_v_task_stop();
-	control_task_stop(&control_s);
-	if (-1 != encoder_thread_id)
-		pthread_join(encoder_thread_id, (void *) &retval);
-	if (-1 != p_v_thread_id)
-		pthread_join(p_v_thread_id, (void *) &retval);
-	if (-1 != control_thread_id)
-		pthread_join(control_thread_id, (void *) &retval);
-	puts("OK");
+	if (-1 != (encoder_thread_id & p_v_thread_id & control_thread_id)) {
+		printf("Stopping auxiliary threads... ");
+		encoder_task_stop();
+		p_v_task_stop();
+		control_task_stop(&control_s);
+		if (-1 != encoder_thread_id)
+			pthread_join(encoder_thread_id, (void *) &retval);
+		if (-1 != p_v_thread_id)
+			pthread_join(p_v_thread_id, (void *) &retval);
+		if (-1 != control_thread_id)
+			pthread_join(control_thread_id, (void *) &retval);
+		puts("OK");
+	}
 	if (-1 != dfr_board.i2c_fd) {
 		printf("Stopping motor... ");
 		motor_stop(&dfr_board, 1);
 		printf("OK\n");
 	}
+	comm_end(&comm_s);
 	puts("All done. Goodbye!");
 	return retval;
 }

@@ -1,6 +1,6 @@
-CC = gcc
-CFLAGS = -Wall -I.
-LDFLAGS = -lgpiod -pthread
+CC ?= gcc
+CFLAGS ?= -Wall -I.
+LDFLAGS ?= -lgpiod -pthread
 
 all: encoder.o encoder_task.o
 
