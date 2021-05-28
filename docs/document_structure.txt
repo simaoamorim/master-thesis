@@ -1,41 +1,148 @@
-= Document Structure
+Document Structure
+==================
 :author: Simão Amorim
 :email: up201605618@edu.fe.up.pt
 :revision: 0.1
 :date: 28-05-2021
+:numbered:
+:toc:
 
-== Chapter 1: Introduction
-* Context
-* Motivation
-* Objectives
-* Document structure
+Introduction
+------------
 
-== Chapter 2: State of the art
-* Real-time Ethernet networks
-** EtherCAT
-** EthernetIP
-** Profinet/IO
-** ...
+
+Context
+~~~~~~~
+ * Describe the situation that prompts us to develop a solution
+
+ There are no practical demonstrators focused on the effects of network cycle time in control
+ applications that are also well suited for usage within an educational environment
+
+Motivation
+~~~~~~~~~~
+ * Describe why we want to develop such solution
+
+ the course is planning to introduce a new subject about real-time networks and, as such, having
+ a practical demonstrator would be a great booster for the practical lessons
+
+Objectives
+~~~~~~~~~~
+ * What we expect to achieve with this solution
+
+ a demonstrator capable of producing numerical results that provide clear insight on the effects of
+ the network cycle time on control applications
+
+Document structure
+~~~~~~~~~~~~~~~~~~
+ * Describe what will be discussed in each chapter of the document
+
+State of the art
+----------------
+
+Real-time Ethernet networks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+EtherCAT
+^^^^^^^^
+Explain how the EtherCAT network works.
+
+Ethernet/IP
+^^^^^^^^^^^
+Explain how the Ethernet/IP network works.
+
+Profinet/IO
+^^^^^^^^^^^
+Explain how the Profinet/IO network works.
+
 [NOTE]
 Either present several options or focus on a single one (EtherCAT) and explain it in-depth.
 
-== Chapter 3: System architecture
-* Requirements analysis
-** Hardware
-** Software
-* Conceptual experiments
+Summary
+~~~~~~~
+ * Sumarize information given above
 
-== Chapter 4: Implementation
-* Hardware Development
-* Software Development
-** Include functionality testing code
+System architecture
+-------------------
 
-== Chapter 5: Concept testing
-* Local Vs. Remote velocity control
-** Diferences in performance
-* Local Vs. Remote position control
+Requirements analysis
+~~~~~~~~~~~~~~~~~~~~~
+Analysis of what is required to fulfill the objectives.
 
+Hardware
+^^^^^^^^
 
-== Chapter 6: Conclusions
-* Agregate practical results
-* Future work
+* Computational
+
+ Raspberry Pi
+
+* Motor
+
+ DC Geared motor with incremental quadrature encoder
+
+* Motor control
+
+ DFRobot DFR0592 (PWM + H-Bridge)
+
+* Real-time Ethernet Communication
+
+ Hilscher netHAT 52-RTE
+
+Software
+^^^^^^^^
+ * Hilscher netHAT API
+ * I2C communication with DFR0592 footnote:[SMBus]
+ * PID
+ * Encoder impulse decoding
+ footnote:[Remember that the DFR0592 velocity feedback was too slow to be used (100ms)]
+
+Conceptual experiments
+^^^^^^^^^^^^^^^^^^^^^^
+Explain what types of experiments could be performed using the demonstrator.
+
+Implementation
+--------------
+
+Hardware Development
+~~~~~~~~~~~~~~~~~~~~
+What was actually developped in terms of hardware
+
+Software Development
+~~~~~~~~~~~~~~~~~~~~
+What was actually developped in terms of software, including all the tests created to explore
+possible functionalities.
+
+Limitations
+^^^^^^^^^^^
+What could have been done but wasn't, and what that implies on the results obtained.
+
+TIP: Include functionality tests
+
+Concept and requirements testing
+--------------------------------
+
+* Diferences in performance (local vs. remote)
+** Velocity control
+** Position control
+
+Conclusions
+-----------
+
+Experimental results
+~~~~~~~~~~~~~~~~~~~~
+Summary of results obtained from practical/experimental tests.
+
+Goals met
+~~~~~~~~~
+Summary of what proposed goals were met.
+
+Final words
+~~~~~~~~~~~
+Conclude if the solution is actually fit for the intended purpose, based on the previous 2 summaries.
+
+Future work
+~~~~~~~~~~~
+Explain what can be derived from this solutions.
+
+Code improvements
+^^^^^^^^^^^^^^^^^
+Explain what improvements can be made to the current code base.

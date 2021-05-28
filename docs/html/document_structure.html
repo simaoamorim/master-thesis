@@ -728,7 +728,7 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
@@ -739,67 +739,88 @@ asciidoc.install();
 <span id="email"><code>&lt;<a href="mailto:up201605618@edu.fe.up.pt">up201605618@edu.fe.up.pt</a>&gt;</code></span><br />
 <span id="revnumber">version 0.1,</span>
 <span id="revdate">28-05-2021</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_chapter_1_introduction">Chapter 1: Introduction</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_context">1.1. Context</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-Context
+Describe the situation that prompts us to develop a solution
 </p>
+<div class="literalblock">
+<div class="content">
+<pre><code>There are no practical demonstrators focused on the effects of network cycle time in control
+applications that are also well suited for usage within an educational environment</code></pre>
+</div></div>
 </li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_motivation">1.2. Motivation</h3>
+<div class="ulist"><ul>
 <li>
 <p>
-Motivation
+Describe why we want to develop such solution
 </p>
+<div class="literalblock">
+<div class="content">
+<pre><code>the course is planning to introduce a new subject about real-time networks and, as such, having
+a practical demonstrator would be a great booster for the practical lessons</code></pre>
+</div></div>
 </li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_objectives">1.3. Objectives</h3>
+<div class="ulist"><ul>
 <li>
 <p>
-Objectives
+What we expect to achieve with this solution
 </p>
+<div class="literalblock">
+<div class="content">
+<pre><code>a demonstrator capable of producing numerical results that provide clear insight on the effects of
+the network cycle time on control applications</code></pre>
+</div></div>
 </li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_document_structure">1.4. Document structure</h3>
+<div class="ulist"><ul>
 <li>
 <p>
-Document structure
+Describe what will be discussed in each chapter of the document
 </p>
 </li>
 </ul></div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_chapter_2_state_of_the_art">Chapter 2: State of the art</h2>
+<h2 id="_state_of_the_art">2. State of the art</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
-<li>
-<p>
-Real-time Ethernet networks
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-EtherCAT
-</p>
-</li>
-<li>
-<p>
-EthernetIP
-</p>
-</li>
-<li>
-<p>
-Profinet/IO
-</p>
-</li>
-<li>
-<p>
-&#8230;
-</p>
-</li>
-</ul></div>
-</li>
-</ul></div>
+<div class="sect2">
+<h3 id="_real_time_ethernet_networks">2.1. Real-time Ethernet networks</h3>
+<div class="sect3">
+<h4 id="_ethercat">2.1.1. EtherCAT</h4>
+<div class="paragraph"><p>Explain how the EtherCAT network works.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_ethernet_ip">2.1.2. Ethernet/IP</h4>
+<div class="paragraph"><p>Explain how the Ethernet/IP network works.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_profinet_io">2.1.3. Profinet/IO</h4>
+<div class="paragraph"><p>Explain how the Profinet/IO network works.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -810,52 +831,141 @@ Profinet/IO
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_summary">2.2. Summary</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Sumarize information given above
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
 <div class="sect1">
-<h2 id="_chapter_3_system_architecture">Chapter 3: System architecture</h2>
+<h2 id="_system_architecture">3. System architecture</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_requirements_analysis">3.1. Requirements analysis</h3>
+<div class="paragraph"><p>Analysis of what is required to fulfill the objectives.</p></div>
+<div class="sect3">
+<h4 id="_hardware">3.1.1. Hardware</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Computational
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><code>Raspberry Pi</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+Motor
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><code>DC Geared motor with incremental quadrature encoder</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+Motor control
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><code>DFRobot DFR0592 (PWM + H-Bridge)</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+Real-time Ethernet Communication
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><code>Hilscher netHAT 52-RTE</code></pre>
+</div></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_software">3.1.2. Software</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Hilscher netHAT API
+</p>
+</li>
+<li>
+<p>
+I2C communication with DFR0592 <span class="footnote"><br />[SMBus]<br /></span>
+</p>
+</li>
+<li>
+<p>
+PID
+</p>
+</li>
+<li>
+<p>
+Encoder impulse decoding
+ <span class="footnote"><br />[Remember that the DFR0592 velocity feedback was too slow to be used (100ms)]<br /></span>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_conceptual_experiments">3.1.3. Conceptual experiments</h4>
+<div class="paragraph"><p>Explain what types of experiments could be performed using the demonstrator.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation">4. Implementation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_hardware_development">4.1. Hardware Development</h3>
+<div class="paragraph"><p>What was actually developped in terms of hardware</p></div>
+</div>
+<div class="sect2">
+<h3 id="_software_development">4.2. Software Development</h3>
+<div class="paragraph"><p>What was actually developped in terms of software, including all the tests created to explore
+possible functionalities.</p></div>
+<div class="sect3">
+<h4 id="_limitations">4.2.1. Limitations</h4>
+<div class="paragraph"><p>What could have been done but wasn&#8217;t, and what that implies on the results obtained.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">Include functionality tests</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_and_requirements_testing">5. Concept and requirements testing</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
 <p>
-Requirements analysis
+Diferences in performance (local vs. remote)
 </p>
 <div class="ulist"><ul>
 <li>
 <p>
-Hardware
+Velocity control
 </p>
 </li>
 <li>
 <p>
-Software
-</p>
-</li>
-</ul></div>
-</li>
-<li>
-<p>
-Conceptual experiments
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_chapter_4_implementation">Chapter 4: Implementation</h2>
-<div class="sectionbody">
-<div class="ulist"><ul>
-<li>
-<p>
-Hardware Development
-</p>
-</li>
-<li>
-<p>
-Software Development
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-Include functionality testing code
+Position control
 </p>
 </li>
 </ul></div>
@@ -864,44 +974,28 @@ Include functionality testing code
 </div>
 </div>
 <div class="sect1">
-<h2 id="_chapter_5_concept_testing">Chapter 5: Concept testing</h2>
+<h2 id="_conclusions">6. Conclusions</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
-<li>
-<p>
-Local Vs. Remote velocity control
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-Diferences in performance
-</p>
-</li>
-</ul></div>
-</li>
-<li>
-<p>
-Local Vs. Remote position control
-</p>
-</li>
-</ul></div>
+<div class="sect2">
+<h3 id="_experimental_results">6.1. Experimental results</h3>
+<div class="paragraph"><p>Summary of results obtained from practical/experimental tests.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_goals_met">6.2. Goals met</h3>
+<div class="paragraph"><p>Summary of what proposed goals were met.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_final_words">6.3. Final words</h3>
+<div class="paragraph"><p>Conclude if the solution is actually fit for the intended purpose, based on the previous 2 summaries.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_future_work">6.4. Future work</h3>
+<div class="paragraph"><p>Explain what can be derived from this solutions.</p></div>
+<div class="sect3">
+<h4 id="_code_improvements">6.4.1. Code improvements</h4>
+<div class="paragraph"><p>Explain what improvements can be made to the current code base.</p></div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_chapter_6_conclusions">Chapter 6: Conclusions</h2>
-<div class="sectionbody">
-<div class="ulist"><ul>
-<li>
-<p>
-Agregate practical results
-</p>
-</li>
-<li>
-<p>
-Future work
-</p>
-</li>
-</ul></div>
 </div>
 </div>
 </div>
@@ -910,7 +1004,7 @@ Future work
 <div id="footer-text">
 Version 0.1<br />
 Last updated
- 2021-05-28 11:14:57 GMT Summer Time
+ 2021-05-28 15:47:34 GMT Summer Time
 </div>
 </div>
 </body>
