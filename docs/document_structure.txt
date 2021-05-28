@@ -1,0 +1,41 @@
+= Document Structure
+:author: Simão Amorim
+:email: up201605618@edu.fe.up.pt
+:revision: 0.1
+:date: 28-05-2021
+
+== Chapter 1: Introduction
+* Context
+* Motivation
+* Objectives
+* Document structure
+
+== Chapter 2: State of the art
+* Real-time Ethernet networks
+** EtherCAT
+** EthernetIP
+** Profinet/IO
+** ...
+[NOTE]
+Either present several options or focus on a single one (EtherCAT) and explain it in-depth.
+
+== Chapter 3: System architecture
+* Requirements analysis
+** Hardware
+** Software
+* Conceptual experiments
+
+== Chapter 4: Implementation
+* Hardware Development
+* Software Development
+** Include functionality testing code
+
+== Chapter 5: Concept testing
+* Local Vs. Remote velocity control
+** Diferences in performance
+* Local Vs. Remote position control
+
+
+== Chapter 6: Conclusions
+* Agregate practical results
+* Future work
