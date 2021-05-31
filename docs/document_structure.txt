@@ -7,9 +7,11 @@ Document Structure
 :numbered:
 :toc:
 
+
+
+// 1
 Introduction
 ------------
-
 
 Context
 ~~~~~~~
@@ -36,11 +38,16 @@ Document structure
 ~~~~~~~~~~~~~~~~~~
  * Describe what will be discussed in each chapter of the document
 
+
+
+// 2
 State of the art
 ----------------
 
 Real-time Ethernet networks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Present a generalized overview of industrial Ethernet networks, to serve as an entry point into
+the specified networks below.
 
 EtherCAT
 ^^^^^^^^
@@ -59,14 +66,25 @@ Either present several options or focus on a single one (EtherCAT) and explain i
 
 Summary
 ~~~~~~~
- * Sumarize information given above
+Summarize  the information given in this chapter.
 
+
+
+// 3
 System architecture
 -------------------
 
 Requirements analysis
 ~~~~~~~~~~~~~~~~~~~~~
 Analysis of what is required to fulfill the objectives.
+
+Proposed Architecture
+~~~~~~~~~~~~~~~~~~~~~
+Explain exactly how we intend to tackle the problem and how we plan to deal with any
+forseen dificulties and/or challenges.
+
+[NOTE]
+Present a high-level block diagram of the architecture to help understand the implementation.
 
 Hardware
 ^^^^^^^^
@@ -96,9 +114,16 @@ Software
  footnote:[Remember that the DFR0592 velocity feedback was too slow to be used (100ms)]
 
 Conceptual experiments
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~
 Explain what types of experiments could be performed using the demonstrator.
 
+Summary
+~~~~~~~
+Summarize  the information given in this chapter.
+
+
+
+// 4
 Implementation
 --------------
 
@@ -115,15 +140,25 @@ Limitations
 ^^^^^^^^^^^
 What could have been done but wasn't, and what that implies on the results obtained.
 
+Summary
+~~~~~~~
+Summarize  the information given in this chapter.
+
 TIP: Include functionality tests
 
-Concept and requirements testing
---------------------------------
+
+
+// 5
+Proposal Evaluation
+-------------------
 
 * Diferences in performance (local vs. remote)
 ** Velocity control
 ** Position control
 
+
+
+// 6
 Conclusions
 -----------
 
