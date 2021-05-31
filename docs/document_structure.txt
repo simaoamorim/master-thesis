@@ -2,8 +2,8 @@ Document Structure
 ==================
 :author: Simão Amorim
 :email: up201605618@edu.fe.up.pt
-:revision: 0.1
-:date: 28-05-2021
+:revision: 0.2
+:date: 31-05-2021
 :numbered:
 :toc:
 
