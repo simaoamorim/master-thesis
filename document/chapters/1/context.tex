@@ -1,4 +1,35 @@
 \section{Context} \label{sec:context}
+% Cite RS-232
+% Cite Ethernet
 
-This will be the context of the work
+Modern process control systems include advanced features which were virtually
+impossible to implement even two decades ago. For many years now, industrial
+processes have been managed by specialized control hardware such as \textbf
+Programmable \textbf Logic \textbf Controllers ({\bfseries PLC}). In the early
+days, PLC's were very limited in terms of performance and \textbf Input/\textbf
+Output (I/O) amount, so when a process to be controlled was too complex,
+dividing it into simpler parts was needed. This way, a single complex process
+was automated by independently automating different parts of it. This was done
+by giving each part its own dedicated controller and then creating some sort of
+communication between them. Because these controllers were very simple, such
+communication had to be limited to just a couple of I/O signals between PLC's
+or very limited digital communication channels like RS-232. This created a
+major chokepoint on the amount of information that could be shared between
+controllers within the same process, ultimately posing hard obstacles to
+development and troubleshooting of such systems. If somehow these controllers
+could share more information, not only development and troubleshooting would be
+easier, but it would also make these complex control systems more adaptable,
+allowing the development of even more complex automation systems.
+
+With the emergence of digital communication networks, some businesses started
+to look into ways to bring their power into the industrial automation world.
+Such networks, as they were, provided far more information throughput than the
+legacy I/O signals but at the cost of reliability. Automated industrial
+processes are, a lot of times, critical systems and these need a reliable and
+deterministic control. Although simple, the legacy I/O signals provided a
+reliable and deterministic communication channel, but digital networks such as
+\emph{Ethernet} do not, especially when it is comprised of more than two
+devices. As such, in order to reliably replace the communication mechanisms in
+industrial environments, modifications needed to be made.
+
 
