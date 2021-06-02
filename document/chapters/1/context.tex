@@ -1,53 +1,13 @@
 \section{Context} \label{sec:context}
-% * Field network
 
-Modern process control systems include advanced features which were virtually
-impossible to implement even two decades ago. For many years now, industrial
-processes have been managed by specialized control hardware such as \textbf
-Programmable \textbf Logic \textbf Controllers ({\bfseries PLC}). In the early
-days, PLCs were very limited in terms of performance and \textbf Input/\textbf
-Output (I/O) count, so when a process to be controlled was too complex,
-dividing it into simpler parts was needed. This way, a single complex process
-was automated by independently automating different parts of it. This was done
-by giving each part its own dedicated controller and then creating some sort of
-communication between them, therefore creating a \textbf Distributed \textbf
-Control \textbf System ({\bfseries\itshape DCS}). Because these controllers
-were very simple, such communication had to be limited to just a couple of I/O
-signals between PLC's or very limited digital communication channels like
-RS-232 \cite{protocol:rs232}. This created a major chokepoint on the amount of
-information that could be shared between controllers within the same process,
-ultimately posing hard obstacles to development and troubleshooting of such
-systems. If somehow these controllers could share more information, not only
-development and troubleshooting would be easier, but it would also make these
-complex control systems more adaptable, allowing the development of even more
-complex automation systems.
+Modern process control systems include advanced features which were virtually impossible to implement even two decades ago. For many years now, industrial processes have been managed by specialized control hardware such as \textbf Programmable \textbf Logic \textbf Controllers ({\bfseries PLC}).
 
-%TODO
-(Still want to clarify the term \emph{field device}, so I need to talk a bit
-more about \emph{DCS}s)
+In the early days, PLCs were very limited in terms of performance and \textbf Input/\textbf Output (I/O) count, so when a process to be controlled was too complex, dividing it into simpler parts was needed. This way, a single complex process was automated by independently automating different parts of it. This was done by giving each part its own dedicated controller and then creating some sort of communication between them, therefore building a \textbf Distributed \textbf Control \textbf System ({\bfseries\itshape DCS}). Because these controllers were very simple, such communication had to be limited to just a couple of I/O signals between PLC's or very limited digital communication channels like RS-232 \cite{protocol:rs232}. This created a major chokepoint on the amount of information that could be shared between controllers within the same process, ultimately posing hard obstacles to development and troubleshooting of such systems. If somehow these controllers could share more information, not only development and troubleshooting would be easier, but it would also make these complex control systems more adaptable, allowing the development of even more complex automation systems.
 
-With the emergence of digital communication networks, some businesses started
-to look into ways to bring their power into the industrial automation world.
-Such networks, as they were, provided far more information throughput than the
-legacy I/O signals but at the cost of reliability. Automated industrial
-processes are, a lot of times, critical systems and these need a reliable and
-deterministic control. Although simple, the legacy I/O signals provided a
-reliable and deterministic communication channel, but digital networks such as
-\emph{Ethernet} \cite{protocol:ethernet} do not, especially when it is
-comprised of more than two devices. As such, in order to reliably replace the
-communication mechanisms in industrial environments, modifications needed to be
-made. In the last thirty years, several adaptations of the standardized
-\emph{Ethernet} protocol have emerged, such as \emph{Ethernet/IP} (2001)
-\cite{protocol:ethernetip}, \emph{EtherCAT} (2003) \cite{protocol:ethercat} or
-\emph{PROFINET} (2003) \cite{protocol:profinet}.
+With the emergence of digital communication networks, some businesses started to look into ways to bring their power into the industrial automation world. Such networks, as they were, provided far more information throughput than the legacy I/O signals but at the cost of reliability. Automated industrial processes are, a lot of times, critical systems and these need a reliable and deterministic control. Although simple, the legacy I/O signals provided a reliable and deterministic communication channel, but digital networks such as \emph{Ethernet} \cite{protocol:ethernet} do not, especially when it is comprised of more than two devices. As such, in order to reliably replace the communication mechanisms in industrial environments, modifications needed to be made. In the last thirty years, several adaptations of the standardized \emph{Ethernet} protocol have emerged, such as \emph{Ethernet/IP} (2001) \cite{protocol:ethernetip}, \emph{EtherCAT} (2003) \cite{protocol:ethercat} or \emph{PROFINET} (2003) \cite{protocol:profinet}.
 
-The technology advancements in both hardware and software fields have allowed industrial \emph{DCS}s to grow in usage. Modern control systems implementation typically follow the ISA95 \cite{standard:isa95} standard.
+The technology advancements in both hardware and software fields have allowed industrial \emph{DCS}s to grow in popularity. With the fourth industrial revolution, modern control systems typically follow the ISA-95 \cite{standard:isa95} standard topology, in order to keep every section of the system accessible via network. Within this topology, devices that directly interact with sensors and actuators are called \emph{field devices} and they perform very little computations about the process. This computation is now done in a centralized processing device which receives sensor data and sends actuator state through a network to the field devices.
 
-%TODO
-(Present a ISA95 standard graph)
+%TODO Present a ISA95 standard graph
 
-%TODO
-(explain that with the technology advancements, more advanced control is being done with \emph{DCS}s, namely movement control, and that it implies even stricter requirements in terms of communications, meaning that, the deterministic requirement for the network data transmission now means real-time requirement, which comprises low latency and faster response times, AKA, shorter network cycle time)
-
-%TODO
-(maybe also talk about Industry 4.0 and the current needs to have every electronic device accessible over a network?)
+These developments have allowed for \emph{DCS}s to progressively automate more advanced processes. When such process involves motion control the requirements for these industrial networks tightens, as response times and periodicity become critical aspects. This is a concept known as network cycle time.
