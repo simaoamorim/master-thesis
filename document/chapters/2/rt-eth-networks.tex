@@ -1,14 +1,14 @@
 \section{Real-time Ethernet networks}\label{sec:rt-networks}
 
-As explained in \autoref{sec:context}, real-time \emph{Ethernet} networks have become a necessity when it comes to advanced industrial automation. Movement control introduces timing requirements that would otherwise not be considered.
-
 % What are they
-
-
-
-% Why do we need them
+As explained in \autoref{sec:context}, real-time \emph{Ethernet} networks have strict timing requirements which makes the usage of common \emph{Ethernet} not adequate.
+The IEEE 802.3 standard, as is, does not guarantee a deterministic timing for the delivery of message packets.
+As such, a few adaptations of this standard have surfaced over the years, focusing mostly on providing this deterministic delivery of, at least, the message packets that are critical for the system.
 
 % General Characteristics
+Commercial \emph{Ethernet} is based upon a 7-layer addressing scheme named \textbf{OSI} (\textbf Open \textbf Systems \textbf Interconnection).
+Adaptations such as \emph{Ethernet/IP} or \emph{Profinet/IO} still make use of this 7-layer scheme but manage on which layer message packets are sent.
+On the other hand, implementations such as \emph{EtherCAT} drop most of the \emph{OSI} model and create an entirely new addressing scheme based on the model's second layer.
 
 \input{chapters/2/ethercat}
 
