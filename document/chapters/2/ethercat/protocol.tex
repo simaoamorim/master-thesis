@@ -5,9 +5,16 @@ Other protocol stacks like TCP/IP or UDP/IP can be used concurrently with \emph{
 These are encapsulated into a separate mailbox so they do not disrupt real-time process data transmissions.
 The fact that this network does not use these stacks lowers its communication overhead.
 
-The \emph{EtherCAT} frames are, themselves, divided into several datagrams.
+The \emph{EtherCAT} frames are, themselves, divided into several datagrams, as show in \autoref{fig:ecat-frame}.
 These can be addressed to specific devices using their node address or be sent to multiple devices, concurrently, using a logical address.
 The datagram header contains information about the type of operation to perform, which can be one of three options: read, write of concurrent read-write operations.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1\textwidth]{EtherCAT_Technology_01_Protocol.jpg}
+	\caption{EtherCAT frame structure}
+	\label{fig:ecat-frame}
+\end{figure}
 
 Each slave contains a unique node address which is assigned during network configuration.
 Because node addresses are static, they can be used to target the specific node, even if the underlying network topology changes.
