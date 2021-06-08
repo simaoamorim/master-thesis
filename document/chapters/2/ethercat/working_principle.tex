@@ -1,0 +1,11 @@
+\subsubsection{Working principle} \label{sec:ecat_principle}
+
+The \emph{EtherCAT} protocol employs a master/slave configuration where only the former is allowed to initiate a data transfer.
+Effectively this means the master node is responsible for maintaining periodic communication with all nodes.
+The master device requires a simple \emph{Ethernet} \textbf Medium \textbf Access \textbf Controller ({\bfseries MAC}), meaning it can be implemented in virtually any device with a standard \emph{Ethernet} port, and programmed with any real-time operating system and software.
+Slave devices require an \textbf \emph{EtherCAT} \textbf Slave \textbf Controller ({\bfseries ESC}) which processes the frames entirely in hardware.
+This allows the network performance to be predictable and independent of specific slave device implementations.
+
+The \emph{EtherCAT} frame sent by the master passes through each and every node on the network until it is sent back to it by the last node in each branch.
+Because slave devices use a specialized communication chip, their data is inserted in the frame ``on the fly''.
+This means that the master node can exchange data with every node on the network with a single \emph{EtherCAT} frame.
