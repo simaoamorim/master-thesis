@@ -3,7 +3,7 @@
 The \emph{EtherCAT} protocol embeds its own frames into a standard \emph{Ethernet} frame, signing it with an hexadecimal value of $\mathtt{0x88A4}$ on the \emph{Ethernet}'s type header field.
 Other protocol stacks like TCP/IP or UDP/IP can be used concurrently with \emph{EtherCAT}, but they are not required.
 These are encapsulated into a separate mailbox so they do not disrupt real-time process data transmissions.
-The fact that this network does not use these stacks lowers its communication overhead.
+The fact that this network does not use these stacks means it has lower communication overhead.
 
 The \emph{EtherCAT} frames are, themselves, divided into several datagrams, as show in \autoref{fig:ecat-frame}.
 These can be addressed to specific devices using their node address or be sent to multiple devices, concurrently, using a logical address.
@@ -36,4 +36,4 @@ There are two possibilities of achieving this:
 \end{enumerate}
 
 EtherCAT can also benefit from the modern system's \textbf Direct \textbf Memory \textbf Access (DMA) feature, which removes the necessity for a CPU to explicitly transfer data from physical RAM to a peripheral device.
-This means that, when it comes to EtherCAT, a master device application only needs to construct the EtherCAT frame and place it on a specific memory region, leaving the Ethernet MAC controller to fetch the frame on its own using DMA.
+This means that a master device application only needs to construct the EtherCAT frame and place it on a specific memory region, leaving the DMA controller to actually pass the data over to the Ethernet MAC controller, saving CPU for the actual data processing.
