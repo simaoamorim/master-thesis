@@ -1,0 +1,31 @@
+\subsection{Communication profiles} \label{subsec:comm_profiles}
+
+Similarly to how EtherCAT frames can traverse different networks, other communication protocols can be transmitted over an EtherCAT segment.
+As an example, it is perfectly possible to open a standard TCP/IP channel with a node on this network and request a management webpage using HTTP.
+
+The ESC places messages from other protocols onto a dedicated mailbox which can be accessed by the control application.
+This way, the cyclic real-time transfer of process-data is not disturbed by any non-cyclic transmissions of non-real-time data.
+As one can expect, not every slave device might actually support different communication profiles other than the cyclic process data transfers, so the master device is informed about which protocols are supported by each slave though its description file.
+These are typically XML files which inform the master device's application (and potentially some IDEs) about the capabilities of a certain slave node on the network.
+Some examples of protocols that can be transmitted over this network are:
+
+\begin{itemize}
+	\item Ethernet over EtherCAT (EoE);
+	\item SERCOS's Servo drive profile (IEC 61800-7-204) over EtherCAT (SoE);
+	\item File access over EtherCAT (FoE).
+\end{itemize}
+
+\subsubsection*{Ethernet over EtherCAT}
+
+In IT applications, the term Ethernet is used to generically refer to data transfers using TCP/IP, UDP/IP, etc..
+Similarly to how these internet protocols  are tunnelled through Ethernet, Ethernet frames are tunnelled through the EtherCAT protocol, making this network transparent to standard Ethernet devices.
+Devices that have a ``switchport'' property insert Ethernet packets onto the EtherCAT traffic, making sure the real-time transmissions on the network are not affected.
+
+\subsubsection*{Servo drive profile over EtherCAT}
+
+The SERCOS\texttrademark{} real-time network defines a profile for servo drives, described in the IEC 61800-7 standard, which includes a port of this profile to the EtherCAT network. The functions and parameters described on the standard are mapped to the EtherCAT Mailbox.
+
+\subsubsection*{File access over EtherCAT}
+
+This is a simple protocol identical to the Trivial File Transfer Protocol (TFTP) which gives filesystem access to the node over the EtherCAT segment.
+Its simplicity does not require the use of a protocol stack like TCP/IP, meaning it can even be used in boot loaders, where simplicity prevails.
