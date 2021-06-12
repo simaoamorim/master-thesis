@@ -5,8 +5,8 @@ As an example, it is perfectly possible to open a standard TCP/IP channel with a
 
 The ESC places messages from other protocols onto a dedicated mailbox which can be accessed by the control application.
 This way, the cyclic real-time transfer of process-data is not disturbed by any non-cyclic transmissions of non-real-time data.
-As one can expect, not every slave device might actually support different communication profiles other than the cyclic process data transfers, so the master device is informed about which protocols are supported by each slave though its description file.
-These are typically XML files which inform the master device's application (and potentially some IDEs) about the capabilities of a certain slave node on the network.
+As one can expect, not every slave device needs to actually support different communication profiles other than the cyclic process data transfers, so the master device is informed about which protocols are supported by each slave through its description file.
+These are called EtherCAT Slave Information (ESI) files which inform the master device's application (and potentially some IDEs) about the capabilities of a certain slave node on the network.
 Some examples of protocols that can be transmitted over this network are:
 
 \begin{itemize}
