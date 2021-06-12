@@ -2,10 +2,11 @@
 
 % What are they
 As explained in \autoref{sec:context}, real-time \emph{Ethernet} networks have strict timing requirements which makes the usage of common \emph{Ethernet} not adequate.
-The IEEE 802.3 standard, as is, does not guarantee a deterministic timing for the delivery of message packets.
-As such, a few adaptations of this standard have surfaced over the years, focusing mostly on providing this deterministic delivery of, at least, the message packets that are critical for the system.
+The IEEE 802.3 standard, as is, does not guarantee a deterministic timing for delivery of message packets.
+As such, a few adaptations of this standard have surfaced over the years, focusing mostly on providing this deterministic delivery.
+Some implementations categorize data packets based on their priority relative to the control system so that, at least, the ones that are critical to the control system are delivered as fast as possible.
 
 % General Characteristics
-Commercial \emph{Ethernet} is based on a 7-layer addressing scheme named \textbf{OSI} (\textbf Open \textbf Systems \textbf Interconnection).
-Adaptations such as \emph{Ethernet/IP} or \emph{Profinet/IO} still make use of this 7-layer scheme but manage on which layer message packets are sent, depending on their priority.
-On the other hand, implementations such as \emph{EtherCAT} drop most of the \emph{OSI} model and create an entirely new addressing scheme based on the model's second layer.
+Commercial \emph{Ethernet} systems are based on a 7-layer encapsulating scheme named \textbf{OSI} (\textbf Open \textbf Systems \textbf Interconnection).
+Adaptations such as \emph{Ethernet/IP} or \emph{Profinet/IO} make use of this scheme and simply manage on which layers message packets are sent, depending on their priority, or try to implement some prioritization mechanism for certain data packets.
+On the other hand, implementations such as \emph{EtherCAT} drop most of the \emph{OSI} model and create a bare scheme on top of the Link layer (the actual Ethernet protocol).
