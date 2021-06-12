@@ -1,0 +1,31 @@
+\subsection{Interfaces}
+
+One of the priorities EtherCAT development took in consideration was the ability to implement both master and slave devices with a low cost.
+For master devices, no special hardware is required and for slave devices, inexpensive EtherCAT Slave Controllers are available.
+This permits the hardware itself to be tailored to the application needs so that if the process to control is simple enough, an inexpensive CPU will work just fine for both master and slave devices.
+
+In several scenarios, the end user may have the necessity to use EtherCAT products from different vendors, which imposes the challenge of maintaining all device implementations interchangeable.
+To achieve this, everyone developing an EtherCAT device must submit it for a Conformance Test where the product's functionality is extensively tested to make sure all parameters and functions conform to the EtherCAT standard.
+This ensures devices from multiple vendors will work well together because they both conform to the same standard.
+
+\subsubsection{Master devices}
+
+In terms of hardware, master devices only require the presence of a standard Ethernet MAC controller.
+As previously mentioned, EtherCAT nodes benefit from modern system's DMA feature, relinquishing CPU time from the data transfer to the Ethernet MAC controller.
+As slave devices also write their information to a specific location on the cyclic process data (also called process image), there is no need to perform any sorting of the data because all of it is sorted by design.
+This allows the usage of less powerful CPUs in order to do the processing, if the control application so permits.
+
+When it comes to software, members from the ETG offer a broad range of EtherCAT Master Libraries for many operating systems (OS) and CPU architectures, including Windows\textregistered{} and Linux\textregistered{}, enabling integrators to chose the most appropriate for the occasion.
+
+These libraries need to be informed about the process image structure and about specific boot-up commands for the nodes on the network.
+This is done via the EtherCAT Network Information (ENI) files, which can be generated from the aforementioned ESI files using a specialized configuration tool.
+
+Depending on the complexity of the process to be controlled, master devices may not require the entire set of features available.
+Especially when using embedded platforms to implement them, it is particularly useful to completely remove unneeded functionality in order to maximize resource utilization, both in the hardware and software fronts.
+These implementations are categorized into two classes: Class-A-Master and Class-B-Master.
+Every implementation should aim at resulting in a Class-A-Master, which includes all possible functionality.
+On the case described above, having a master with only a subset of functions is classified as a Class-B-Master.
+
+\subsubsection{Slave devices}
+
+
