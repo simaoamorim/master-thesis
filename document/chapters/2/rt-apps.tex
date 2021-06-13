@@ -1,9 +1,16 @@
 \section{Real-time applications}
 
 Modern automation systems have adopted a distributed computing architecture, as processing power is increasing every year and, consequently, becoming cheaper.
-Real-Time control applications don't necessarily require fast execution, but it means the process itself depends on the passage of time to be correctly executed.
+Real-Time control applications don't necessarily require fast execution, but it means the process itself depends on the passage of time to be correctly executed. \cite{technology:rte}
 
 These systems don't depend only on the data that is gathered on the plant-floor, but also on when it is acquired.
+In the robotics field, for instance, it's important to have a solid and short control period for motion applications, but it's even more important to make sure the sensor data used to perform the calculations is the most recent possible.
 
+Now, depending on the application itself, it may have stricter or looser timing requirements.
+As such, they are classified as hard real-time (HRT) or soft real-time (SRT) applications.
 
-\input{chapters/2/rt-apps/hard_vs_soft_rt}
+\begin{itemize}
+	\item \textbf{Hard Real-Time}: These systems have the strictest set of requirements in terms of timeliness, meaning the incorrect operation of such systems may cause a catastrophic failure of the entire process, with the possibility of putting lives in danger. Systems such as self driving cars or medical-grade robotics have such requirements.
+
+	\item \textbf{Soft Real-Time}: These systems have much leaner requirements as incorrect operation due to failed deadlines, even though not desirable, does not mean a loss of life or equipment. A couple of examples are GPS systems or radio broadcast systems where delays may not be desirable but they are also not critical.
+\end{itemize}
