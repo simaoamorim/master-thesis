@@ -25,17 +25,5 @@ In order to design a good demonstrator, simplicity should be the main focus in t
 Contemplating different approaches based on simple concepts is crucial to ensure the end result is focused on the correct concept.
 It is also very important to not allow subjacent characteristics or design choices to outweigh the core concept.
 
-In the beginning of this project, while being to clouded with the idea of applying the concept to a robotic system, we explored several possibilities of creating a demonstrator based on a robotic arm.
-The conceptual idea was to preprogram a path on the robotic arm that had to be followed when its actuators were commanded through a real-time network.
-One could define a 2D path on a sheet of paper and the robotic arm would have to follow it with a pen, drawing the travelled path.
-This way, the effects of network cycle time would be indirectly visible when comparing the preprogrammed path and the actual travelled path.
 
-This concept had an interesting potential but soon enough we came across a not so obvious problem: from the user's point of view, when looking at a robotic arm system, the attention would almost certainly go towards what the robotic arm could do instead of focusing on what was happening in the background, especially in terms of communications and how they affected the control system.
 
-After deciding this was not the way to go, we performed a retrospection exercise and analysed what was good about this first idea and why we had it in the first place.
-The underlying concept that made us consider this approach is that robotic systems are characterized by one traversal aspect: movement control.
-In fact, wanting to demonstrate the effects of network cycle time in a control application, controlling movement seems to best fulfil the purpose.
-This type of control requires short cycle times and deterministic periodicity, making it very susceptible to the effects of network cycle time.
-Additionally, it provides the demonstrator with a graspable connection to reality.
-
-The second iteration on the base concept led us to
