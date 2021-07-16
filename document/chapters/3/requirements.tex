@@ -51,3 +51,16 @@ This way, if we wish to replace a physical module we can also simply swap the re
 With our aim being the influence of network cycle time on control applications, it's imperative for us to use an architecture that resembles a DCS system.
 It only makes sense to evaluate such influence on systems where it is applicable, meaning, we must replicate a real world case where the usage of an RTE might actually influence the system performance.
 With this in mind, we decided to replicate the concept of a networked servo drive controlled from a centralized processing unit, with the ability to close the control loop either locally on the servo drive (the current typical scenario) or remotely on the processing unit.
+
+\subsubsection{Local Vs. Remote control}
+
+In order to better visualise the effects of network cycle time in control applications, a baseline should be defined to serve as a basis for comparison.
+The field device will be capable of performing full control of position and/or velocity of the motor or serve as a simple remotely controlled servo drive.
+
+With the first configuration (local control), the field device will receive only the set-point values from the RTE and then perform the position/velocity control of the motor through an internal Proportional Integral Derivative (PID) algorithm.
+This will generate a baseline dataset of control performance, which is expected to barely be affected by the network cycle time.
+
+The second configuration (remote control) will use the field device as a simple servo drive, without using its internal control algorithm.
+It shall receive the duty cycle percentage to be applied to the motor from the RTE network and send back the decoded position/velocity, acquired from the motor's incremental encoder, through the same network, as a feedback variable.
+This will mean the control loop will be closed on the remote processing unit, making this loop's output and feedback values traverse the RTE network.
+It's expected for this configuration to be mildly affected by the network cycle time, even though we will probably need to use unusually large values of this parameter to obtain relevant changes in the control performance.
