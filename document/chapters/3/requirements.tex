@@ -64,3 +64,9 @@ The second configuration (remote control) will use the field device as a simple 
 It shall receive the duty cycle percentage to be applied to the motor from the RTE network and send back the decoded position/velocity, acquired from the motor's incremental encoder, through the same network, as a feedback variable.
 This will mean the control loop will be closed on the remote processing unit, making this loop's output and feedback values traverse the RTE network.
 It's expected for this configuration to be mildly affected by the network cycle time, even though we will probably need to use unusually large values of this parameter to obtain relevant changes in the control performance.
+
+\subsubsection{Velocity and position control}
+
+In order to give the demonstrator a bit more flexibility and broaden the range of conceptual experiments, we aim to develop a demonstrator capable of controlling velocity and position of the physical disc.
+To clarify, we do not plan to provide simultaneous control of both these movement types.
+Having the ability to chose the type of movement we want to control each time the field device is powered on will allow us to develop new and interesting experiments, including more advanced movement control.
