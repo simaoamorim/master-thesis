@@ -1,5 +1,31 @@
 \section{Proposed architecture} \label{sec:proposed-arch}
 
+By the end of the development phase, we created a system that fulfils all requirements described in \autoref{sec:requirements}.
+The system mimics a typical DCS architecture by employing a simple master-slave configuration based on the EtherCAT network.
+
+As explained in \autoref{subsec:local_remote}, using the local control topology (traditional topology), the master node will act as a motion controller, feeding the motor controller (the field device) with position/velocity references through the EtherCAT network.
+This one, in turn, will perform the necessary algorithm calculations to achieve motor position/velocity control using the references provided by the master node and the feedback values it acquires from the motor's encoder.
+
+When using the remote control topology, the master node will be responsible for all calculations in the system.
+The field device will act as a simple I/O interface to the motor, generating the PWM waveform fed to the motor and acquiring and decoding the motor's encoder pulses.
+The decoded position and velocity values are then sent to the master node as feedback variables and the PWM duty cycle percentage is received from it as an output variable.
+
+Graphical representations of both these scenarios can be seen in \autoref{fig:local_control} and \autoref{fig:remote_control}, respectively.
+
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1\textwidth]{local_control.jpg}
+	\caption{Graphical representation of the local control scheme}
+	\label{fig:local_control}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1\textwidth]{remote_control.jpg}
+	\caption{Graphical representation of the remote control scheme}
+	\label{fig:remote_control}
+\end{figure}
 
 
 \input{chapters/3/hardware}
