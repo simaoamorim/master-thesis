@@ -2,3 +2,12 @@
 
 While keeping a careful consideration of characteristics between options and maintaining the requirements in focus, hardware parts were chosen to build each section of the demonstrator.
 
+\subsubsection{Master node}
+
+Taking into account the two operation modes the demonstrator should have, the master node must be able to perform numeric calculations and serve as an EtherCAT master device.
+To achieve this, we need to have a computational base (computer, microcontroller, etc.) with access to a generic Ethernet MAC interface card.
+
+As of today, most education facilities provide students with access to desktop computers.
+For many years now, motherboard vendors have integrated Ethernet MAC interface cards into the motherboards themselves, as it has become the de facto standard for Internet connectivity in desktop computers.
+
+As such, we decided to implement the master device in a desktop computer in order to minimize costs and leverage the computational power modern computer systems possess.
