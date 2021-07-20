@@ -19,17 +19,19 @@ In order to implement the desired EtherCAT slave (see \ref{subsubsec:slave_devic
 
 After some research, two options presented themselves as possible platforms for the slave device: an Arduino UNO or a Raspberry Pi.
 ESC boards exist for both these platforms, as well as good support in terms of "shield boards" for motor interfaces.
-In the end, we decided to go with a solution based on a Raspberry Pi, as it provides a more robust and versatile computing platform, especially considering the local control configuration, where position/velocity control algorithms will need to be executed on the slave platform.
+In the end, we decided to go with a solution based on a Raspberry Pi, as it provides a more robust and versatile computing platform, especially considering the local control configuration, where position/velocity control algorithms will need to be executed on this platform.
 
 The ESC board chosen for the Raspberry Pi was the Hilscher's \emph{netHAT 52-RTE} (see \url{www.netiot.com/interface/nethat}).
 This board supports communication with three real-time Ethernet protocols (PROFINET, EtherNet/IP or EtherCAT), chosen with a simple firmware loading procedure.
 It complies with the Hardware Attached on Top (HAT) specification for the Raspberry Pi (see \url{www.github.com/raspberrypi/hats}) and uses the \emph{SPI0} interface to communicate with it.
 The board also includes the respective Electronic Data Sheet (EDS) files to be imported by the EtherCAT master, used to identify the characteristics and functionality of slaves implemented using this setup.
 
-With the intention to relieve the Raspberry Pi from having to generate the PWM signal that drives the motor, we included the DFRobot's DFR0592 board onto the design.
+% Motor choice
+
+With the intention to relieve the Raspberry Pi from having to generate the PWM signal to drive the motor, we included the DFRobot's DFR0592 board onto the design.
 This board also complies with the HAT specification and communicates with the Raspberry Pi via the Inter-Integrated Circuit (I\textsuperscript{2}C or I2C) interface.
-This board provides interface for two DC motors and two incremental encoders, all managed by an STMicroelectronics's STM32 chip.
-The motor interface also includes the necessary DC-motor driver chip, allowing direct connection of the motor's signals and power supply on the board itself.
+It provides interface with two DC motors and two incremental encoders, all managed by an STMicroelectronics's STM32 chip.
+The motor interface also includes the necessary DC-motor driver chip, allowing direct connection of the motor's terminals and power supply to the board itself.
 
 Initially we planed on using this board's incremental encoder interface to also relieve the Raspberry Pi from such task but, as our preliminary tests concluded, it only exports the Revolutions Per Minute (RPM) value extrapolated from the encoder's pulse count and not the pulse count itself.
 Furthermore, the RPM value is only updated once every 100ms, which is to large of a period for motion control.
