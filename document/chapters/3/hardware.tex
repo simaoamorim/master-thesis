@@ -24,6 +24,7 @@ In the end, we decided to go with a solution based on a Raspberry Pi, as it prov
 The ESC board chosen for the Raspberry Pi was the Hilscher's \emph{netHAT 52-RTE} (see \url{www.netiot.com/interface/nethat}).
 This board supports communication with three real-time Ethernet protocols (PROFINET, EtherNet/IP or EtherCAT), chosen with a simple firmware loading procedure.
 It complies with the Hardware Attached on Top (HAT) specification for the Raspberry Pi (see \url{www.github.com/raspberrypi/hats}) and uses the \emph{SPI0} interface to communicate with it.
+The board also includes the respective Electronic Data Sheet (EDS) files to be imported by the EtherCAT master, used to identify the characteristics and functionality of slaves implemented using this setup.
 
 With the intention to relieve the Raspberry Pi from having to generate the PWM signal that drives the motor, we included the DFRobot's DFR0592 board onto the design.
 This board also complies with the HAT specification and communicates with the Raspberry Pi via the Inter-Integrated Circuit (I\textsuperscript{2}C or I2C) interface.
