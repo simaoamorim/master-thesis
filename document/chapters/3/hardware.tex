@@ -2,6 +2,13 @@
 
 While keeping a careful consideration of characteristics between options and maintaining the requirements in focus, hardware parts were chosen to build each section of the demonstrator.
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1\textwidth]{slave_architecture.png}
+	\caption{Graphical representation of the slave architecture}
+	\label{fig:slave_architecture}
+\end{figure}\footnote{placeholder image}
+
 \subsubsection{Master node}
 
 Taking into account the two operation modes the demonstrator should have, we extrapolated that the master node must be able to perform numeric calculations and serve as an EtherCAT master device.
@@ -28,6 +35,7 @@ The board also includes the respective Electronic Data Sheet (EDS) files to be i
 
 % Motor choice
 
+
 With the intention to relieve the Raspberry Pi from having to generate the PWM signal to drive the motor, we included the DFRobot's DFR0592 board onto the design.
 This board also complies with the HAT specification and communicates with the Raspberry Pi via the Inter-Integrated Circuit (I\textsuperscript{2}C or I2C) interface.
 It provides interface with two DC motors and two incremental encoders, all managed by an STMicroelectronics's STM32 chip.
@@ -35,10 +43,3 @@ The motor interface also includes the necessary DC-motor driver chip, allowing d
 
 Initially we planed on using this board's incremental encoder interface to also relieve the Raspberry Pi from such task but, as our preliminary tests concluded, it only exports the Revolutions Per Minute (RPM) value extrapolated from the encoder's pulse count and not the pulse count itself.
 Furthermore, the RPM value is only updated once every 100ms, which is to large of a period for motion control.
-
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=1\textwidth]{slave_architecture.png}
-	\caption{Graphical representation of the remote control scheme}
-	\label{fig:slave_architecture}
-\end{figure}\footnote{placeholder image}
