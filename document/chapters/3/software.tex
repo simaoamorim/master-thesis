@@ -22,5 +22,12 @@ As we are looking forward to develop a proof-of-concept system, we don't require
 
 \subsubsection{Slave node software}
 
+After having chosen the Hilscher's ESC HAT for the Raspberry Pi (see \ref{subsubsec:slave_hdw}), which will be running a Linux distribution, and decided to use the CODESYS platform for the master, we initially planned to also use it to program the slave device.
+Although the CODESYS editor is only designed to work under Windows, the SoftPLC runtime can run under Linux, with a version specifically targeting the Raspberry Pi platform.
+Unfortunately, CODESYS doesn't support developing programs for EtherCAT slave devices, specifically, as these are usually programmed by manufacturers themselves and not by a system integrator or end-user.
+
+Additionally, Hilscher only provides a library and accompanying API for the C programming language, meaning at least the software part that needs to interact directly with the ESC will need to be programmed in C.
+As this is the most widely used programming language in the Linux universe, if during development we conclude we require some library to provide some advanced functionality, the probability of existing one is much higher than with less widespread languages.
+As such, the C programming language is going to be our preferred for implementing the desired EtherCAT slave functionality.
 
 
