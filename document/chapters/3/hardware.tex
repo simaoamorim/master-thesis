@@ -31,7 +31,8 @@ In the end, we decided to go with a solution based on a Raspberry Pi, as it prov
 The ESC board chosen for the Raspberry Pi was the Hilscher's \emph{netHAT 52-RTE} (see \url{www.netiot.com/interface/nethat}).
 This board supports communication with three real-time Ethernet protocols (PROFINET, EtherNet/IP or EtherCAT), chosen with a simple firmware loading procedure.
 It complies with the Hardware Attached on Top (HAT) specification for the Raspberry Pi (see \url{www.github.com/raspberrypi/hats}) and uses the \emph{SPI0} interface to communicate with it.
-The board also includes the respective Electronic Data Sheet (EDS) files to be imported by the EtherCAT master, used to identify the characteristics and functionality of slaves implemented using this setup.
+The board also includes the respective Electronic Data Sheet (EDS) files to be imported by the EtherCAT master.
+These are used to identify the characteristics, functionality and addresses of slave devices expected to be present on the network.
 
 % Motor choice
 
@@ -42,4 +43,4 @@ It provides interface with two DC motors and two incremental encoders, all manag
 The motor interface also includes the necessary DC-motor driver chip, allowing direct connection of the motor's terminals and power supply to the board itself.
 
 Initially we planed on using this board's incremental encoder interface to also relieve the Raspberry Pi from such task but, as our preliminary tests concluded, it only exports the Revolutions Per Minute (RPM) value extrapolated from the encoder's pulse count and not the pulse count itself.
-Furthermore, the RPM value is only updated once every 100ms, which is to large of a period for motion control.
+Furthermore, this RPM value is only updated once every 100ms, which is to large of a period for motion control.
