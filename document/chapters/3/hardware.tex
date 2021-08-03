@@ -49,5 +49,5 @@ The motor interface also includes the necessary DC-motor driver chip, allowing d
 
 Initially we planed on using this board's incremental encoder interface to also relieve the Raspberry Pi from such task but, as our preliminary tests concluded, it only exports the Revolutions Per Minute (RPM) value extrapolated from the encoder's pulse count and not the pulse count itself.
 Furthermore, this RPM value is only updated once every 100ms, which is to large of a period for motion control.
-
-% Encoder on the Raspberry's GPIO
+To overcome this limitation, we decided to connect the encoder signals directly on the Raspberry's GPIO pins and create a software module to handle them.
+This way we will be able to separate the logic that decodes the pulse signals and the position/velocity tracking, allowing us to configure the update period for the latter.
