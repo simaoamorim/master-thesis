@@ -1,7 +1,15 @@
 \section{Real-time Ethernet networks}\label{sec:rt-networks}
 
-\input{chapters/2/ethercat}
+As industrial automation systems have been moving towards decentralized processing architectures, lean coupling methods between the different parts have started to evolve.
+As the industry demands for a single network type to fulfil the needs across all hierarchy levels (from plant-floor to boardroom), Industrial Ethernet systems started to gain popularity on the industrial automation world.
 
-\input{chapters/2/ethernetip}
+As most applications that control industrial processes have some sort of real-time requirements, the introduction of an Ethernet network into the control system needs not to disrupt its real-time characteristics.
+As such, Real-Time Industrial Ethernet networks have strict timing requirements which makes the usage of common Ethernet not adequate, because the IEEE 802.3 standard, as is, does not guarantee a deterministic timing for delivery of message packets.
 
-\input{chapters/2/profinetio}
+A few adaptations of this standard have surfaced over the years, focusing mostly on providing such deterministic delivery.
+Some implementations categorize data packets based on their priority relative to the control system so that, at least the ones that are critical, are delivered as fast as possible.
+
+% General Characteristics
+Commercial Ethernet systems are based on a 7-layer encapsulating scheme named OSI (Open Systems Interconnection).
+Adaptations such as Ethernet/IP or Profinet/IO make use of this scheme and simply manage on which layers message packets are sent, depending on their priority, or try to implement some prioritization mechanism for certain data packets.
+On the other hand, implementations such as EtherCAT drop most of the OSI model and create a bare scheme on top of the Link layer (the actual Ethernet protocol).

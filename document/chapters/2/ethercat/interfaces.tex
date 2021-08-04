@@ -1,0 +1,47 @@
+\subsection{Interfaces}
+
+One of the priorities EtherCAT development took in consideration was the ability to implement both master and slave devices with a low cost.
+For master devices, no special hardware is required and for slave devices, inexpensive EtherCAT Slave Controllers are available.
+This permits the hardware itself to be tailored to the application needs so that if the process to control is simple enough, an inexpensive CPU will work just fine for both master and slave devices.
+
+In several scenarios, the end user may have the necessity to use EtherCAT products from different vendors, which imposes the challenge of maintaining all device implementations interchangeable.
+To achieve this, everyone developing an EtherCAT device must submit it for a Conformance Test where the product's functionality is extensively tested to make sure all parameters and functions conform to the EtherCAT standard.
+This ensures devices from multiple vendors will work well together because they both conform to the same standard.
+
+\subsubsection{Master devices}
+
+In terms of hardware, master devices only require the presence of a standard Ethernet MAC controller.
+As previously mentioned, EtherCAT nodes benefit from modern system's DMA feature, relinquishing CPU time from the data transfer to the Ethernet MAC controller.
+As slave devices also write their information to a specific location on the cyclic process data (also called process image), there is no need to perform any sorting of the data because all of it is sorted by design.
+This allows the usage of less powerful CPUs in order to do the processing, if the control application so permits.
+
+When it comes to software, members from the ETG offer a broad range of EtherCAT Master Libraries for many operating systems (OS) and CPU architectures, including Windows\textregistered{} and Linux\textregistered{}, enabling integrators to chose the most appropriate for the occasion.
+
+These libraries need to be informed about the process image structure and about specific boot-up commands for the nodes on the network.
+This is done via the EtherCAT Network Information (ENI) files, which can be generated from the aforementioned ESI files using a specialized configuration tool.
+
+Depending on the complexity of the process to be controlled, master devices may not require the entire set of features available.
+Especially when using embedded platforms to implement them, it is particularly useful to completely remove unneeded functionality in order to maximize resource utilization, both in the hardware and software fronts.
+These implementations are categorized into two classes: Class-A-Master and Class-B-Master.
+Every implementation should aim at resulting in a Class-A-Master, which includes all possible functionality.
+On the case described above, having a master with only a subset of functions is classified as a Class-B-Master.
+
+\subsubsection{Slave devices}
+
+The unique hardware component EtherCAT slave devices require is an inexpensive EtherCAT Slave Controller (ESC), which are commonly available as Aplication-Specific Integrated Circuits (ASICs), Field-Programmable Gate Arrays (FPGAs) or even integrated as part of a microcontroller chip.
+These implementations can provide access to the process data through different Process Data Interfaces (PDIs), such as:
+
+\begin{itemize}
+	\item Directly using a 32-bit parallel port from the ESC as simple I/O bits, connecting them to the necessary input and output signals. This is a good choice if the slave device is not required to perform any data processing;
+
+	\item Serial Peripheral Interface (SPI), for devices that may require limited processing, such as analog I/O cards, encoder interfaces or simple servo drives;
+
+	\item Parallel 8/16-bit Microcontroller Interface, for applications that need more processing done on the slave devices;
+
+	\item Specific Synchronous Buses, for when the ESC is integrated in a microcontroller of FPGA.
+\end{itemize}
+
+As mentioned in \autoref{subsec:comm_profiles}, each slave device is accompanied by the respective ESI file that describes the communication interfaces and features implemented by this particular node.
+It is used by the master to know how he can communicate with such device.
+If, by any chance, the ESI file is not available, each slave device contains a dedicated EEPROM chip named Slave Information Interface (SII), aimed at storing hardware configuration about the most basic features present on the device.
+This allows the master node to read such information during the network boot-up phase, making it always able to communicate with the slave, even if in a limited manner.

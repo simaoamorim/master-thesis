@@ -1,0 +1,23 @@
+\subsection{Distributed clocks}
+
+Certain types of control applications require simultaneous actions to be taken.
+In the robotics field, for instance, movement control implies that several servo controllers synchronize their actions in order to  achieve the desired speed or position path.
+In a DCS, it is common for these actions to span multiple nodes on the network.
+Therefore, these nodes require some sort of subsystem that is capable of guaranteeing action synchronicity between them.
+Synchronous communication protocols already tackle this problem in an implicit fashion, but EtherCAT needs an explicit solution: distributed clocks (DC).
+
+Every ESC contains a highly precise clock source in its design, as well as a purely hardware based calibration system.
+The first slave DC in an EtherCAT network is used as a reference value, being distributed to all other slave nodes.
+This way, all these clocks present on the network are adjusted to the same reference value, allowing hardware propagation times to be calculated and taken into account on the calibration process.
+This can either be done during network initialization or continuously throughout the operational period.
+
+This distributed clock technology has been proven to introduce much less jitter on the communication system, when compared to synchronous protocols, with common values below the microsecond mark.
+Very precise output updates and very accurate timestamping on the input values are achieved with this implementation.
+It is a very important feature needed by the aforementioned movement control systems, as these rely heavily on precise input timestamping to accurately calculate velocities, as these are usually derived from position measurements.
+These systems also require the position measurements to be taken in periodic intervals, with as little jitter as possible.
+The distributed clocks also factor in on this topic, as they can generate much more accurate triggers than the network bus itself.
+
+In addition, this technology removes the ensuring of actions's synchronicity between slave nodes from the scope of the master device.
+In fact, the local clocks can be utilized to trigger actions on the slave nodes, such as updating outputs and reading inputs.
+Consequently, the master's EtherCAT communication stack can be implemented entirely in software or on simple Ethernet hardware because the master's stack jitter becomes practically irrelevant, for as long as the EtherCAT datagram is sent early enough to reach the slave device before its local clock triggers the relevant action.
+

@@ -1,13 +1,20 @@
 \documentclass[11pt,a4paper,twoside,openright]{report}
-
 \usepackage[utf8]{inputenc}
-
 \usepackage[mieec]{feupteses}
+%\usepackage{draftwatermark}
+\usepackage{hyperref}
+
+\bibliographystyle{unsrt}
+
+\include{macros}
+
+\graphicspath{{figures/}}
 
 % Uncomment next line and specify which chapters to include
-%\includeonly{chapters/1}
+\includeonly{chapters/1,chapters/2}
 
 \begin{document}
+	\include{prolog/abbrevs}
 	\StartBody
 
 	\include{chapters/1}
@@ -17,5 +24,6 @@
 	\include{chapters/5}
 	\include{chapters/6}
 
-	\PrintBib{bibliography}
+	\pdfbookmark[0]{Bibliography}{references}
+	\bibliography{bibliography}
 \end{document}

@@ -1,4 +1,32 @@
 \section{Context} \label{sec:context}
 
-This will be the context of the work
+Modern process control systems include advanced features which were virtually impossible to implement even two decades ago.
+Most of these are only possible with the introduction of real-time Ethernet networks in the last few decades.
 
+For many years now, industrial processes have been managed by specialized control hardware such as Programmable Logic Controllers (PLC).
+In the early days, these were very limited in terms of performance and Input/Output (I/O) count, so when a process to be controlled was too complex, dividing it into simpler parts was needed.
+This way, a single complex process was automated by independently automating different parts of it.
+This was done by giving each part its own dedicated controller and then creating some sort of communication between them, therefore building a Distributed Control System (DCS).
+Because these controllers were very simple, such communication had to be limited to just a couple of I/O signals between PLC's or very limited digital communication channels like RS-232 \cite{protocol:rs232}.
+This created a major chokepoint on the amount of information that could be shared between controllers within the same process, ultimately posing hard obstacles to development and troubleshooting of such systems.
+If somehow these controllers could share more information, not only development and troubleshooting would be easier, but it would also make these complex control systems more adaptable, allowing the development of even more complex automation systems.
+
+With the emergence of digital communication networks, some manufacturers started to introduces fieldbuses into the industry.
+These were simple networks that could interconnect all nodes into a single shared communication medium.
+Such networks, as they were, provided far more information throughput than the legacy I/O signals but, in order to provide some determinism in message deliveries, their total data throughput was still limited.
+
+As industrial processes grew in complexity, the amount of data that needed to be shared between nodes also increased.
+The existing fieldbuses provided far more information throughput than the legacy I/O systems, but for certain systems, they were not enough.
+Fast communication networks such as Ethernet \cite{protocol:ethernet} started to become potential targets for the industry due to their data transfer capacities, but the methods employed to achieve the higher transfer speeds meant there was no determinism in message deliveries.
+As such, in order to reliably replace the industrial fieldbuses in use, modifications needed to be made.
+In the last twenty years, several adaptations of the standardized Ethernet protocol have emerged, such as Ethernet/IP (2001) \cite{protocol:ethernetip}, EtherCAT (2003) \cite{protocol:ethercat} or PROFINET (2003) \cite{protocol:profinet}.
+
+The technology advancements in both hardware and software fields have allowed DCSs to grow in popularity.
+With the fourth industrial revolution, modern control systems typically follow the ISA-88 \cite{standard:isa88} and ISA-95 \cite{standard:isa95} standard architectures, which in turn indirectly require the usage of communication networks in all hierarchic levels.
+Within this, devices that directly interact with sensors and actuators are called field devices.
+These architectures effectively implement a DCS system, where the overall process computation is done in a decentralized manner, utilizing the processing power from all devices in the network.
+
+%TODO Present a ISA95 standard graph
+
+These developments have allowed for DCSs to progressively automate more advanced processes.
+When these involve motion control, the requirements on the communication network employed tighten, as short response times and deterministic network transfers become critical aspects of the process itself.
