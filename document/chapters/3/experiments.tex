@@ -10,9 +10,9 @@ Each of these will generate a trace log of velocity points (in this case) measur
 Naturally, the definition of the movement curve can be randomly generated or taken from any real-world example, whatever interests the user the most.
 Independently of which control mode is going to be be executed, the predefined movement curve is to be stored in the master node by whatever means, either hard-coded into the control program or by using some form of data storage and interpretation.
 Because the master node's software implementation will be left to the end-user's responsability, so will be the generation or interpretation of reference values from the predefined movement curve.
-The only thing to be taken into account is that depending on which control mode is being used at a certain time, the slave expects to receive different types of data: for local control the slave device expects to receive the control reference values (from the predefined movement curve) and for remote control it expects to receive the duty-cycle percentage to be applied to the motor.
+The only thing to be taken into account is that depending on which control mode is being used at a certain time, the slave device expects to receive different types of data: for local control the slave device expects to receive the control reference values (directly taken from the predefined movement curve) and for remote control it expects to receive the duty-cycle percentage to be applied to the motor (the actual 'output' value of the control loop).
 
-By allowing the export of these logs into a CSV file, we can now import them into any data processing software available and perform relevant comparisons between the two traces.
-The most simple comparison possible, and possibly the most effective, is to generate a graph that includes the two datasets simultaneously, which creates a visual representation of the system's performance in both cases, making any differences in their behaviour quickly perceivable.
+As we aim to provide the means to export the recorded command and feedback values as a CSV file, we can now import them into any data processing software and perform relevant operations between the two traces.
+The most simple comparison possible, and possibly the most effective, is to generate a graph that includes the two datasets simultaneously, which will create a visual representation of the system's performance in both control cases, making any differences in their behaviour quickly perceivable.
 
 
