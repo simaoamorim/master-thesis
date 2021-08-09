@@ -2,13 +2,6 @@
 
 While keeping a careful consideration of characteristics between options and maintaining the requirements in focus, hardware parts were chosen to build each section of the demonstrator.
 
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=1\textwidth]{slave_architecture.png}
-	\caption{Graphical representation of the slave architecture}
-	\label{fig:slave_architecture}
-\end{figure}\footnote{placeholder image}
-
 \subsubsection{Master node}
 
 Taking into account the two operation modes the demonstrator should have, we extrapolated that the master node must be able to perform numeric calculations and serve as an EtherCAT master device.
@@ -51,3 +44,10 @@ Initially we planed on using this board's incremental encoder interface to also 
 Furthermore, this RPM value is only updated once every 100ms, which is to large of a period for motion control.
 To overcome this limitation, we decided to connect the encoder signals directly on the Raspberry's GPIO pins and create a software module to handle them.
 This way we will be able to separate the logic that decodes the pulse signals and the position/velocity tracking, allowing us to configure the update period for the latter.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[trim={2cm 12cm 2.5cm 2.5cm},width=1\textwidth,clip]{slave_architecture.pdf}
+	\caption{Graphical representation of the slave architecture}
+	\label{fig:slave_architecture}
+\end{figure}\footnote{placeholder image}
