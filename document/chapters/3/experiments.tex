@@ -15,4 +15,9 @@ The only thing to be taken into account is that depending on which control mode 
 As we aim to provide the means to export the recorded command and feedback values as a CSV file, we can now import them into any data processing software and perform relevant operations between the two traces.
 The most simple comparison possible, and possibly the most effective, is to generate a graph that includes the two datasets simultaneously, which will create a visual representation of the system's performance in both control cases, making any differences in their behaviour quickly perceivable.
 
+One variation that can be quickly derived from the afore mentioned one is to perform the same set of operations but while controlling and recording data regarding position control.
+Position control systems are typically more sensible to performance diferences than velocity control ones, so although the experiment complexity increases slightly, more subtuble diferences in behaviour might be perceivable.
+The increase in complexity is mostly due to the fact that position control implies velocity control so, in fact, instead of controlling one single property (velocity), we are now controlling two (position and velocity).
+In this case, we may not care about the velocity control per se, but we still need to control it in order to control the position.
+
 
