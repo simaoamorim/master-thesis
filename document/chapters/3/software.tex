@@ -1,3 +1,36 @@
 \subsection{Software} \label{sec:proposed-software}
 
+As can be expected, recent digital computing platforms require software to perform the necessary tasks.
+As such, both the master node (computer) and the slave device (Raspberry Pi) will each require an Operating System (OS) to manage the execution of tasks.
+The Raspberry Pi has a dedicated Linux OS called \emph{Raspberry Pi OS} \cite{os:raspberry-pi-os}, which is a fork from Debian.
+We will be using the Lite version of this OS for the Raspberry Pi as it is the easiest to setup and the most tested and stable OS for this platform.
+Regarding the master node computer we will be using Microsoft's Windows 10 as the chosen OS, not only because most computers come pre-installed with it, but also because it is one of the few supported OSes by the CODESYS development application \cite{ide:codesys}, presented below.
+
+\subsubsection{Master node software}
+
+In order for us to create a control application on a generic computer, an appropriate software platform must be chosen.
+Because we are working with industrial technology, a proper industrial control and automation software should be used.
+
+CODESYS is a generic platform to develop industrial control and automation applications based on the IEC 61131-3 standard.
+It includes support for hardware from multiple vendors as well as the ability to create a Software PLC (SoftPLC) from any generic computer hardware.
+This platform makes the software editor available to use for free and allows control applications to run for two hours in demonstration/testing mode, uninterrupted.
+This is a great option for development and testing purposes as only the final product with uninterrupted execution requirements for unknown periods of time will require a license to be purchased.
+Additionally, CODESYS natively supports the most common industrial communication networks, including EtherCAT, meaning one can develop a device with communication capabilities with one or more of these networks.
+
+With all this, we will use the CODESYS platform to create a SoftPLC to act as an EtherCAT master device for or demonstrator.
+As we are looking forward to develop a proof-of-concept system, we don't require application runtimes larger than two hours.
+
+Because we want to involve the end-user into the process of setting-up and running the experiments by themselves, we decided to leave the implementation of the master node's software to be dealt with by the end-user.
+By doing such, we will also be indirectly expanding the set of conceptual experiments the demonstrator can handle by allowing anyone to implement their own ideas, as the slave device will always work the same way.
+
+\subsubsection{Slave node software}
+
+After having chosen the Hilscher's ESC HAT for the Raspberry Pi (see \ref{subsubsec:slave_hdw}), which will be running a Linux distribution, and decided to use the CODESYS platform for the master, we initially planned to also use CODESYS to program the slave device.
+Although its editor is only designed to work under Windows, the SoftPLC runtime can run under Linux, with a version specifically targeting the Raspberry Pi platform.
+Unfortunately, CODESYS doesn't support developing programs for EtherCAT slave devices, specifically, as these are usually programmed by manufacturers themselves and not by a system integrator or end-user.
+
+Additionally, Hilscher only provides a library and accompanying API definitions for the C programming language, meaning at least the software module that needs to interact directly with the ESC will need to be programmed in C language.
+As this is the most widely used programming language in the Linux universe, if during development we conclude we require some library to provide us with some advanced functionality, the probability of existing one for the C language is much higher than with less widespread languages.
+As such, this is going to be our preferred programming language for implementing the EtherCAT's slave software running on the Raspberry Pi.
+
 

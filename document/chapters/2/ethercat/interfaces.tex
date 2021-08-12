@@ -8,7 +8,7 @@ In several scenarios, the end user may have the necessity to use EtherCAT produc
 To achieve this, everyone developing an EtherCAT device must submit it for a Conformance Test where the product's functionality is extensively tested to make sure all parameters and functions conform to the EtherCAT standard.
 This ensures devices from multiple vendors will work well together because they both conform to the same standard.
 
-\subsubsection{Master devices}
+\subsubsection{Master devices} \label{subsubsec:master_devices}
 
 In terms of hardware, master devices only require the presence of a standard Ethernet MAC controller.
 As previously mentioned, EtherCAT nodes benefit from modern system's DMA feature, relinquishing CPU time from the data transfer to the Ethernet MAC controller.
@@ -26,7 +26,7 @@ These implementations are categorized into two classes: Class-A-Master and Class
 Every implementation should aim at resulting in a Class-A-Master, which includes all possible functionality.
 On the case described above, having a master with only a subset of functions is classified as a Class-B-Master.
 
-\subsubsection{Slave devices}
+\subsubsection{Slave devices} \label{subsubsec:slave_devices}
 
 The unique hardware component EtherCAT slave devices require is an inexpensive EtherCAT Slave Controller (ESC), which are commonly available as Aplication-Specific Integrated Circuits (ASICs), Field-Programmable Gate Arrays (FPGAs) or even integrated as part of a microcontroller chip.
 These implementations can provide access to the process data through different Process Data Interfaces (PDIs), such as:

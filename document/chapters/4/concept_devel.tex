@@ -1,0 +1,26 @@
+\section{Concept development}
+
+In the beginning of this project, while being to clouded with the idea of applying the concept to a robotic system, we explored several possibilities of creating a demonstrator based on a robotic arm.
+The conceptual idea was to preprogram a path on the robotic arm that had to be followed when its actuators were commanded through a real-time network.
+One could define a 2D path on a sheet of paper and the robotic arm would have to follow it with a pen, drawing the travelled path.
+This way, the effects of network cycle time would be indirectly visible when comparing the preprogrammed path and the actual travelled path.
+
+This concept had an interesting potential but soon enough we came across a not so obvious problem: from the user's point of view, when looking at a robotic arm system, the attention would almost certainly go towards what the robotic arm could do instead of focusing on what was happening in the background, especially in terms of communications and how they affected the control system.
+
+After deciding this was not the way to go, we performed a retrospection exercise and analysed what was good about this first idea and why we had it in the first place.
+The underlying concept that made us consider this approach is that robotic systems are characterized by one traversal aspect: movement control.
+In fact, wanting to demonstrate the effects of network cycle time in a control application, controlling movement seems to best fulfil the purpose.
+This type of control requires short cycle times and deterministic periodicity, making it very susceptible to the effects of network cycle time.
+Additionally, it provides the demonstrator with a graspable connection to reality.
+
+The second iteration on the base concept led us to an idea still based on movement control but with a simpler approach: two perforated discs attached to motors, facing each other, would have their movement controlled independently.
+One of the discs would have a control loop closed locally on the field device and the other one would have it closed on the master controller node, traversing a real-time Ethernet network.
+With both discs coupled with a single string of spaghetti pasta, any effects the real-time Ethernet network would introduce on the control system would make the two discs' movement desynchronise and, as such, it would manifest through the spaghetti string breaking.
+We decided not to pursue this idea further because we expected, from the beginning, that the effects introduced by the communication network would have a small impact on performance and that, in this case, the spaghetti string would possibly have enough elasticity to withstand the small expected position slippages between the two discs.
+
+Given the reason for discarding the second concept, we decided the best way to visualize such small differences would be to compare data points relative to the movement of both the locally and remote controlled runtimes.
+In order to generate such data, virtually any type of physical movement can be utilized.
+So, simplifying the second concept iteration into a third one, the idea was now to control the movement of a single disc.
+The control itself can still be performed both locally on the field device or remotely on the master device, but not simultaneously.
+This way, one can create a sequence of set-points and pass them to both types of control which, in turn, will generate data relative to the disc's movement.
+One can then compare these data sets by creating graphs or using any other relevant methods.
