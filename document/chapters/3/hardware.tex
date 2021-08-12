@@ -18,7 +18,7 @@ On the other hand, the slave node's hardware was harder to choose.
 In order to implement the desired EtherCAT slave (see \ref{subsubsec:slave_devices}), one must be aware when choosing a computational platform to check the availability of a fitting ESC board and, simultaneously, the support for motor and encoder interfaces.
 
 After some research, two options presented themselves as possible platforms for the slave device: an Arduino UNO or a Raspberry Pi.
-ESC boards exist for both these platforms, as well as good support in terms of "shield boards" for motor interfaces.
+ESC boards exist for both these platforms, as well as good support in terms of `shield boards' for motor interfaces.
 In the end, we decided to go with a solution based on a Raspberry Pi, as it provides a more robust and versatile computing platform, especially considering the local control configuration, where position/velocity control algorithms will need to be executed on this platform.
 
 The ESC chosen for the Raspberry Pi was the Hilscher's \emph{netHAT 52-RTE} board \cite{hdw:nethat-52rte}.
