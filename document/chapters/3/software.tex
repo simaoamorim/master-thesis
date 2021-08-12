@@ -4,7 +4,7 @@ As can be expected, recent digital computing platforms require software to perfo
 As such, both the master node (computer) and the slave device (Raspberry Pi) will each require an Operating System (OS) to manage the execution of tasks.
 The Raspberry Pi has a dedicated Linux OS called \emph{Raspberry Pi OS}, which is a fork from Debian (see \url{https://www.raspberrypi.org/software/}.
 We will be using the Lite version of this OS for the Raspberry Pi as it is the easiest to setup and the most tested and stable OS for this platform.
-Regarding the master node computer we will be using Microsoft's Windows 10 as the chosen OS, not only because most computers come pre-installed with it, but it is also the only supported OS for the CODESYS development application, mentioned below.
+Regarding the master node computer we will be using Microsoft's Windows 10 as the chosen OS, not only because most computers come pre-installed with it, but also because it is one of the few supported OSes by the CODESYS development application \cite{ide:codesys}, presented below.
 
 \subsubsection{Master node software}
 
@@ -29,8 +29,8 @@ After having chosen the Hilscher's ESC HAT for the Raspberry Pi (see \ref{subsub
 Although its editor is only designed to work under Windows, the SoftPLC runtime can run under Linux, with a version specifically targeting the Raspberry Pi platform.
 Unfortunately, CODESYS doesn't support developing programs for EtherCAT slave devices, specifically, as these are usually programmed by manufacturers themselves and not by a system integrator or end-user.
 
-Additionally, Hilscher only provides a library and accompanying API definitions for the C programming language, meaning at least the software part that needs to interact directly with the ESC will need to be programmed in C.
-As this is the most widely used programming language in the Linux universe, if during development we conclude we require some library to provide some advanced functionality, the probability of existing one for the C language is much higher than with less widespread languages.
-As such, the C programming language is going to be our preferred one for implementing the EtherCAT's slave software.
+Additionally, Hilscher only provides a library and accompanying API definitions for the C programming language, meaning at least the software module that needs to interact directly with the ESC will need to be programmed in C language.
+As this is the most widely used programming language in the Linux universe, if during development we conclude we require some library to provide us with some advanced functionality, the probability of existing one for the C language is much higher than with less widespread languages.
+As such, this is going to be our preferred programming language for implementing the EtherCAT's slave software running on the Raspberry Pi.
 
 
