@@ -6,7 +6,7 @@ root: root.tex
 test: test_chapter.tex
 	latexmk -pdf $^
 
-.PHONY: clean all view test-view
+.PHONY: clean all view test-view all root test
 
 clean:
 	latexmk -c
