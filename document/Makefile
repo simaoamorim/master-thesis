@@ -13,7 +13,7 @@ clean:
 	$(MAKE) -C chapters/ clean
 
 view: root
-	setsid firefox root.pdf
+	$(shell setsid firefox root.pdf)
 
 test-view: test
-	setsid firefox test_chapter.pdf
+	$(shell setsid firefox test_chapter.pdf)
