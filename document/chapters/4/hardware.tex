@@ -1,4 +1,4 @@
-\section{Hardware development} \label{sec:hardware-devel}
+\section{Hardware} \label{sec:hardware-devel}
 
 % Motor Assembly
 % `- Encoder soldering
@@ -30,6 +30,32 @@ Finally we attached the magnetic disc on the motor shaft so the encoder can work
 % `- 3D design
 % `- 3D printing
 % `- Adding the motor
+\subsection{Motor support}
+In order to not let the motor lay down on a table, a simple 2-piece support was designed to give it form and stability.
+We also included a disc in the design to act as a minimalist load for the motor.
+A preview of the designed pieces can be seen on figures \ref{fig:support_base}, \ref{fig:support_arc} and \ref{fig:support_disc}.
+The CAD design was developed in Blender \cite{sw:blender} and the three drawn pieces were then exported to STL format.
+Finally these three STL files were sent to a 3D printing service to be printed.
+The final result can be later seen in \autoref{fig:final_motor_stage}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{base.png}
+	\caption{Support foot preview}
+	\label{fig:support_base}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{suporte.png}
+	\caption{Support arc preview}
+	\label{fig:support_arc}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{disco.png}
+	\caption{Motor disc preview}
+	\label{fig:support_disc}
+\end{figure}
 
 % Raspberry Pi stack assembly
 % `- Raspberry Pi
