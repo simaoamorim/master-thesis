@@ -70,3 +70,30 @@ The final result of the assembled motor coupled with the support can be seen in 
 % `- DFR0592
 %   `- PSU cable
 % `- netHAT 52-RTE
+\subsection{Raspberry Pi stack}
+
+After having obtained the necessary components, we assembled the slave device by stacking the different HAT boards onto the Raspberry Pi 4 board.
+Having done it for the first time we considered the boards to have an unstable mechanical coupling, so we added a series of hexagonal spacers and screws to give the entire stack a bit more rigidity and robustness.
+
+The full stack is comprised of:
+\begin{enumerate}
+	\item a Raspberry Pi 4 board \cite{product:rpi4} on the bottom, followed by;
+	\item a generic screw terminal prototype board that exports the GPIO signals to the screw terminals, useful to connect the encoder signals to the GPIO pins;
+	\item the DFR0592 motor interface board;
+	\item and, on the top of the stack, the Hilscher's netHAT 52-RTE board, which comes with a non-passthrough GPIO connector, forcing it to be placed on the top.
+\end{enumerate}
+
+\subsubsection{Raspberry Pi 4}
+The Raspberry Pi 4 is a single board computer (SBC) and comes equiped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5GHz \cite{technology:rpi4-specs}.
+At the time of writting, versions were available with 2, 4 and 8GB of LPDDR4 SDRAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200MHz.
+
+This version of the Raspberry Pi series is the first to be equipped with a true-Gigabit Ethernet controller connected to the PCIe bus, while earlier versions used a USB attached one, meaning latency and throughput were not as good and especially less constant.
+
+\subsubsection{Screw terminal GPIO interface}
+
+
+\subsubsection{DFRobot's DFR0592}
+
+
+\subsubsection{Hilscher's netHAT 52-RTE}
+
