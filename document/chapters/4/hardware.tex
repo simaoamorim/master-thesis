@@ -89,6 +89,12 @@ At the time of writting, versions were available with 2, 4 and 8GB of LPDDR4 SDR
 
 This version of the Raspberry Pi series is the first to be equipped with a true-Gigabit Ethernet controller connected to the PCIe bus, while earlier versions used a USB attached one, meaning latency and throughput were not as good and especially less constant.
 
+As our designed slave device is inteded to be used in headless mode, meaning no monitor output and no keyboard nor mouse will be used, we picked the version with 2GB of RAM.
+As no graphical interface needs to be create, memory usage will be very reduced and, as such, 2GB are plenty of memory for our needs.
+
+The Rasbperry Pi 4 incorporates a microSD card slot to be used as an onboard hard disk, so we have also included a small 16GB microSD card to serve as such.
+Linux is a very small operating system and a fresh install of Raspberry Pi OS Lite occupies about 4GB, meaning the 16GB are also more than sufficient for our needs.
+
 \subsubsection{Screw terminal GPIO interface}
 
 
