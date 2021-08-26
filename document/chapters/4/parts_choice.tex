@@ -21,7 +21,19 @@ The Rasbperry Pi 4 incorporates a microSD card slot to be used as an embedded ha
 Linux is a very small operating system and a fresh install of Raspberry Pi OS Lite occupies about 1.4GB, meaning the 16GB are also more than sufficient for our needs.
 
 \subsubsection{Motor \& encoder}
+% `- DC motor
+% `- Encoder
+% `- Why not standard servo motor + drive
+In order to provide our system with the physical connection with the world we aim for, we have chosen a small 6V brushed DC motor with an embedded 30:1 gearbox \cite{product:dc_motor}.
+This motor provides an extended shaft on the back of the motor so that a magnetic encoder kit can be attached to it.
 
+Pololu \cite{brand:pololu}, which is the maker of our chosen motor, separately provides the magnetic quadrature encoder kit, compatible with such motor, with a resolution of 12 pulses per revolution (PPR) in quadrature mode.
+The encoder provides quadrature signals A and B at the same voltage as its power supply.
+It is rated to be powered between 2.7V and 18V, allowing it to used for a wide variety of applications.
+
+This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
+These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
+Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
 
 \subsubsection{DFRobot's DFR0592}
 
