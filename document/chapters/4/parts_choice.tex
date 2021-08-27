@@ -20,6 +20,8 @@ As no graphical interface needs to be created, memory usage will be very reduced
 The Rasbperry Pi 4 incorporates a microSD card slot to be used as an embedded hard disk, so we have also included a small 16GB microSD card to serve as such.
 Linux is a very small operating system and a fresh install of Raspberry Pi OS Lite occupies about 1.4GB, meaning the 16GB are also more than sufficient for our needs.
 
+% TODO conclusion
+
 \subsubsection{Motor \& encoder}
 % `- DC motor
 % `- Encoder
@@ -36,10 +38,50 @@ These two parts would cost more than 400\texteuro, as that was the lowest price 
 Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
 
 \subsubsection{DFRobot's DFR0592}
+% Intro
+The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation and an H-bridge for direct motor interface.
+This board is an add-on HAT for the Raspberry Pi, attached on the GPIO header, and uses Inter Integrated Communication (I\textsuperscript{2}C or I2C) as an interface between both.
 
+% Motor control
+This control board takes some configuration values from the Raspberry Pi, such as the motor type (DC or stepper motor), PWM frequency, encoder ratio and others.
+For the actual motor control, two values are needed: the direction of rotation (clockwise or counter-clockwise, obviously the motor terminals need to be assigned correctly) and the PWM duty cycle to be used (which is equivalent to saying the percentage of maximum power to apply).
+
+% Feedback mechanism
+The DFR0592 also provides a quadrature encoder interface and the integraded microcontroller (an STM32 chip) takes care of calculating the motor speed in revolutions per minute (RPM) using the configuration values and the counted pulses from the encoder.
+
+% Conclusions
+At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is to great of a period to use for movement control.
+It could be acceptable for simple velocity control, but it would also limit the remote operation of the slave device by making it to slow for the desired application.
 
 \subsubsection{Hilscher's netHAT 52-RTE}
 
 
 \subsubsection{Screw terminal GPIO interface}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
