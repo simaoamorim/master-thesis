@@ -54,7 +54,21 @@ At first, this board seemed the best fit for the project, but after some prelimi
 It could be acceptable for simple velocity control, but it would also limit the remote operation of the slave device by making it to slow for the desired application.
 
 \subsubsection{Hilscher's netHAT 52-RTE}
+As explained in the previous chapter, our project involves the development of a custom EtherCAT slave device.
+For this, we need a specialized hardware interface called an EtherCAT Slave Controller (ESC).
+As we have chosen to use a Raspberry Pi as our computing platform, we now require an appropriate ESC HAT board.
+We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because the \Feup{} had a set of them available for imediate use, so we did not have the necessity to order any for the development of the project.
 
+% HDW specs
+The netHAT 52-RTE board has two Ethernet ports so that most of the supported EtherCAT network topologies can be implemented without the need for additional network hardware.
+This board uses the Serial Peripheral Interface 0 (SPI0) of the Raspberry Pi for communication and uses a mailbox system to deliver messages to the control program.
+The ESC chip allows cyclic syncronisation of 32 bytes of input and 32 bytes of output data.
+Considering our project will only require a few bytes for each data type, there is plenty of room to do so.
+
+% SW stuff
+This board provides an API library for the C language so developpers can program the desired slave device behaviour.
+The documentation manuals (\cite{nethat:cifx_api_docs} and \cite{nethat:ethercat_api_docs}) provide useful and insightful information on how this ESC board works and how to use it properly.
+These were the main references used during the development of the slave device software, especially during the development of the helper function that interact with the netHAT API library.
 
 \subsubsection{Screw terminal GPIO interface}
 This piece of hardware has become a necessity during development in order to connect the above mentioned motor encoder to the Raspberry Pi.
