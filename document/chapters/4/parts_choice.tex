@@ -9,15 +9,15 @@
 % `- screw terminal add-on
 
 \subsubsection{Raspberry Pi 4}
-The Raspberry Pi 4 is a single board computer (SBC) and comes equiped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5GHz \cite{technology:rpi4-specs}.
-At the time of writting, versions were available with 2, 4 and 8GB of LPDDR4 SDRAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200MHz.
+The Raspberry Pi 4 is a single board computer (SBC) and comes equipped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5GHz \cite{technology:rpi4-specs}.
+At the time of writing, versions were available with 2, 4 and 8GB of LPDDR4 SD-RAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200MHz.
 
 This version of the Raspberry Pi series is the first to be equipped with a true-Gigabit Ethernet controller connected to the PCIe bus, while earlier versions used a USB attached one, meaning latency and throughput were not as good and especially less constant.
 
-As our designed slave device is inteded to be used in headless mode, meaning no monitor output and no keyboard nor mouse will be used, we picked the version with 2GB of RAM.
+As our designed slave device is intended to be used in headless mode, meaning no monitor output and no keyboard nor mouse will be used, we picked the version with 2GB of RAM.
 As no graphical interface needs to be created, memory usage will be very reduced and, as such, 2GB are plenty of memory for our needs.
 
-The Rasbperry Pi 4 incorporates a microSD card slot to be used as an embedded hard disk, so we have also included a small 16GB microSD card to serve as such.
+The Raspberry Pi 4 incorporates a micro-SD card slot to be used as an embedded hard disk, so we have also included a small 16GB micro-SD card to serve as such.
 Linux is a very small operating system and a fresh install of Raspberry Pi OS Lite occupies about 1.4GB, meaning the 16GB are also more than sufficient for our needs.
 
 % TODO conclusion
@@ -47,7 +47,7 @@ This control board takes some configuration values from the Raspberry Pi, such a
 For the actual motor control, two values are needed: the direction of rotation (clockwise or counter-clockwise, obviously the motor terminals need to be assigned correctly) and the PWM duty cycle to be used (which is equivalent to saying the percentage of maximum power to apply).
 
 % Feedback mechanism
-The DFR0592 also provides a quadrature encoder interface and the integraded microcontroller (an STM32 chip) takes care of calculating the motor speed in revolutions per minute (RPM) using the configuration values and the counted pulses from the encoder.
+The DFR0592 also provides a quadrature encoder interface and the integrated micro-controller (an STM32 chip) takes care of calculating the motor speed in revolutions per minute (RPM) using the configuration values and the counted pulses from the encoder.
 
 % Conclusions
 At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is to great of a period to use for movement control.
