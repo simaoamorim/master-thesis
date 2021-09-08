@@ -34,6 +34,29 @@ The mentioned approach was used in order to mimic the working principle of an ob
 This was mostly useful on the libraries that may need to manage several pseudo-objects of the same type (e.g. the PID algorithm library), but we used the same principle throughout all code-base, for consistency reasons.
 
 % `- GPIO encoder 'driver'
+\subsection{Raspberry Pi's GPIO encoder driver}
+After having determined the best approach for velocity and position measurement was to connect the motor encoder to the GPIO of the Raspberry Pi, it prompted us to develop a dedicated driver to handle the input signals.
+The designed driver converts the logical values from the quadrature encoder signals A and B into a step sequence by mapping the A/B pair of values onto a sequence number, as shown in \autoref{table:encoder-ab-sequence}.
+
+\begin{table}[htp]
+	\centering
+	\caption{Encoder step sequence mapping}
+	\label{table:encoder-ab-sequence}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		A & B & sequence  \\
+		\hline
+		0 & 0 & 0         \\
+		\hline
+		1 & 0 & 1         \\
+		\hline
+		1 & 1 & 2         \\
+		\hline
+		0 & 1 & 3         \\
+		\hline
+	\end{tabular}
+\end{table}
+
 % `- velocity/position calculation algorithm
 % `- PID algorithm
 % `- netHAT handler
