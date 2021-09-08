@@ -28,7 +28,7 @@ The following \autoref{lst:dfr_struct} is an excerpt of the header file containi
 \lstinputlisting[language=C,firstline=23,lastline=31,caption=Example code,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
 
 Each DFR0592 board comes pre-configured with the I\textsuperscript{2}C address \verb|0x10| but they can be changed, meaning several of these boards can be used simultaneously.
-As such, the library was designed in a way that, in future works, one can communicate with several boards simultaneously
+As such, the library was designed in a way that, in future works, one can communicate with several boards simultaneously.
 
 The mentioned approach was used in order to mimic the working principle of an object-oriented programming language in C.
 This was mostly useful on the libraries that may need to manage several pseudo-objects of the same type (e.g. the PID algorithm library), but we used the same principle throughout all code-base, for consistency reasons.
