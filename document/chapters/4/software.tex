@@ -89,8 +89,8 @@ Following the same design pattern of the previous modules, a C struct variable i
 A such, a more complex system that may need to calculate velocities and position for multiple motors simultaneously can be implemented with this library, due to the mimicking of an object-oriented implementation.
 
 Even though the data struct is transparent to outside of the library, public functions are provided to fetch these values.
-These functions include an interlock variable to control the access to the memory regions where such values are stored (the 'pthread mutex` implementation is used), to make sure the cyclic calculation task is not disrupted by any external fetch operations.
-This is common technique used in multi-threaded software where concurrent running parts of the same software application need to access the same memory location, but naturally they cannot do it simultaneously.
+These functions include an interlock variable to control the access to the memory regions where such values are stored (the \verb|pthread mutex| implementation is used), to make sure the cyclic calculation task is not disrupted by any external fetch operations.
+This is a common technique used in multi-threaded software where concurrent running parts of the same software application need to access the same memory location, but naturally they cannot do it simultaneously.
 
 % `- PID algorithm
 % `- netHAT handler
