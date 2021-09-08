@@ -93,5 +93,25 @@ These functions include an interlock variable to control the access to the memor
 This is a common technique used in multi-threaded software where concurrent running parts of the same software application need to access the same memory location, but naturally they cannot do it simultaneously.
 
 % `- PID algorithm
+\subsection{PID control algorithm}
+In order to perform any type of movement control, either it being velocity, position, or any other, some form of control algorithm needs to be used.
+To this effect, we are going to use the most common control algorithm in the control universe: the Proportional/Integral/Derivative (PID) controller.
+Virtually everyone in the controls universe is familiar with the PID controller and its working principle:
+
+\begin{itemize}
+	\item It receives two inputs: a reference value and a feedback value;
+	\item Calculates the error between the two, meaning how far is the current value (the feedback) from the desired value (the reference);
+	\item The Proportional term will contribute to the output value according to the calculated error;
+	\item The Integral term will contribute to the output value according to the accumulated error over time;
+	\item The Derivative term will contribute to the output according to the error's rate of change.
+\end{itemize}
+
+Because we did not want to spend to much time implementing something that already has a lot of different implementations, we have programmed a simple library with a PID algorithm based on the one used in the LinuxCNC \cite{sw:linuxcnc} project.
+It has not been ported into our project, instead we implemented our own version of the same algorithm and design, with the exception that we applied the same design pattern of using a C structure for holding the pseudo-object data.
+In this case, multiple PID controllers can be implemented simultaneously using the same library.
+
+During the testing phase the implementation demonstrated a good performance and correctness.
+As such, we accepted its usage for our proof-of-concept prototype, but admit a better algorithm or implementation might be necessary for a production release.
+
 % `- netHAT handler
 % `- miscelaneous glue code
