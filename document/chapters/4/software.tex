@@ -12,7 +12,7 @@ The communication with the DFR0592 is done via the I\textsuperscript{2}C channel
 If we want to read a value on register X, we simply send the register address we want to read and the board responds with the corresponding value.
 If, instead, we wish to write a value, we also send the register address but with the most significant bit of the transmitted byte set to 1, which indicates a write operation (as opposed to a read operation, when it is 0), followed by the value we want to be written.
 
-We began by testing the device functionality with a Python \cite{programming:python} script provided by the manufacturer.
+We began by testing the device functionality with a Python \cite{sw:python} script provided by the manufacturer.
 We used it mostly to get a sense of what parameters and variables were needed to set the motor speed and get the velocity feedback value, but also to get acquainted to how the I2C communication transactions worked.
 
 It was at this stage that we found out the velocity calculation algorithm implemented on the board was too slow to be used in a control loop because it only updated the feedback value once every 100ms.
