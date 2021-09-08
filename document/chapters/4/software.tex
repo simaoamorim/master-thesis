@@ -57,6 +57,18 @@ The designed driver converts the logical values from the quadrature encoder sign
 	\end{tabular}
 \end{table}
 
+To gain software access to the GPIO lines on the Raspberry Pi, the Linux C library \verb|libgpiod| \cite{lib:libgpiod} was used.
+This library allows two modes of acquiring input values: periodic polling and event-triggered action.
+Our implementation uses periodic polling, in which the new update of values will be triggered by the main control task, following its cyclic period.
+The event-triggered action will call a specified function whenever the configured input(s) line changes its value, either from boolean 0 to 1 or 1 to 0.
+
+The periodic polling approach was easy to prototype and implement but it will have less precision when working with slow speeds, meaning an implementation based on event-triggered actions could be implemented as future work, in order to improve both performance and measurement precision in slow speeds.
+As we were mostly interested in creating a proof-of-concept system, we accepted the reduced precision on slower speeds, in exchange for the simplest and smallest implementation.
+
+After the encoder signals are mapped to the sequence number, a counter variable is updated after every polling iteration according to the difference between the current and previous sequence numbers.
+If the sequence number increases or jumps from 3 to 0, the counter is incremented accordingly, and vice versa.
+This counter value will later be used in the velocity and position calculation library, where every iteration its value is compared to its previous one and, combined with the necessary ratios from the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio, the average velocity and angular positions can be estimated.
+
 % `- velocity/position calculation algorithm
 % `- PID algorithm
 % `- netHAT handler
