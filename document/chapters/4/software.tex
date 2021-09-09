@@ -177,3 +177,16 @@ The final top-level logic implemented in this module is the following:
 This logic is implemented so that the code starts at step \ref{misc:main-logic-step-lock-config} and then loops steps \ref{misc:main-logic-step-acquire-timestamp} through \ref{misc:main-logic-step-sleep}, taking into account the conditions on steps \ref{misc:main-logic-step-check-active-comm} and \ref{misc:main-logic-step-check-enabled}.
 
 % `- miscelaneous initialisation code
+\subsection{Initialisation code and debug output}
+At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
+For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the \verb|main| module, which will be the entry point of our control application.
+A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
+
+Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.
+Instead, in order to also minimise the amount of concurrent threads within the application, the exporting of debug data was implemented within the \verb|pid| module.
+During development we realised that during each time-step all relevant data for exportation was already stored on the PID pseudo-object, so it made sense to include the exporting functions on the same module.
+The main module was planned to have the responsibility of initialising data and auxiliary threads and then terminating them, during the shutdown procedure, but during normal execution, no processing would be done in this thread.
+As such, we ended up taking advantage of this unused thread and let the exporting of the debug data be performed on it.
+
+The data exportation itself is a simple algorithm, called periodically from the \verb|main| thread, that appends the current PID pseudo-object data to a file with the Comma Separated Values (CSV) format.
+This file format is very simple and is based on the concept that different values on the same line are separated by commas and that they maintain the same relative horizontal position across all lines of the entire file \cite{sw:csv}.
