@@ -69,7 +69,7 @@ After the encoder signals are mapped to the sequence number, a counter variable 
 If the sequence number increases or jumps from 3 to 0, the counter is incremented accordingly, and vice versa.
 This counter value will later be used in the velocity and position calculation library, where every iteration its value is compared to the previous one and, combined with the necessary ratios from the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio, the average velocity and angular positions can be estimated for the current time-step.
 
-Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to connect several encoders 
+Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to connect several encoders.
 
 % `- velocity/position calculation algorithm
 \subsection{Velocity and position calculation algorithm}
