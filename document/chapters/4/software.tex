@@ -131,14 +131,14 @@ Functions are provided to automatically perform the following actions:
 \begin{enumerate}
 	\item Initialise the SPI communication with the board and setup board and communication parameters; \label{misc:comm_step_1}
 	\item Wait for the communication to be established (blocking function call) or, alternatively, check if the connection is active or not (non-blocking function call); \label{misc:comm_step_2}
-	\item Syncronise the input data with the network (update the local copy with the network data);
+	\item Synchronise the input data with the network (update the local copy with the network data);
 	\item Fetch input data, either a single bit, a byte or a word (two bytes), from the local copy;
 	\item Set output data, either a single bit, a byte or a word (two bytes), on the local copy;
 	\item Synchronise the output data with the network (send the modified local data copy to the network); \label{misc:comm_step_6}
 	\item Stop the SPI communication and `shutdown' the board. \label{misc:comm_step_7}
 \end{enumerate}
 
-The actual behaviour of the slave device will naturaly be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}.
+The actual behaviour of the slave device will naturally be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}.
 
 % `- main control loop
 \subsection{Main control task}
@@ -148,12 +148,12 @@ Nonetheless, care must be taken creating multiple instances as no verification m
 
 This task will not implement any new features to the control application itself.
 Instead, its purpose is to maintain a periodic loop and trigger the actions that need to be performed at each time-step iteration, meaning this is where the top-level logic of the slave device is implemented.
-All actions are achieved via function calls to the libraries presented earlier and all information that needs to be transfered between modules is done via this control task.
+All actions are achieved via function calls to the libraries presented earlier and all information that needs to be transferred between modules is done via this control task.
 
 As this control application is being developed in the year 2021, where even inexpensive computing platforms include multi-core processors (such as the Raspberry Pi), its has been designed from the start with multi-threading in mind.
-Multi-threading is a simpler aproach to simultaneous processing by giving the same process (application) multiple execution threads that may perform computations simultaneously.
+Multi-threading is a simpler approach to simultaneous processing by giving the same process (application) multiple execution threads that may perform computations simultaneously.
 Compared to multi-processing, where several different processes (applications) work together to achieve some goal, data sharing is much simpler because threads within the same process share the same memory address-space (the system memory allocated exclusively for the process) \cite{technology:mp-vs-mt}.
-While allowing all threads to access all available data within the process is faster than having to transmit said data to other processes, explicict synchronisation of memory access is required to ensure that multiple threads do not try to access the same memory region simultaneously, which will very likely corrupt such data.
+While allowing all threads to access all available data within the process is faster than having to transmit said data to other processes, explicit synchronisation of memory access is required to ensure that multiple threads do not try to access the same memory region simultaneously, which will very likely corrupt such data.
 This has been implemented via the usage of mutual exclusion (mutex) pseudo-objects.
 In particular, we used the mutex implementation from the Linux \verb|pthreads| library, which we also used to create and manage the several execution threads of the control application.
 
