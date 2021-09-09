@@ -115,4 +115,30 @@ During the testing phase the implementation demonstrated a good performance and 
 As such, we accepted its usage for our proof-of-concept prototype, but admit a better algorithm or implementation might be necessary for a production release.
 
 % `- netHAT handler
+\subsection{netHAT 52-RTE handler library}
+The Hilscher's netHAT 52-RTE board already includes support for the C programming language, provided by a library.
+As such, we did not have the need to develop a driver in the general sense of controlling the board behaviour.
+Instead we have created a `handler' library that makes the proper calls to the driver's functions and stores the cyclically updated data onto a C struct, the same concept of storing the pseudo-object data as before.
+Even though the netHAT boards are not designed to allow multiple simultaneous connections, we still used this approach for consistency reasons.
+
+Limiting the code-base that directly interacts with external drivers or APIs is a common technique to ease the development process and to allow faster and better error tracing.
+Having the netHAT driver functions confined to a restrict set of helper functions allows us to maintain a clean coding style.
+In the event of bugs or even API changes to the library, all driver calls are centralised in a single place, allowing one to correct bugs and make modifications or improvements that influence the entire software, without having to navigate all code-base looking for references to the driver's API.
+
+The \verb|comm| library we have implemented takes care of all interactions with the netHAT 52-RTE driver and maintains a local copy of the cyclically synchronised data, the previously referred 32 bytes of inputs and 32 bytes of outputs.
+Functions are provided to automatically perform the following actions:
+
+\begin{enumerate}
+	\item Initialise the SPI communication with the board and setup board and communication parameters; \label{misc:comm_step_1}
+	\item Wait for the communication to be established (blocking function call) or, alternatively, check if the connection is active or not (non-blocking function call); \label{misc:comm_step_2}
+	\item Syncronise the input data with the network (update the local copy with the network data);
+	\item Fetch input data, either a single bit, a byte or a word (two bytes), from the local copy;
+	\item Set output data, either a single bit, a byte or a word (two bytes), on the local copy;
+	\item Synchronise the output data with the network (send the modified local data copy to the network); \label{misc:comm_step_6}
+	\item Stop the SPI communication and `shutdown' the board. \label{misc:comm_step_7}
+\end{enumerate}
+
+The actual behaviour of the slave device will naturaly be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}.
+
+% `- main control loop
 % `- miscelaneous glue code
