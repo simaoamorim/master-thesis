@@ -141,4 +141,20 @@ Functions are provided to automatically perform the following actions:
 The actual behaviour of the slave device will naturaly be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}.
 
 % `- main control loop
-% `- miscelaneous glue code
+\subsection{Main control task}
+Following the already implemented design pattern, the main control task will also use a C struct to store its pseudo-object variables.
+The current implementation is only prepared to run a single instance, although running multiple could be achieved, if that is something that makes sense for a particular experiment.
+Nonetheless, care must be taken creating multiple instances as no verification mechanisms have been implemented for simplicity reasons.
+
+This task will not implement any new features to the control application itself.
+Instead, its purpose is to maintain a periodic loop and trigger the actions that need to be performed at each time-step iteration, meaning this is where the top-level logic of the slave device is implemented.
+All actions are achieved via function calls to the libraries presented earlier and all information that needs to be transfered between modules is done via this control task.
+
+As this control application is being developed in the year 2021, where even inexpensive computing platforms include multi-core processors (such as the Raspberry Pi), its has been designed from the start with multi-threading \cite{technology:multi-threading} in mind.
+Multi-threading is a simpler aproach to simultaneous processing by giving the same process (application) multiple execution threads that may perform computations simultaneously.
+Compared to multi-processing, where several different processes (applications) work together to achieve some goal, data sharing is much simpler because threads within the same process share the same memory address-space (the system memory allocated exclusively for the process).
+While allowing all threads to access all available data within the process is faster than having to transmit said data to other processes, explicict synchronisation of memory access is required to ensure that multiple threads do not try to access the same memory region simultaneously, which will very likely corrupt such data.
+This has been implemented via the usage of mutual exclusion (mutex) pseudo-objects.
+In particular, we used the mutex implementation from the Linux \verb|pthreads| library, which we also used to create and manage the several execution threads of the control application.
+
+% `- miscelaneous initialisation code
