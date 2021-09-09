@@ -109,7 +109,7 @@ Virtually everyone in the controls universe is familiar with the PID controller 
 Because we did not want to spend to much time implementing something that already has a lot of different implementations, we have programmed a simple library with a PID algorithm based on the one used in the LinuxCNC \cite{sw:linuxcnc} project.
 It has not been ported into our project, instead we implemented our own version of the same algorithm and design, with the exception that we applied the design pattern of using a C structure for holding the pseudo-object data.
 In this case, multiple PID controllers can be implemented simultaneously using the same library.
-This was an important characteristic to have as the position control requires PID controllers for both the position and velocity, simultaneously.
+This was an important characteristic to have as position control requires controllers for both the position and velocity, simultaneously.
 
 During the testing phase the implementation demonstrated a good performance and correctness.
 As such, we accepted its usage for our proof-of-concept prototype, but admit a better algorithm or implementation might be necessary for a production release.
