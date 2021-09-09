@@ -157,4 +157,23 @@ While allowing all threads to access all available data within the process is fa
 This has been implemented via the usage of mutual exclusion (mutex) pseudo-objects.
 In particular, we used the mutex implementation from the Linux \verb|pthreads| library, which we also used to create and manage the several execution threads of the control application.
 
+The final top-level logic implemented in this module is the following:
+
+\begin{enumerate}
+	\item Lock the \verb|comm| module configuration (via the \lstinline[columns=fixed]{comm_bus_config_lock()} function); \label{misc:main-logic-step-lock-config}
+	\item Acquire the current timestamp; \label{misc:main-logic-step-acquire-timestamp};
+	\item Order the \verb|comm| module to update the inputs via the \lstinline[columns=fixed]{comm_update_inputs()} function;
+	\item Check if the EtherCAT communication is active, if not then jump to step \ref{misc:main-logic-step-update-outputs}; \label{misc:main-logic-step-check-active-comm}
+	\item Read the \verb|enable| bit from the inputs, if it is false then jump to step \ref{misc:main-logic-step-update-outputs}; \label{misc:main-logic-step-check-enabled}
+	\item Copy the reference and feedback values to the PID pseudo-object;
+	\item Perform the PID calculations;
+	\item Set the motor speed to the value of the PID output;
+	\item Set the first two output words of the \verb|comm| module to the values of the feedback velocity and position, respectively; \label{misc:main-logic-step-update-outputs}
+	\item Store the current timestamp as the previous one, so that in the next iteration the `previous timestamp' already has the correct value;
+	\item Order the \verb|comm| module to update the outputs;
+	\item Sleep until the period time has been elapsed; \label{misc:main-logic-step-sleep}
+\end{enumerate}
+
+This logic is implemented so that the code starts at step \ref{misc:main-logic-step-lock-config} and then loops steps \ref{misc:main-logic-step-acquire-timestamp} through \ref{misc:main-logic-step-sleep}, taking into account the conditions on steps \ref{misc:main-logic-step-check-active-comm} and \ref{misc:main-logic-step-check-enabled}.
+
 % `- miscelaneous initialisation code
