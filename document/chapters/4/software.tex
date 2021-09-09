@@ -150,9 +150,9 @@ This task will not implement any new features to the control application itself.
 Instead, its purpose is to maintain a periodic loop and trigger the actions that need to be performed at each time-step iteration, meaning this is where the top-level logic of the slave device is implemented.
 All actions are achieved via function calls to the libraries presented earlier and all information that needs to be transfered between modules is done via this control task.
 
-As this control application is being developed in the year 2021, where even inexpensive computing platforms include multi-core processors (such as the Raspberry Pi), its has been designed from the start with multi-threading \cite{technology:multi-threading} in mind.
+As this control application is being developed in the year 2021, where even inexpensive computing platforms include multi-core processors (such as the Raspberry Pi), its has been designed from the start with multi-threading in mind.
 Multi-threading is a simpler aproach to simultaneous processing by giving the same process (application) multiple execution threads that may perform computations simultaneously.
-Compared to multi-processing, where several different processes (applications) work together to achieve some goal, data sharing is much simpler because threads within the same process share the same memory address-space (the system memory allocated exclusively for the process).
+Compared to multi-processing, where several different processes (applications) work together to achieve some goal, data sharing is much simpler because threads within the same process share the same memory address-space (the system memory allocated exclusively for the process) \cite{technology:mp-vs-mt}.
 While allowing all threads to access all available data within the process is faster than having to transmit said data to other processes, explicict synchronisation of memory access is required to ensure that multiple threads do not try to access the same memory region simultaneously, which will very likely corrupt such data.
 This has been implemented via the usage of mutual exclusion (mutex) pseudo-objects.
 In particular, we used the mutex implementation from the Linux \verb|pthreads| library, which we also used to create and manage the several execution threads of the control application.
