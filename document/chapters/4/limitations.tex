@@ -48,6 +48,19 @@ Although this was the planned way of implementing such interface, one can utilis
 Furthermore, as the encoder used on our project did not include an Index output (one short pulse every revolution), we did not add support for it on the developed driver.
 Effectively, no mechanism for `homing' the absolute position of the motor was implemented, because it was also out of the scope for the current project.
 
-% Main
-
 % PV calc
+% `- Fixed period instead of fixed inputs - more complicated to implement due to callback from libgpiod
+\subsection{Velocity calculation}
+The current implementation of the velocity calculation uses an algorithm based on a fixed time period.
+The algorithm takes into account how many encoder pulses have been acquired over the time period, using the encoder counter, and calculates the velocity based on its fixed period.
+This had the advantage of being simple to implement, but for applications that require precise measurements, it is not the best option.
+At low speeds, this algorithm has poor precision, including a gap between measuring a speed of 0 and whichever speed corresponds to exactly one encoder pulse per iteration of the calculation algorithm.
+
+One possible improvement is to design and implement an algorithm based on a dynamic period that uses an interrupt-driven logic.
+Every time a new encoder pulse is detected, an interrupt is generated which triggers the velocity calculation.
+This algorithm is based on measuring how much time is elapsed between consecutive encoder pulses and provides far better precision at low speeds, as well as possibly reduced CPU usage, especially during such cases.
+It would still be necessary to determine a timeout period of when to consider a null velocity, but that would still be way more flexible than the current implementation, which indirectly controls said timeout through the desired cycle period.
+It has been determined that the \verb|libgpiod| library in use is capable of calling a function whenever an input changes its state (callback method), so implementing this other algorithm should be doable without the need to introduce new libraries.
+
+% Main
+% `- parameters can only be passed via command-line arguments, no configuration file is supported
