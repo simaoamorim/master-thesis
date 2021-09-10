@@ -41,9 +41,9 @@ Although this amount of data is more than sufficient for our proof-of-concept sy
 
 % Encoder (SW)
 \subsection{Encoder interface}
-By the end of the development phase of this project, the encoder interface used and the driver implemented were very targetted for the specific model we used.
+By the end of the development phase of this project, the encoder interface used and the driver implemented were very targeted for the specific model we used.
 The electrical connection only supports Transistor-Transistor Logic (TTL) signals up to $3.3V$ and does not support differential signals \cite{technology:diff-signals}, due to the direct connection with the Raspberry Pi's GPIO pins.
-Although this was the planned way of implementing such interface, one can utilize an external logic processing unit to conver differential signals to absolute ones, which can then replace the current electrical connections.
+Although this was the planned way of implementing such interface, one can utilise an external logic processing unit to convert differential signals to absolute ones, which can then replace the current electrical connections.
 
 Furthermore, as the encoder used on our project did not include an Index output (one short pulse every revolution), we did not add support for it on the developed driver.
 Effectively, no mechanism for `homing' the absolute position of the motor was implemented, because it was also out of the scope for the current project.
