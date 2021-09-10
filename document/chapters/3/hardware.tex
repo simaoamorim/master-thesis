@@ -5,7 +5,7 @@ While keeping a careful consideration of characteristics between options and mai
 \subsubsection{Master node}
 
 Taking into account the two operation modes the demonstrator should have, we extrapolated that the master node must be able to perform numeric calculations and serve as an EtherCAT master device.
-As the EtherCAT master implementation can be done using a generic Ethernet MAC interface card (refer to \ref{subsubsec:master_devices} for an explanation), everything the master node requires in term of hardware is a computational platform (computer, microcontroller, etc.) with access to a generic Ethernet MAC interface card.
+As the EtherCAT master implementation can be done using a generic Ethernet MAC interface card (refer to \autoref{subsubsec:master_devices} for an explanation), everything the master node requires in term of hardware is a computational platform (computer, microcontroller, etc.) with access to a generic Ethernet MAC interface card.
 
 As of today, most education facilities provide students with access to desktop computers.
 For many years now, motherboard vendors have integrated Ethernet MAC interface cards into the motherboards themselves, as it has become the de facto standard for Internet connectivity in desktop computers.
@@ -15,7 +15,7 @@ As such, we decided to implement the master device in a desktop computer in orde
 \subsubsection{Slave node} \label{subsubsec:slave_hdw}
 
 On the other hand, the slave node's hardware was harder to choose.
-In order to implement the desired EtherCAT slave (see \ref{subsubsec:slave_devices}), one must be aware when choosing a computational platform to check the availability of a fitting ESC board and, simultaneously, the support for motor and encoder interfaces.
+In order to implement the desired EtherCAT slave (see \autoref{subsubsec:slave_devices}), one must be aware when choosing a computational platform to check the availability of a fitting ESC board and, simultaneously, the support for motor and encoder interfaces.
 
 After some research, two options presented themselves as possible platforms for the slave device: an Arduino UNO or a Raspberry Pi.
 ESC boards exist for both these platforms, as well as good support in terms of `shield boards' for motor interfaces.
@@ -45,7 +45,7 @@ Furthermore, this RPM value is only updated once every 100ms, which is to large 
 To overcome this limitation, we decided to connect the encoder signals directly on the Raspberry's GPIO pins and create a software module to handle them.
 This way we will be able to separate the logic that decodes the pulse signals and the position/velocity tracking, allowing us to configure the update period for the latter.
 
-The end result of this process can be seen on \autoref{fig:slave_architecture}, which represents the final architecture of the slave device developed throughout this project's lifetime. \footnote{NOTE: Again, just a placeholder image}
+The end result of this process can be seen on \autoref{fig:slave_architecture} (page \pageref{fig:slave_architecture}), which represents the final architecture of the slave device developed throughout this project's lifetime. \footnote{NOTE: Again, just a placeholder image}
 
 \begin{figure}[t]
 	\centering
