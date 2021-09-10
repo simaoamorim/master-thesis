@@ -1,0 +1,80 @@
+\section{Parts choice} \label{sec:parts_choice}
+During the development phase of the project, some hardware components needed to be chosen in order for us to be able to actually develop a prototype system.
+With components ranging from a full computing platform to a simple electrical connection board, we will briefly introduce the necessary hardware as well as provide an explanaition about the logic utilized during the decision period.
+
+% Parts choice
+% `- Motor & Encoder
+% `- DFR0592
+% `- Raspberry Pi
+% `- netHAT 52-RTE
+% `- screw terminal add-on
+
+\subsubsection{Raspberry Pi 4} \label{subsec:rpi4}
+The Raspberry Pi 4 is a single board computer (SBC) and comes equipped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5GHz \cite{technology:rpi4-specs}.
+At the time of writing, versions were available with 2GB, 4GB and 8GB of LPDDR4 SD-RAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200MHz.
+
+This version of the Raspberry Pi series is the first to be equipped with a true-Gigabit Ethernet controller connected to the PCIe bus, while earlier versions used a USB attached one, meaning latency and throughput were not as good and especially less constant.
+
+As our designed slave device is intended to be used in headless mode, meaning no monitor output and no keyboard nor mouse will be used, we picked the version with 2GB of RAM.
+As no graphical interface needs to be created, memory usage will be very reduced and, as such, 2GB are plenty of memory for our needs.
+
+The Raspberry Pi 4 incorporates a micro-SD card slot to be used as an embedded hard disk, so we have also included a small 16GB micro-SD card to serve as such.
+Linux is a very small operating system and a fresh install of Raspberry Pi OS Lite occupies about 1.4GB, meaning the 16GB of space are more than sufficient for our needs.
+
+% Conclusion
+During the development phase we have considered the Raspberry Pi 4 to be the most appropriate solution for the project's slave computing platform.
+Its features and characteristics seemed to fit the requirements well, so we locked our choice for this equipment.
+
+\subsubsection{Motor \& encoder}
+% `- DC motor
+% `- Encoder
+% `- Why not standard servo motor + drive
+In order to provide our system with the physical connection with the world we aim for, we have chosen a small 6V brushed DC motor with an embedded 30:1 gearbox \cite{product:pololu-micrometal-gearmotor}.
+This motor provides an extended shaft on the back of the motor so that a magnetic encoder kit can be attached to it.
+
+Pololu \cite{brand:pololu}, which is the maker of our chosen motor, separately provides the magnetic quadrature encoder kit, compatible with such motor, with a resolution of 12 pulses per revolution (PPR) in quadrature mode.
+The encoder provides quadrature signals A and B at the same voltage as its power supply.
+It is rated to be powered between 2.7V and 18V, allowing it to used for a wide variety of applications.
+
+This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
+These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
+Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
+
+\subsubsection{DFRobot's DFR0592}
+% Intro
+The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation and an H-bridge for direct motor interface.
+This board is an add-on HAT for the Raspberry Pi, attached on the GPIO header, and uses Inter Integrated Communication (I\textsuperscript{2}C or I2C) as an interface between both.
+
+% Motor control
+This control board takes some configuration values from the Raspberry Pi, such as the motor type (DC or stepper motor), PWM frequency, encoder ratio and others.
+For the actual motor control, two values are needed: the direction of rotation (clockwise or counter-clockwise, obviously the motor terminals need to be assigned correctly) and the PWM duty cycle to be used (which is equivalent to saying the percentage of maximum power to apply).
+
+% Feedback mechanism
+The DFR0592 also provides a quadrature encoder interface and the integrated micro-controller (an STM32 chip) takes care of calculating the motor speed in revolutions per minute (RPM) using the configuration values and the counted pulses from the encoder.
+
+% Conclusions
+At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is to great of a period to use for movement control.
+It could be acceptable for simple velocity control, but it would also limit the remote operation of the slave device by making it to slow for the desired application.
+
+\subsubsection{Hilscher's netHAT 52-RTE}
+As explained in the previous chapter, our project involves the development of a custom EtherCAT slave device.
+For this, we need a specialized hardware interface called an EtherCAT Slave Controller (ESC).
+As we have chosen to use a Raspberry Pi as our computing platform, we now require an appropriate ESC HAT board.
+We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because the \Feup{} had a set of them available for imediate use, so we did not have the necessity to order any for the development of the project.
+
+% HDW specs
+The netHAT 52-RTE board has two Ethernet ports so that most of the supported EtherCAT network topologies can be implemented without the need for additional network hardware.
+This board uses the Serial Peripheral Interface 0 (SPI0) of the Raspberry Pi for communication and uses a mailbox system to deliver messages to the control program.
+The ESC chip allows cyclic syncronisation of 32 bytes of input and 32 bytes of output data.
+Considering our project will only require a few bytes for each data type, there is plenty of room to do so.
+
+% SW stuff
+This board provides an API library for the C language so developpers can program the desired slave device behaviour.
+The documentation manuals (\cite{nethat:cifx_api_docs} and \cite{nethat:ethercat_api_docs}) provide useful and insightful information on how this ESC board works and how to use it properly.
+These were the main references used during the development of the slave device software, especially during the development of the helper function that interact with the netHAT API library.
+
+\subsubsection{Screw terminal GPIO interface}
+This piece of hardware has become a necessity during development in order to connect the above mentioned motor encoder to the Raspberry Pi.
+As the previously referred stack boards do not allow external access to the Raspberry Pi's GPIO pins, a GPIO terminal board is needed to provide electrical connection between the GPIO port and the encoder.
+
+This specific model has been chosen for its simplicity, reduced cost and ease of use, as connecting the encoder wires is very easy and it provides a stable electrical connection due to the usage of screw terminals.

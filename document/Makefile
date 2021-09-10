@@ -6,14 +6,14 @@ root: root.tex
 test: test_chapter.tex
 	latexmk -pdf $^
 
-.PHONY: clean all view test-view
+.PHONY: clean all view test-view all root test
 
 clean:
 	latexmk -c
 	$(MAKE) -C chapters/ clean
 
 view: root
-	setsid firefox root.pdf
+	@setsid firefox root.pdf &
 
 test-view: test
-	setsid firefox test_chapter.pdf
+	@setsid firefox test_chapter.pdf &

@@ -12,8 +12,11 @@
 %% For iso-8859-1 (latin1), comment next line and uncomment the second line
 \usepackage[utf8]{inputenc}
 %\usepackage[latin1]{inputenc}
-
+\usepackage{listings}
 %% English version
+
+\lstset{basicstyle=\ttfamily,columns=fixed,frame=single,tabsize=8}
+\renewcommand{\lstlistlistingname}{List of Listings}
 
 %% MIEEC options
 \usepackage[mieec]{feupteses}
@@ -89,6 +92,9 @@
   \cleardoublepage
   \pdfbookmark[0]{List of Tables}{tables}
   \listoftables
+  \cleardoublepage
+  \pdfbookmark[0]{List of Listings}{listings}
+  \lstlistoflistings
   \include{prolog/abbrevs}  % the list of abbreviations used
 \end{Prolog}
 
