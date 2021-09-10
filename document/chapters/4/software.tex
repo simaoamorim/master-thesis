@@ -26,9 +26,9 @@ After making sure our prototype communication algorithm was working correctly in
 Naturally some modification had to be made, especially because C is an event-oriented language, as opposed to Python which is mainly object-oriented.
 We overcame this by creating a C struct with the same object data that we used in the Python prototype, paired with helper functions that perform the same operations as the Python's object methods.
 The developed C functions all take, at least, one argument: a pointer to a variable of type \verb|struct dfr_board|, which is a pseudo-object representing a DFR0592 board.
-The following \autoref{lst:dfr_struct} is an excerpt of the header file containing the definition of said struct.
+\autoref{lst:dfr_struct} (page \pageref{lst:dfr_struct}) is an excerpt of the header file containing the definition of said struct.
 
-\lstinputlisting[language=C,firstline=23,lastline=31,caption=Example code,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
+\lstinputlisting[float=t,language=C,firstline=24,lastline=31,caption=Definition of the DFR0592 pseudo-object C struct,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
 
 Each DFR0592 board comes pre-configured with the I\textsuperscript{2}C address \verb|0x10| but they can be changed, meaning several of these boards can be used simultaneously.
 As such, the library was designed in a way that, in future works, one can communicate with several boards simultaneously.
