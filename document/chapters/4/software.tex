@@ -38,7 +38,7 @@ This was mostly useful on the libraries that may need to manage several pseudo-o
 After having determined the best approach for velocity and position measurement was to connect the motor encoder to the GPIO of the Raspberry Pi, it prompted us to develop a dedicated driver to handle the input signals.
 The designed driver converts the logical values from the quadrature encoder signals A and B into a step sequence by mapping the A/B pair of values onto a sequence number, as shown in \autoref{table:encoder-ab-sequence}.
 
-\begin{table}[htp]
+\begin{table}[t]
 	\centering
 	\caption{Encoder step sequence mapping}
 	\label{table:encoder-ab-sequence}
