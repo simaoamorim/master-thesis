@@ -21,9 +21,23 @@ Ultimately this meant one of the 3D printed pieces was defective but, luckily, t
 Another hardware aspect that could be considered a limitation is the small encoder resolution (12 PPR).
 This has not impacted the performance because the motor's gearbox, with a reduction ratio of $30:1$, makes the motor + gearbox + encoder set have an apparent 360 PPR encoder on the output shaft.
 As we are only interested in controlling said output shaft, the actual (virtual) encoder resolution is more than enough for a proof-of-concept system.
-% Maybe talk about the 32-byte I/O from the communication board?
 
 % Comm
+% Limited I/O bytes
+% Not using the remote synchronise feature
+\subsection{netHAT 52-RTE driver}
+Although the other RTE networks supported by the netHAT 52-RTE board should work out-of-the-box with the developed handler, they have not been tested.
+Therefore, the current implementation for said handler could be limited to only working with the EtherCAT protocol, which is the only one properly tested.
+
+First of all, EtherCAT includes a remote synchronisation feature that allows the master device to send a \verb|sync| command which will make all slaves update the outputs at the same time.
+This feature is supported by the Hilscher's netHAT driver but it has not been included on the developed handler library.
+We did not dedicate time to add support for this feature as the designed system would not use it.
+Furthermore, we acknowledge that more advanced demonstration concepts would definitely benefit from utilising such feature, especially the ones that would use multiple slave devices simultaneously.
+Regardless, the documentation on the netHAT CIFX API states that `Fieldbus synchronization must be supported by the used fieldbus protocol stack.' \cite{nethat:cifx_api_docs}, meaning such feature will only work if the underlying RTE protocol supports it.
+
+One more characteristic that may pose a limitation, mostly on larger and more complex demonstration concepts, is the fixed-size cyclic Input/Output (I/O) data.
+As mentioned previously, the netHAT 52-RTE board provides 32 bytes for each input and output cyclic data types.
+Although this amount of data is more than sufficient for our proof-of-concept system, it might not be adequate for more advanced case scenarios.
 
 % Encoder (SW)
 
