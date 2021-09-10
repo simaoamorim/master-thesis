@@ -188,5 +188,5 @@ During development we realised that during each time-step all relevant data for 
 The main module was planned to have the responsibility of initialising data and auxiliary threads and then terminating them, during the shutdown procedure, but during normal execution, no processing would be done in this thread.
 As such, we ended up taking advantage of this unused thread and let the exporting of the debug data be performed on it.
 
-The data exportation itself is a simple algorithm, called periodically from the \verb|main| thread, that appends the current PID pseudo-object data to a file with the Comma Separated Values (CSV) format.
+The data exportation itself is a simple algorithm, called periodically from the \verb|main| thread, that appends the current PID pseudo-object data to a file with the Comma-Separated Values (CSV) format.
 This file format is very simple and is based on the concept that different values on the same line are separated by commas and that they maintain the same relative horizontal position across all lines of the entire file \cite{sw:csv}.
