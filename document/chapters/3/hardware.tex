@@ -45,7 +45,7 @@ As previously expressed, we intend to make the slave device mimic, to a certain 
 For this two hardware components are fundamental: a motor and a position or velocity feedback mechanism.
 As we intend to support position control, we will focus on position feedback products, as velocity can be extrapolated from the sequence of position points.
 The most simple and widely used position feedback mechanism is the incremental quadrature encoder, so we'll focus our research efforts into motors that support it.
-The most appropriate products we found, keeping in mind the low-cost requirement, are the Pololu's micro metal gearmotor with extended motor shaft \cite{product:pololu-micrometal-gearmotor} paired with the brand's magnetic encoder kit \cite{product:pololu-encoder-kit}.
+The most appropriate products we found, keeping in mind the low-cost requirement, are the Pololu's micro metal gearmotor with extended motor shaft \cite{product:pololu-micrometal-gearmotor} paired with the brand's magnetic encoder kit \cite{product:pololu-encoder-kit} (\autoref{fig:encoder_detail}).
 As this is a DC motor, it's power output can be indirectly controlled if fed with a PWM electrical signal, varying this signal's duty-cycle. % TODO: cite something with explanaition on PWM
 
 With the intention to include a dedicated board to drive the motor, we included the DFRobot's DFR0592 \cite {hdw:dfr0592} board onto the design.
@@ -58,7 +58,8 @@ Furthermore, this RPM value is only updated once every 100ms, which is to large 
 To overcome this limitation, we decided to connect the encoder signals directly on the Raspberry's GPIO pins and create a software module to handle them.
 This way we will be able to separate the logic that decodes the pulse signals and the position/velocity tracking, allowing us to configure the update period for the latter.
 
-The end result of this process can be seen on \autoref{fig:slave_architecture}, which represents the final architecture of the slave device developed throughout this project's lifetime. \footnote{NOTE: Again, just a placeholder image}
+The end result of this process can be seen on \autoref{fig:slave_architecture}, which represents the final architecture of the slave device developed throughout this project's lifetime.
+%\footnote{NOTE: Again, just a placeholder image}
 
 \begin{figure}[htp]
 	\centering
