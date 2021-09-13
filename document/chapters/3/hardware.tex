@@ -48,10 +48,24 @@ The most simple and widely used position feedback mechanism is the incremental q
 The most appropriate products we found, keeping in mind the low-cost requirement, are the Pololu's micro metal gearmotor with extended motor shaft \cite{product:pololu-micrometal-gearmotor} paired with the brand's magnetic encoder kit \cite{product:pololu-encoder-kit} (\autoref{fig:encoder_detail}).
 As this is a DC motor, it's power output can be indirectly controlled if fed with a PWM electrical signal, varying this signal's duty-cycle. % TODO: cite something with explanaition on PWM
 
-With the intention to include a dedicated board to drive the motor, we included the DFRobot's DFR0592 \cite {hdw:dfr0592} board onto the design.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{encoder_detail.JPG}
+	\caption{Detail of the DC gearmotor and attached magnetic encoder}
+	\label{fig:encoder_detail}
+\end{figure}
+
+With the intention to include a dedicated board to drive the motor, we included the DFRobot's DFR0592 \cite{hdw:dfr0592} (\autoref{fig:dfr0592}) board onto the design.
 This board also complies with the HAT specification and communicates with the Raspberry Pi via the Inter-Integrated Circuit (I\textsuperscript{2}C or I2C) interface.
 It provides interface with two DC motors and two incremental encoders, all managed by an STMicroelectronics's STM32 chip.
 The motor interface also includes the necessary DC-motor driver chip, allowing direct connection of the motor's terminals and power supply to the board itself.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{DFR0592.jpg}
+	\caption{DFRobot's DFR0592 board (adapted from \cite{hdw:dfr0592})}
+	\label{fig:dfr0592}
+\end{figure}
 
 Initially we planed on using this board's incremental encoder interface to also relieve the Raspberry Pi from such task but, as our preliminary tests concluded, it only exports the Revolutions Per Minute (RPM) value extrapolated from the encoder's pulse count and not the pulse count itself.
 Furthermore, this RPM value is only updated once every 100ms, which is to large of a period for motion control.
