@@ -28,7 +28,7 @@ We overcame this by creating a C struct with the same object data that we used i
 The developed C functions all take, at least, one argument: a pointer to a variable of type \verb|struct dfr_board|, which is a pseudo-object representing a DFR0592 board.
 \autoref{lst:dfr_struct} (page \pageref{lst:dfr_struct}) is an excerpt of the header file containing the definition of said struct.
 
-\lstinputlisting[float=t,language=C,firstline=24,lastline=31,caption=Definition of the DFR0592 pseudo-object C struct,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
+\lstinputlisting[float=htp,language=C,firstline=24,lastline=31,caption=Definition of the DFR0592 pseudo-object C struct,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
 
 Each DFR0592 board comes pre-configured with the I\textsuperscript{2}C address \verb|0x10| but they can be changed, meaning several of these boards can be used simultaneously.
 As such, the library was designed in a way that, in future works, one can communicate with several boards simultaneously.
@@ -41,7 +41,7 @@ This was mostly useful on the libraries that may need to manage several pseudo-o
 After having determined the best approach for velocity and position measurement was to connect the motor encoder to the GPIO of the Raspberry Pi, it prompted us to develop a dedicated driver to handle the input signals.
 The designed driver converts the logical values from the quadrature encoder signals A and B into a step sequence by mapping the A/B pair of values onto a sequence number, as shown in \autoref{table:encoder-ab-sequence}.
 
-\begin{table}[t]
+\begin{table}[htp]
 	\centering
 	\caption{Encoder step sequence mapping}
 	\label{table:encoder-ab-sequence}
