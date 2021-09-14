@@ -101,6 +101,7 @@ int main (int argc, char *argv[])
 	control_s.comm_s = &comm_s;
 
 	pid_s.form = pid_form;
+	comm_s.timeout = 4;
 
 	// Initializer encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
@@ -153,7 +154,7 @@ int main (int argc, char *argv[])
 
 	while (keep_running) {
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
-		//comm_update_inputs(&comm_s);
+		comm_update_inputs(&comm_s);
 		enable_logging = comm_get_input_bit(&comm_s, 6, 1); 
 /*
 		// Check stdin for new command value
