@@ -16,20 +16,32 @@ void _apply_deadband (double *value, double deadband)
 
 void _calc_errors (struct pid_s *p)
 {
+	p->previous2_error = p->previous_error;
 	p->previous_error = p->error;
+	p->error = (double) (p->command - p->feedback);
+
 	// Proportional error
-	p->error = (double) p->command - p->feedback;
-	_apply_deadband(&(p->error), p->deadband);
+	if (p->form == POSITION)
+		p->p_error = p->error;
+	else if (p->form == VELOCITY)
+		p->p_error = (double) (p->error - p->previous_error);
+	_apply_deadband(&(p->p_error), p->deadband);
 	if (0.0 != p->max_error)
-		_apply_limit(&(p->error), p->max_error);
+		_apply_limit(&(p->p_error), p->max_error);
 
 	// Integral error
-	p->i_error += p->error * p->delta_t;
+	if (p->form == POSITION)
+		p->i_error += p->error * p->delta_t;
+	else if (p->form == VELOCITY)
+		p->i_error = p->error * p->delta_t;
 	if (0.0 != p->max_i_error)
 		_apply_limit(&(p->i_error), p->max_i_error);
 
 	// Derivative error
-	p->d_error = ((double)(p->error - p->previous_error)) / p->delta_t;
+	if (p->form == POSITION)
+		p->d_error = (double)((p->error - p->previous_error) / p->delta_t);
+	else if (p->form == VELOCITY)
+		p->d_error = (double)((p->error - (2 * p->previous_error) + p->previous2_error) / p->delta_t);
 	if (0.0 != p->max_d_error)
 		_apply_limit(&(p->d_error), p->max_d_error);
 
@@ -38,7 +50,7 @@ void _calc_errors (struct pid_s *p)
 void _calc_internal_outputs (struct pid_s *p)
 {
 	// Proportional
-	p->p_output = p->p_gain * p->error;
+	p->p_output = p->p_gain * p->p_error;
 	// Integral
 	p->i_output = p->i_gain * p->i_error;
 	// Derivative
@@ -48,7 +60,10 @@ void _calc_internal_outputs (struct pid_s *p)
 void _calc_output (struct pid_s *p)
 {
 	static double new_output;
-	new_output = p->p_output + p->i_output + p->d_output;
+	if (p->form == POSITION)
+		new_output = p->p_output + p->i_output + p->d_output;
+	else if (p->form == VELOCITY)
+		new_output = p->output + p->p_output + p->i_output + p->d_output;
 	if (0.0 != p->max_output)
 		_apply_limit(&new_output, p->max_output);
 	if (0.0 != p->max_output_delta) {
@@ -76,7 +91,7 @@ void _write_header (struct pid_s *p, FILE *f)
 		p->max_d_error, p->max_output);
 	fprintf(f, "\n");
 	// Write main table header
-	fprintf(f, "N,Timestamp,Command,Feedback,delta_t,error,previous_error,i_error,d_error," \
+	fprintf(f, "N,Timestamp,Command,Feedback,delta_t,error,previous_error,p_error,i_error,d_error," \
 		"p_output,i_output,d_output,output\n");
 }
 
@@ -102,7 +117,7 @@ double get_output (struct pid_s *p)
 
 void debug_append_iteration (struct pid_s *p, FILE *f, long iter, double tstamp)
 {
-	fprintf(f, "%ld,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", \
+	fprintf(f, "%ld,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", \
 		iter, tstamp, p->command, p->feedback, p->delta_t, p->error, p->previous_error, \
-		p->i_error, p->d_error, p->p_output, p->i_output, p->d_output, p->output);
+		p->p_error, p->i_error, p->d_error, p->p_output, p->i_output, p->d_output, p->output);
 }

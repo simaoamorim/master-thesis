@@ -1,5 +1,12 @@
 \section{Hardware} \label{sec:hardware-devel}
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{connection_diagram.pdf}
+	\caption{Overview of the connection diagram}
+	\label{fig:connection_diagram}
+\end{figure}
+
 % Motor Assembly
 % `- Encoder soldering
 % `- Cable soldering
@@ -9,21 +16,15 @@ We began working on the hardware implementation by assembling the motor parts, w
 First we soldered the encoder board on the motor terminals, being careful to leave enough motor shaft length available to be able to attach the encoder's magnetic disc on it.
 Then we proceeded to solder a 6-wire cable to the encoder board terminals, which export all necessary electrical connections.
 The exported connections are the encoder power supply ($VCC$ and $GND$, assigned to the blue/white-blue wire pair), the encoder output signals ($A$ and $B$, assigned to the green/white-green wire pair) and the motor power signals ($M1$ and $M2$, assigned to the orange/white-orange wire pair) and they can be visualised on \autoref{fig:encoder_board}.
-Due to the development of the project having been done from home, for reasons of simplicity and availability of resources we used a generic 8-wire Ethernet UTP cable for the above mentioned electrical connections, as seen in \autoref{fig:motor_assembled}.
+A generic 8-wire Ethernet UTP cable was used for the above mentioned electrical connections.
+These cables are fairly inexpensive and provides more than enough power to the DC motor.
 Finally we attached the magnetic disc on the motor shaft so the encoder can work as expected.
 
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\textwidth]{IMG_2824_scaled.JPG}
 	\caption{Motor encoder board connections}
 	\label{fig:encoder_board}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.8\textwidth]{IMG_2825_scaled.JPG}
-	\caption{Encoder board and cables soldered to the motor}
-	\label{fig:motor_assembled}
 \end{figure}
 
 % Motor Support
@@ -33,30 +34,30 @@ Finally we attached the magnetic disc on the motor shaft so the encoder can work
 \subsection{Motor support}
 In order to not let the motor lay down on a table, a simple 2-piece support was designed to give it form and stability.
 We also included a disc in the design to act as a minimalist load for the motor.
-A preview of the designed pieces can be seen on \autoref{fig:support_base} (page \pageref{fig:support_base}), \autoref{fig:support_arc} (page \pageref{fig:support_arc}) and \autoref{fig:support_disc} (page \pageref{fig:support_disc}).
+A preview of the designed pieces can be seen on \autoref{fig:support_base}, \autoref{fig:support_arc} and \autoref{fig:support_disc}.
 The CAD design was developed in Blender \cite{sw:blender} and the three drawn pieces were then exported to STL format.
 Finally these three STL files were sent to a 3D printing service to be printed.
-The final result of the assembled motor coupled with the support can be seen in \autoref{fig:final_motor_stage} (page \pageref{fig:final_motor_stage}).
+The final result of the assembled motor coupled with the support can be seen in \autoref{fig:final_motor_stage}.
 
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{base.png}
 	\caption{Support foot preview}
 	\label{fig:support_base}
 \end{figure}
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{suporte.png}
 	\caption{Support arc preview}
 	\label{fig:support_arc}
 \end{figure}
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{disco.png}
 	\caption{Motor disc preview}
 	\label{fig:support_disc}
 \end{figure}
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{IMG_2859_scaled.jpg}
 	\caption{Fully assembled motor with support}
@@ -73,7 +74,7 @@ The final result of the assembled motor coupled with the support can be seen in 
 \subsection{Raspberry Pi stack}
 
 After having obtained the necessary components, we assembled the slave device by stacking the different HAT boards onto the Raspberry Pi 4 board.
-The final result can be seen in \autoref{fig:final_rpi_stack} (page \pageref{fig:final_rpi_stack}).
+The final result can be seen in \autoref{fig:final_rpi_stack}.
 Having done it for the first time we considered the boards to have an unstable mechanical coupling, so we added a series of hexagonal spacers and screws to give the entire stack a bit more rigidity and robustness.
 
 The full stack is comprised of:
@@ -84,7 +85,7 @@ The full stack is comprised of:
 	\item and, on the top of the stack, the Hilscher's netHAT 52-RTE board, which comes with a non-passthrough GPIO connector, forcing it to be placed on the top.
 \end{enumerate}
 
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{IMG_3040_resized.JPG}
 	\caption{Fully assembled Raspberry Pi stack}

@@ -51,14 +51,17 @@ int main (int argc, char *argv[])
 	int lret;
 //	double new_command = 0.0;
 	int enable_logging = 0;
+	int pid_form = 0;
+	int pid_feedback_var = 0;
+	int remote_mode = 0;
 	long logging_period = 0;
 
 	// Check argument count
-	if (argc != 12 && argc != 13) {
+	if (argc != 14 && argc != 15) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
-		goto end;
+		goto finish;
 	}
 
 	// Set real-time scheduler
@@ -80,7 +83,7 @@ int main (int argc, char *argv[])
 			FAIL("motor_stop() failed");
 	}
 
-	// Initialize PID
+	// Parse parameters
 	sscanf(argv[1], "%lf", &pid_s.p_gain);
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
@@ -92,14 +95,25 @@ int main (int argc, char *argv[])
 	sscanf(argv[9], "%lf", &pv_task_s.gearbox_ratio);
 	sscanf(argv[10], "%d", &encoder_struct.period);
 	sscanf(argv[11], "%ld", &logging_period);
+	sscanf(argv[12], "%d", &pid_form);
+	sscanf(argv[13], "%d", &pid_feedback_var);
+	sscanf(argv[14], "%d", &remote_mode);
 
+	// Map pointers to the actual 'objects'
 	pv_task_s.enc_task = &encoder_struct;
 	control_s.dfr_board = &dfr_board;
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
 	control_s.comm_s = &comm_s;
+	control_s.enc_task = &encoder_struct;
 
-	// Initializer encoder interface
+	// Initialize miscelaneous parameters
+	pid_s.form = pid_form;
+	pid_s.feedback_var = pid_feedback_var;
+	comm_s.timeout = 4; // 4ms timeout for comm_is_active()
+	control_s.remote_mode = remote_mode;
+
+	// Initialize encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
 
@@ -115,6 +129,8 @@ int main (int argc, char *argv[])
 	printf("Creating encoder thread... ");
 	pthread_create(&encoder_thread_id, NULL, encoder_task, &encoder_struct);
 	puts("OK");
+
+	// Initialize auxiliary threads
 	printf("Creating p_v thread... ");
 	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
 	puts("OK");
@@ -134,8 +150,8 @@ int main (int argc, char *argv[])
 		goto end;
 	}
 
-	if (argc == 13) {
-		debug_file = init_pid_debug(&pid_s, argv[12]);
+	if (argc == 15) {
+		debug_file = init_pid_debug(&pid_s, argv[13]);
 		if (NULL == debug_file) {
 			char string[100];
 			sprintf(string, "Failed to open debug file \"%s\": ", argv[12]);
@@ -205,6 +221,7 @@ end:
 		printf("OK\n");
 	}
 	comm_end(&comm_s);
+finish:
 	puts("All done. Goodbye!");
 	return retval;
 }
@@ -213,7 +230,8 @@ void print_help (char *argv[])
 {
 	printf("Usage:\n");
 	printf("  %s p_gain i_gain d_gain deadband period "\
-		"command p_v_period encoder_ppr gbox_ratio [filename]\n", argv[0]);
+		"command p_v_period encoder_ppr gbox_ratio "\
+		"enc_period log_period pid_form ctrld_var remote_mode [filename]\n", argv[0]);
 	printf("\n");
 	printf("Arguments:\n");
 	printf("  p_gain:      Proportional gain\n");
@@ -222,10 +240,14 @@ void print_help (char *argv[])
 	printf("  deadband:    Deadband value\n");
 	printf("  period:      Control period\n");
 	printf("  command:     Command value\n");
-	printf("  p_v_period:  Period to calculate pos and vel\n");
+	printf("  p_v_period:  Period to calculate pos and vel (us)\n");
 	printf("  encoder_ppr: Motor encoder PPR\n");
 	printf("  gbox_ratio:  Motor gearbox ratio\n");
-	printf("  enc_period:  Encoder I/O parse period\n");
-	printf("  log_period:  Logging period\n");
+	printf("  enc_period:  Encoder I/O parse period (us)\n");
+	printf("  log_period:  Logging period (us)\n");
+	printf("  pid_form:    PID form to use: 0 for position, 1 for velocity\n");
+	printf("  ctrld_var:   Controlled variable: 0 for position, 1 for velocity\n");
+	printf("  remote_mode: Enable remote control mode (local controller bypassed)\n");
 	printf("  filename:    File name to output debug into [Optional]\n");
+	printf("\n");
 }

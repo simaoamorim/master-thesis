@@ -4,24 +4,23 @@ By the end of the development phase, we created a system that fulfils all requir
 The system mimics a typical DCS architecture by employing a simple master-slave configuration using an RTE network.
 
 As explained in \autoref{subsec:local_remote}, using the local control topology, the master node will act as a motion controller, feeding the motor controller (the field device) with position/velocity references through the RTE network.
-This one, in turn, will perform the necessary algorithm calculations to achieve motor position/velocity control using the references provided by the master node and the feedback values it acquires from the motor's encoder.
+This one, in turn, will perform the necessary algorithm computations to achieve motor position/velocity control using the references provided by the master node and the feedback values it acquires from the motor's encoder.
 
-When using the remote control topology, the master node will be responsible for all calculations in the system.
+When using the remote control topology, the master node will be responsible for all computations in the system.
 The field device will act as a simple I/O interface to the motor, generating the waveform fed to the motor and acquiring and decoding the motor's speed and position.
 The decoded position and velocity values are then sent to the master node as feedback variables and the motor output is received from it as an output variable.
 
-Graphical representations of both these scenarios can be seen in \autoref{fig:local_control} (page \pageref{fig:local_control}) and \autoref{fig:remote_control} (page \pageref{fig:remote_control}), respectively. 
+Graphical representations of both these scenarios can be seen in \autoref{fig:local_control} and \autoref{fig:remote_control}, respectively. 
 %\footnote{NOTE: These are placeholder images, I will replace them with better images or graphs designed by me}
 
-
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=1\textwidth]{local_control.png}
 	\caption{Graphical representation of the local control scheme (adapted from \cite{rte:motion-control-over-rte})}
 	\label{fig:local_control}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=1\textwidth]{remote_control.png}
 	\caption{Graphical representation of the remote control scheme (adapted from \cite{rte:motion-control-over-rte})}
