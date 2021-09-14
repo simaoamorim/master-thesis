@@ -82,7 +82,7 @@ int main (int argc, char *argv[])
 			FAIL("motor_stop() failed");
 	}
 
-	// Initialize PID
+	// Parse parameters
 	sscanf(argv[1], "%lf", &pid_s.p_gain);
 	sscanf(argv[2], "%lf", &pid_s.i_gain);
 	sscanf(argv[3], "%lf", &pid_s.d_gain);
@@ -97,16 +97,18 @@ int main (int argc, char *argv[])
 	sscanf(argv[12], "%d", &pid_form);
 	sscanf(argv[13], "%d", &remote_mode);
 
+	// Map pointers to the actual 'objects'
 	pv_task_s.enc_task = &encoder_struct;
 	control_s.dfr_board = &dfr_board;
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
 	control_s.comm_s = &comm_s;
 
+	// Initialize miscelaneous parameters
 	pid_s.form = pid_form;
-	comm_s.timeout = 4;
+	comm_s.timeout = 4; // 4ms timeout for comm_is_active()
 
-	// Initializer encoder interface
+	// Initialize encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))
 		FAIL("Failed to initialize encoder GPIO");
 
