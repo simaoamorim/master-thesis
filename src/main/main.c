@@ -108,6 +108,7 @@ int main (int argc, char *argv[])
 	// Initialize miscelaneous parameters
 	pid_s.form = pid_form;
 	comm_s.timeout = 4; // 4ms timeout for comm_is_active()
+	control_s.remote_mode = remote_mode;
 
 	// Initialize encoder interface
 	if (-1 == encoder_init(&encoder_struct.encoder, 0, 17, 18))

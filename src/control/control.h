@@ -33,6 +33,7 @@ struct control_s {
 	long priority;
 	bool enabled;
 	bool keep_running;
+	int remote_mode;
 };
 
 /**
