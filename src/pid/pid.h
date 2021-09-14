@@ -73,6 +73,7 @@ struct pid_s
 	double output;
 
 	enum form form;
+	enum form feedback_var;
 };
 
 void do_calcs (struct pid_s *p);

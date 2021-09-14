@@ -32,7 +32,10 @@ void * control_task (void *arg)
 				// Get inputs
 				cs->pid_vel->command = comm_get_input_word(cs->comm_s, 2);
 				cs->pid_vel->max_output_delta = comm_get_input_word(cs->comm_s, 4);
-				cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
+				if (cs->pid_vel->feedback_var == VELOCITY)
+					cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
+				else if (cs->pid_vel->feedback_var == POSITION)
+					cs->pid_vel->feedback = p_v_get_position(cs->pv_s);
 				cs->pid_vel->delta_t = delta(prev_time, cur_time);
 				// Update outputs
 				comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));

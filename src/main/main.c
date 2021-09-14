@@ -52,6 +52,7 @@ int main (int argc, char *argv[])
 //	double new_command = 0.0;
 	int enable_logging = 0;
 	int pid_form = 0;
+	int pid_feedback_var = 0;
 	int remote_mode = 0;
 	long logging_period = 0;
 
@@ -95,7 +96,8 @@ int main (int argc, char *argv[])
 	sscanf(argv[10], "%d", &encoder_struct.period);
 	sscanf(argv[11], "%ld", &logging_period);
 	sscanf(argv[12], "%d", &pid_form);
-	sscanf(argv[13], "%d", &remote_mode);
+	sscanf(argv[13], "%d", &pid_feedback_var);
+	sscanf(argv[14], "%d", &remote_mode);
 
 	// Map pointers to the actual 'objects'
 	pv_task_s.enc_task = &encoder_struct;
@@ -107,6 +109,7 @@ int main (int argc, char *argv[])
 
 	// Initialize miscelaneous parameters
 	pid_s.form = pid_form;
+	pid_s.feedback_var = pid_feedback_var;
 	comm_s.timeout = 4; // 4ms timeout for comm_is_active()
 	control_s.remote_mode = remote_mode;
 
@@ -228,7 +231,7 @@ void print_help (char *argv[])
 	printf("Usage:\n");
 	printf("  %s p_gain i_gain d_gain deadband period "\
 		"command p_v_period encoder_ppr gbox_ratio "\
-		"enc_period log_period pid_form remote_mode [filename]\n", argv[0]);
+		"enc_period log_period pid_form ctrld_var remote_mode [filename]\n", argv[0]);
 	printf("\n");
 	printf("Arguments:\n");
 	printf("  p_gain:      Proportional gain\n");
@@ -243,7 +246,8 @@ void print_help (char *argv[])
 	printf("  enc_period:  Encoder I/O parse period (us)\n");
 	printf("  log_period:  Logging period (us)\n");
 	printf("  pid_form:    PID form to use: 0 for position, 1 for velocity\n");
-	printf("  remote_mode: Enable remote control mode (local parameters ignored)\n");
+	printf("  ctrld_var:   Controlled variable: 0 for position, 1 for velocity\n");
+	printf("  remote_mode: Enable remote control mode (local controller bypassed)\n");
 	printf("  filename:    File name to output debug into [Optional]\n");
 	printf("\n");
 }
