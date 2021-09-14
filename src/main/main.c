@@ -128,11 +128,9 @@ int main (int argc, char *argv[])
 	puts("OK");
 
 	// Initialize auxiliary threads
-	if (!remote_mode) {
-		printf("Creating p_v thread... ");
-		pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
-		puts("OK");
-	}
+	printf("Creating p_v thread... ");
+	pthread_create(&p_v_thread_id, NULL, p_v_task, &pv_task_s);
+	puts("OK");
 	printf("Creating control thread... ");
 	pthread_create(&control_thread_id, &pthread_attrs, control_task, &control_s);
 	puts("OK");
