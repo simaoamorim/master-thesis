@@ -28,6 +28,7 @@ struct control_s {
 	struct p_v_task_s *pv_s;
 	struct dfr_board *dfr_board;
 	struct comm_s *comm_s;
+	struct encoder_task *enc_task;
 	long period;
 	long priority;
 	bool enabled;

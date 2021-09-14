@@ -103,6 +103,7 @@ int main (int argc, char *argv[])
 	control_s.pid_vel = &pid_s;
 	control_s.pv_s = &pv_task_s;
 	control_s.comm_s = &comm_s;
+	control_s.enc_task = &encoder_struct;
 
 	// Initialize miscelaneous parameters
 	pid_s.form = pid_form;

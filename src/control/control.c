@@ -17,9 +17,9 @@ void * control_task (void *arg)
 		clock_gettime(CLOCK_MONOTONIC, &cur_time);
 
 		comm_ok = comm_bus_active(cs->comm_s);
-		comm_update_inputs(cs->comm_s);
 
 		if (comm_ok) {
+			comm_update_inputs(cs->comm_s);
 			if (comm_nok_prev) {
 				puts("Communication established!");
 				comm_nok_prev = 0;
@@ -34,13 +34,18 @@ void * control_task (void *arg)
 				cs->pid_vel->max_output_delta = comm_get_input_word(cs->comm_s, 4);
 				cs->pid_vel->feedback = p_v_get_velocity(cs->pv_s);
 				cs->pid_vel->delta_t = delta(prev_time, cur_time);
-
-				// Do calculations
-				do_calcs(cs->pid_vel);
-
 				// Update outputs
-				motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel) );
-
+				comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));
+				comm_put_output_word(cs->comm_s, 2, (uint16_t) p_v_get_position(cs->pv_s));
+				comm_put_output_word(cs->comm_s, 4, (uint16_t) encoder_task_get_count(cs->enc_task));
+				// Do calculations and set motor speed
+				if (cs->remote_mode) {
+					motor_set_speed(cs->dfr_board, 1, (float) comm_get_input_word(cs->comm_s, 0));
+				} else {
+					do_calcs(cs->pid_vel);
+					motor_set_speed(cs->dfr_board, 1, (float) get_output(cs->pid_vel));
+				}
+				comm_update_outputs(cs->comm_s);
 			} else {
 				motor_stop(cs->dfr_board, 1);
 				p_v_disable_task(cs->pv_s);
@@ -56,13 +61,7 @@ void * control_task (void *arg)
 			}
 		}
 
-
-		comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));
-		comm_put_output_word(cs->comm_s, 2, (uint16_t) p_v_get_position(cs->pv_s));
-
 		prev_time = cur_time;
-
-		comm_update_outputs(cs->comm_s);
 
 		if (first_run)
 			first_run = 0;
