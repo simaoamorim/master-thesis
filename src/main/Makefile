@@ -37,4 +37,3 @@ comm.o:
 
 clean:
 	@find ${PWD} -type f \( -iname 'main' -or -iname '*.o' \) -exec rm -v {} \;
-	
