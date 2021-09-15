@@ -44,6 +44,17 @@ It is rated to be powered between 2.7V and 18V, allowing it to used for a wide v
 	\label{fig:encoder_motor}
 \end{figure}
 
+This power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which work only with 3.3V.
+This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies  such as 5V, 12V and 24V, which are the most common.
+Additionally, the DC motor is rated for a 6V-9V supply.
+As the DFR0592 board can provide between 7V and 12V on the motor outputs, depending on the actual power supply used, the entire kit contains components fully compatible getween themselves.
+
+Because the DC motor includes a 30:1 reduction gearbox, the resulting encoder precision is multiplied by that ratio, giving the output a virtual encoder resolution of 360PPR.
+For a proof-of-concept system, this is enough precision for position control, providing a maximum error of 1 degree.
+This DC motor has a theoretical maximum velocity on the output shaft of 1100RPM.
+This means that encoder pulses will be ganarated, while at full speed, at a rate of $396000$ pulses per minute, or $6600$ pulses per second.
+For velocity control, the maximum amount of pulses generated per second is not too high so the Raspberry Pi should be perfectly capable of not missing pulses.
+
 This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
 These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
 Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
@@ -98,7 +109,8 @@ The documentation manuals (\cite{nethat:cifx_api_docs} and \cite{nethat:ethercat
 These were the main references used during the development of the slave device software, especially during the development of the helper function that interact with the netHAT API library.
 
 \subsection{Screw terminal GPIO interface}
-This piece of hardware has become a necessity during development in order to connect the above mentioned motor encoder to the Raspberry Pi.
-As the previously referred stack boards do not allow external access to the Raspberry Pi's GPIO pins, a GPIO terminal board is needed to provide electrical connection between the GPIO port and the encoder.
+This piece of hardware was necessary in order to connect the above mentioned motor encoder to the Raspberry Pi.
+The previously referred stack boards do not provide any external access to the Raspberry Pi's GPIO pins and the Hilscher's netHAT 52-RTE board forces its placement on the top of the stack without providing a pass-through connector.
 
 This specific model has been chosen for its simplicity, reduced cost and ease of use, as connecting the encoder wires is very easy and it provides a stable electrical connection due to the usage of screw terminals.
+Unfortunately this model has been discontinued but any generic GPIO expansion board should do the job of exporting the electrical connection needed to interface with the encoder.
