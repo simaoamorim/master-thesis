@@ -1,4 +1,13 @@
 \section{Hardware} \label{sec:hardware-devel}
+This section will focus on presenting how the different hardware pieces have been integrated between themselves and, ocasionally, explain difficulties that have been encountered during the process.
+The proposed hardware structure of the slave device that was previously presented can be visualised in \autoref{fig:connection_diagram}.
+
+Some GPIO pins of the Raspberry Pi can provide alternative functionality other than a General Purpose IO pin (GPIO), such as serving as a pin to access an SPI communication channel.
+The Raspberry Pi pins 17 and 18 have been chosen to interface with encoder signals because they do not provide any alternative functionality, they are true GPIO pins.
+This way, no alternative functionality that could potentially be useful in future works is occupied by the encoder interface.
+
+We have also used a 7.5V power supply to provide power to the DFR0592, which in turn will drive the motor.
+The criteria was to use a value supported by both equipment, and 7.5V fits both the DFR0592 range (7-12V) and the DC motor range (6-9V)
 
 \begin{figure}[htp]
 	\centering
