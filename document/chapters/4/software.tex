@@ -103,7 +103,7 @@ Virtually everyone in the controls universe is familiar with the PID controller 
 
 \begin{itemize}
 	\item It receives two inputs: a reference value and a feedback value;
-	\item Calculates the error between the two, meaning how far is the current value (the feedback) from the desired value (the reference);
+	\item Computes the error between the two, meaning how far is the current value (the feedback) from the desired value (the reference);
 	\item The Proportional term will contribute to the output value according to the calculated error;
 	\item The Integral term will contribute to the output value according to the accumulated error over time;
 	\item The Derivative term will contribute to the output according to the error's rate of change.
@@ -182,7 +182,7 @@ This logic is implemented so that the code starts at step \ref{misc:main-logic-s
 % `- miscelaneous initialisation code
 \subsection{Initialisation code and debug output}
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
-For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the \verb|main| module, which will be the entry point of our control application.
+For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
 
 Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.
