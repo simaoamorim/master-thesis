@@ -36,6 +36,13 @@ Pololu \cite{brand:pololu}, which is the maker of our chosen motor, separately p
 The encoder provides quadrature signals A and B at the same voltage as its power supply.
 It is rated to be powered between 2.7V and 18V, allowing it to used for a wide variety of applications.
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{encoder_motor.JPG}
+	\caption{Detail of the DC gearmotor and attached magnetic encoder}
+	\label{fig:encoder_motor}
+\end{figure}
+
 This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
 These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
 Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
@@ -44,6 +51,14 @@ Instead, the above mentioned motor and encoder kit summed up to about 30\texteur
 % Intro
 The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation and an H-bridge for direct motor interface.
 This board is an add-on HAT for the Raspberry Pi, attached on the GPIO header, and uses Inter Integrated Communication (I\textsuperscript{2}C or I2C) as an interface between both.
+A preview image of this board can be seen in \autoref{fig:dfr0592-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{DFR0592.jpg}
+	\caption{DFRobot's DFR0592 board (adapted from \cite{hdw:dfr0592})}
+	\label{fig:dfr0592-2}
+\end{figure}
 
 % Motor control
 This control board takes some configuration values from the Raspberry Pi, such as the motor type (DC or stepper motor), PWM frequency, encoder ratio and others.
@@ -61,6 +76,14 @@ As explained in the previous chapter, our project involves the development of a 
 For this, we need a specialized hardware interface called an EtherCAT Slave Controller (ESC).
 As we have chosen to use a Raspberry Pi as our computing platform, we now require an appropriate ESC HAT board.
 We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because the \Feup{} had a set of them available for imediate use, so we did not have the necessity to order any for the development of the project.
+A preview picture of this board can be seen in \autoref{fig:nethat-52-rte-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{nethat_52rte.JPG}
+	\caption{Hilscher's netHAT 52-RTE board}
+	\label{fig:nethat-52-rte-2}
+\end{figure}
 
 % HDW specs
 The netHAT 52-RTE board has two Ethernet ports so that most of the supported EtherCAT network topologies can be implemented without the need for additional network hardware.

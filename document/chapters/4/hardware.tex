@@ -3,7 +3,7 @@
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\textwidth]{connection_diagram.pdf}
-	\caption{Overview of the connection diagram}
+	\caption{Hardware connection diagram of the proposed slave device}
 	\label{fig:connection_diagram}
 \end{figure}
 
@@ -22,7 +22,7 @@ Finally we attached the magnetic disc on the motor shaft so the encoder can work
 
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{IMG_2824_scaled.JPG}
+	\includegraphics[width=0.8\textwidth]{encoder_board.JPG}
 	\caption{Motor encoder board connections}
 	\label{fig:encoder_board}
 \end{figure}
@@ -77,6 +77,13 @@ After having obtained the necessary components, we assembled the slave device by
 The final result can be seen in \autoref{fig:final_rpi_stack}.
 Having done it for the first time we considered the boards to have an unstable mechanical coupling, so we added a series of hexagonal spacers and screws to give the entire stack a bit more rigidity and robustness.
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{IMG_3040_resized.JPG}
+	\caption{Fully assembled Raspberry Pi stack}
+	\label{fig:final_rpi_stack}
+\end{figure}
+
 The full stack is comprised of:
 \begin{enumerate}
 	\item a Raspberry Pi 4 board \cite{product:rpi4} on the bottom, followed by;
@@ -85,10 +92,12 @@ The full stack is comprised of:
 	\item and, on the top of the stack, the Hilscher's netHAT 52-RTE board, which comes with a non-passthrough GPIO connector, forcing it to be placed on the top.
 \end{enumerate}
 
+\subsection*{Final result}
+
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.8\linewidth]{IMG_3040_resized.JPG}
-	\caption{Fully assembled Raspberry Pi stack}
-	\label{fig:final_rpi_stack}
+	\includegraphics[width=0.8\linewidth]{hardware_overview.JPG}
+	\caption{Overview of the entire slave device hardware}
+	\label{fig:hardware_overview}
 \end{figure}
 
