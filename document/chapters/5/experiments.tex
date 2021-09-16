@@ -54,5 +54,11 @@ The master device program was implemented in four different Program Organisation
 \end{itemize}
 
 The EtherCAT cyclic process data is statically defined as bytes.
-As such, two POUs were programmed in order to convert bytes into \verb|word| (2-byte integer numbers) or \verb|real| (floating point variables) variables, as necessary.
-One POU will agregate the input data arriving from the slave device as bytes into global variables and the second POU will split the output global variables into bytes.
+As a result, two POUs were programmed in order to convert bytes into \verb|word| (2-byte integer numbers) or \verb|real| (floating point numbers) variables, as necessary.
+One such POU will aggregate the input data, arriving from the slave device as bytes, into global variables and the second POU will split the output global variables into bytes.
+All relevant variables were created in a Global Variables List (GVL) and the corresponding bytes of the EtherCAT master device are mapped onto these global variables.
+
+The SFC POU implements a simple state machine that controls the time behaviour of the control program and provides a good place where to make the set-point value updates according to the predefined velocity curve.
+In this case, we followed a minimalist approach to the master device software by hard-coding the timings and set-point values onto the control application.
+
+At last but not least, the FBD POU maps the required variables onto a PID processing block, to be used during the remote control mode.
