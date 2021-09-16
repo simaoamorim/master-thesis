@@ -2,10 +2,10 @@
 As we have explained previously, the slave device we are developing on this project needs some custom functionality that needs to be programmed.
 The following sections will present and explain the algorithms and techniques used during development of each software component that compose the final control program.
 
-The presentation of the several segments will mostly follow the order by which they were developed in order to better explain the programming logic and challenges we had to overcome during the process.
+The presentation of the several modules will mostly follow the order by which they were developed in order to better explain the programming logic and challenges we had to overcome during the process.
 
 The way the software was designed and implemented from the start allows anyone to create different versions of each programmed module.
-So long as the original API is retained, no additional modifications are needed on the modules that make such API function calls, meaning a direct swaping of modules can be performed.
+So long as the original API is retained, no additional modifications are needed on the modules that make such API function calls, meaning a direct swapping of modules can be performed.
 
 % Slave node software
 % `- DFR0592 driver
@@ -75,18 +75,25 @@ This counter value will later be used in the velocity and position calculation l
 Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to connect several encoders.
 
 % `- velocity/position calculation algorithm
-\subsection{Velocity and position calculation algorithm}
+\subsection{Velocity and position algorithm}
 Even though this algorithm was implemented as a separate library from the encoder driver, it heavily relies on data from said driver.
 Having it implemented as a separate module means a different algorithm can be developed and be used as a swap-in replacement for the current one.
 
-The current implementation works as a standalone cyclic task that performs the following actions:
+The current implementation works as a standalone cyclic task that performs the following actions (see \autoref{fig:pv-module-steps} for a graphical representation):
 \begin{enumerate}
-	\item fetches the above mentioned encoder counter variable from the encoder driver;
+	\item fetches the above mentioned encoder counter variable from the encoder module;
 	\item fetches the current internal clock timestamp and calculates the time delta from the last iteration; \label{misc:pvstep2}
 	\item calls the internal \verb|_calc_position()| function, that applies the configured encoder scale, gearbox ratio and transforms the value into degrees;
 	\item calls the internal \verb|_calc_velocity()| function, that applies the same scales but also uses the time delta calculated in step \ref{misc:pvstep2} to convert the value to a velocity, in Revolutions per Minute (RPM);
 	\item saves the current timestamp as the previous one, to be used on the next iteration;
 \end{enumerate}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{pv_module_steps.pdf}
+	\caption{Overview of the module cyclic steps}
+	\label{fig:pv-module-steps}
+\end{figure}
 
 Following the same design pattern of the previous modules, a C struct variable is used to store the pseudo-object data, including the calculated velocity and position values.
 A such, a more complex system that may need to calculate velocities and position for multiple motors simultaneously can be implemented with this library, due to the mimicking of an object-oriented implementation.
@@ -103,7 +110,7 @@ Virtually everyone in the controls universe is familiar with the PID controller 
 
 \begin{itemize}
 	\item It receives two inputs: a reference value and a feedback value;
-	\item Calculates the error between the two, meaning how far is the current value (the feedback) from the desired value (the reference);
+	\item Computes the error between the two, meaning how far is the current value (the feedback) from the desired value (the reference);
 	\item The Proportional term will contribute to the output value according to the calculated error;
 	\item The Integral term will contribute to the output value according to the accumulated error over time;
 	\item The Derivative term will contribute to the output according to the error's rate of change.
@@ -141,7 +148,14 @@ Functions are provided to automatically perform the following actions:
 	\item Stop the SPI communication and `shutdown' the board. \label{misc:comm_step_7}
 \end{enumerate}
 
-The actual behaviour of the slave device will naturally be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{comm_module_steps.pdf}
+	\caption{Overview of the `comm' module cyclic steps}
+	\label{fig:comm-module-steps}
+\end{figure}
+
+The actual behaviour of the slave device will naturally be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}, as shown graphically in \autoref{fig:comm-module-steps}.
 
 % `- main control loop
 \subsection{Main control task}
@@ -166,23 +180,32 @@ The final top-level logic implemented in this module is the following:
 	\item Lock the \verb|comm| module configuration (via the \lstinline[columns=fixed]{comm_bus_config_lock()} function); \label{misc:main-logic-step-lock-config}
 	\item Acquire the current timestamp; \label{misc:main-logic-step-acquire-timestamp};
 	\item Order the \verb|comm| module to update the inputs via the \lstinline[columns=fixed]{comm_update_inputs()} function;
-	\item Check if the EtherCAT communication is active, if not then jump to step \ref{misc:main-logic-step-update-outputs}; \label{misc:main-logic-step-check-active-comm}
-	\item Read the \verb|enable| bit from the inputs, if it is false then jump to step \ref{misc:main-logic-step-update-outputs}; \label{misc:main-logic-step-check-enabled}
+	\item Check if the EtherCAT communication is active, if not then jump to step \ref{misc:main-logic-step-store-timestamp}; \label{misc:main-logic-step-check-active-comm}
+	\item Read the \verb|enable| bit from the inputs, if it is false then jump to step \ref{misc:main-logic-step-store-timestamp}; \label{misc:main-logic-step-check-enabled}
 	\item Copy the reference and feedback values to the PID pseudo-object;
-	\item Perform the PID calculations;
+	\item Perform the PID computations;
 	\item Set the motor speed to the value of the PID output;
 	\item Set the first two output words of the \verb|comm| module to the values of the feedback velocity and position, respectively; \label{misc:main-logic-step-update-outputs}
-	\item Store the current timestamp as the previous one, so that in the next iteration the `previous timestamp' already has the correct value;
+	\item Store the current timestamp as the previous one, so that in the next iteration the `previous timestamp' already has the correct value; \label{misc:main-logic-step-store-timestamp}
 	\item Order the \verb|comm| module to update the outputs;
 	\item Sleep until the period time has been elapsed; \label{misc:main-logic-step-sleep}
 \end{enumerate}
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{control-module-steps.pdf}
+	\caption{Overview of the control steps}
+	\label{fig:control-module-steps}
+\end{figure}
+
 This logic is implemented so that the code starts at step \ref{misc:main-logic-step-lock-config} and then loops steps \ref{misc:main-logic-step-acquire-timestamp} through \ref{misc:main-logic-step-sleep}, taking into account the conditions on steps \ref{misc:main-logic-step-check-active-comm} and \ref{misc:main-logic-step-check-enabled}.
+This logic can also be visualised in \autoref{fig:control-module-steps}.
+The PID computations are only performed if running in local control mode, otherwise the motor speed is fetched from the RTE network, through the \verb|comm| module. 
 
 % `- miscelaneous initialisation code
 \subsection{Initialisation code and debug output}
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
-For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the \verb|main| module, which will be the entry point of our control application.
+For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
 
 Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.

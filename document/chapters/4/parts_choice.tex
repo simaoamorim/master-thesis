@@ -33,8 +33,53 @@ In order to provide our system with the physical connection with the world we ai
 This motor provides an extended shaft on the back of the motor so that a magnetic encoder kit can be attached to it.
 
 Pololu \cite{brand:pololu}, which is the maker of our chosen motor, separately provides the magnetic quadrature encoder kit, compatible with such motor, with a resolution of 12 pulses per revolution (PPR) in quadrature mode.
+A preview picture of the motor + encoder kit can be seen in \autoref{fig:encoder_motor}.
 The encoder provides quadrature signals A and B at the same voltage as its power supply.
 It is rated to be powered between 2.7V and 18V, allowing it to used for a wide variety of applications.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{encoder_motor.JPG}
+	\caption{Detail of the DC gearmotor and attached magnetic encoder}
+	\label{fig:encoder_motor}
+\end{figure}
+
+Incremental quadrature encoders are very commonly used in the industry, mostly due to their simplicity and modest prices, when compared with absolue encoders.
+The encoder we will be using exports two electrical signals (A and B) which change their values according to the motor angular displacement.
+
+Those two electrical signals are said to be in quadrature because they have a phase shift of 90\textdegree{} between them, meaning they will never change state simultaneously.
+While rotating, the A and B signals will continuously change their state between 0 and 1, as seen in \autoref{fig:quad-encoder}.
+The direction of rotation can be determined by evaluating the relative phase shift between those signals.
+If we take signal A as reference and determine that signal B has a +90\textdegree{} phase shift relative to A while rotation clockwise, then a counter-clockwise rotation will generate a B signal with a -90\textdegree{} phase shift relative to A.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{quad-encoder.jpg}
+	\caption{Working principle of an incremental quadrature encoder (Adapted from \cite{technology:quad-encoder})}
+	\label{fig:quad-encoder}
+\end{figure}
+
+An encoder that is said to have a resolution of 12PPR in quadrature mode means that each quadrature signal (A and B) will generate 3 pulses per revolution.
+Therefore, we can catch 6 state changes on each of those signals, providing us a total of 12 pulses per revolution, between the two signals.
+A example of such counting method can be seen in \autoref{fig:quad-encoder-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{quad-encoder-2.jpg}
+	\caption{Detail of the quadrature count mode (Adapted from \cite{technology:quad-encoder})}
+	\label{fig:quad-encoder-2}
+\end{figure}
+
+This power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which work only with 3.3V.
+This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies  such as 5V, 12V and 24V, which are the most common.
+Additionally, the DC motor is rated for a 6V-9V supply.
+As the DFR0592 board can provide between 7V and 12V on the motor outputs, depending on the actual power supply used, the entire kit contains components fully compatible getween themselves.
+
+Because the DC motor includes a 30:1 reduction gearbox, the resulting encoder precision is multiplied by that ratio, giving the output a virtual encoder resolution of 360PPR.
+For a proof-of-concept system, this is enough precision for position control, providing a maximum error of 1 degree.
+This DC motor has a theoretical maximum velocity on the output shaft of 1100RPM.
+This means that encoder pulses will be ganarated, while at full speed, at a rate of $396000$ pulses per minute, or $6600$ pulses per second.
+For velocity control, the maximum amount of pulses generated per second is not too high so the Raspberry Pi should be perfectly capable of not missing pulses.
 
 This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
 These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
@@ -44,6 +89,14 @@ Instead, the above mentioned motor and encoder kit summed up to about 30\texteur
 % Intro
 The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation and an H-bridge for direct motor interface.
 This board is an add-on HAT for the Raspberry Pi, attached on the GPIO header, and uses Inter Integrated Communication (I\textsuperscript{2}C or I2C) as an interface between both.
+A preview image of this board can be seen in \autoref{fig:dfr0592-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{DFR0592.jpg}
+	\caption{DFRobot's DFR0592 board (adapted from \cite{hdw:dfr0592})}
+	\label{fig:dfr0592-2}
+\end{figure}
 
 % Motor control
 This control board takes some configuration values from the Raspberry Pi, such as the motor type (DC or stepper motor), PWM frequency, encoder ratio and others.
@@ -61,6 +114,14 @@ As explained in the previous chapter, our project involves the development of a 
 For this, we need a specialized hardware interface called an EtherCAT Slave Controller (ESC).
 As we have chosen to use a Raspberry Pi as our computing platform, we now require an appropriate ESC HAT board.
 We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because the \Feup{} had a set of them available for imediate use, so we did not have the necessity to order any for the development of the project.
+A preview picture of this board can be seen in \autoref{fig:nethat-52-rte-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{nethat_52rte.JPG}
+	\caption{Hilscher's netHAT 52-RTE board}
+	\label{fig:nethat-52-rte-2}
+\end{figure}
 
 % HDW specs
 The netHAT 52-RTE board has two Ethernet ports so that most of the supported EtherCAT network topologies can be implemented without the need for additional network hardware.
@@ -74,7 +135,8 @@ The documentation manuals (\cite{nethat:cifx_api_docs} and \cite{nethat:ethercat
 These were the main references used during the development of the slave device software, especially during the development of the helper function that interact with the netHAT API library.
 
 \subsection{Screw terminal GPIO interface}
-This piece of hardware has become a necessity during development in order to connect the above mentioned motor encoder to the Raspberry Pi.
-As the previously referred stack boards do not allow external access to the Raspberry Pi's GPIO pins, a GPIO terminal board is needed to provide electrical connection between the GPIO port and the encoder.
+This piece of hardware was necessary in order to connect the above mentioned motor encoder to the Raspberry Pi.
+The previously referred stack boards do not provide any external access to the Raspberry Pi's GPIO pins and the Hilscher's netHAT 52-RTE board forces its placement on the top of the stack without providing a pass-through connector.
 
 This specific model has been chosen for its simplicity, reduced cost and ease of use, as connecting the encoder wires is very easy and it provides a stable electrical connection due to the usage of screw terminals.
+Unfortunately this model has been discontinued but any generic GPIO expansion board should do the job of exporting the electrical connection needed to interface with the encoder.

@@ -57,7 +57,7 @@ int main (int argc, char *argv[])
 	long logging_period = 0;
 
 	// Check argument count
-	if (argc != 14 && argc != 15) {
+	if (argc != 15 && argc != 16) {
 		if (argc != 1)
 			fprintf(stderr, "Wrong usage\n\n");
 		print_help(argv);
@@ -150,8 +150,8 @@ int main (int argc, char *argv[])
 		goto end;
 	}
 
-	if (argc == 15) {
-		debug_file = init_pid_debug(&pid_s, argv[13]);
+	if (argc == 16) {
+		debug_file = init_pid_debug(&pid_s, argv[15]);
 		if (NULL == debug_file) {
 			char string[100];
 			sprintf(string, "Failed to open debug file \"%s\": ", argv[12]);
