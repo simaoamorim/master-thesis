@@ -42,6 +42,9 @@ This period will also be configured on the slave device so that value updates oc
 We will perform three tests with each control mode using three different network cycle periods: 5ms, 10ms and 20ms, which are half, full and double of the processing period, respectively.
 This effectively means we will present six test cases and compare the performance between local/remote control mode pairs for each network cycle period.
 
+As the system dynamics are expected to change between different test cases, before running each test case the PID controllers will be tuned using the Ziegler-Nichols.
+The PID controllers will be tuned as PI controllers, which are the most commonly used for controlling velocity.
+
 \subsection{Master node implementation}
 In the particular case of this experiment, the master node device is implemented on a generic desktop PC.
 It has been programmed using the CODESYS platform and is running on top of Windows 10\texttrademark{}.
