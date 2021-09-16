@@ -1,0 +1,13 @@
+\section{Practical experiment}
+In order to validate our system we have developed a practical experiment based on one of the conceptual experiments described in \autoref{chap:sys-arch}.
+
+The base idea of the practical experiment is to control the velocity of the motor using both the local control on the slave device and the remote control concept, where the RTE network is intercalated on the control loop, using a few different configuration values for the network cycle time.
+
+During the local control mode, only the set-point values of the velocity curve will be transmitted over the RTE network, so the expected behaviour is for the network cycle time to barely affect the performance of the velocity control loop.
+The expected result is for the actual velocity of the motor to follow the expected curve with, at most, a small increment to the response time of the process, with the same order of magnitude of the chosen network cycle time.
+
+On the other hand, the remote control mode will have the master node of the RTE network performing the necessary computations and the slave node device will act as a simple networked I/O interface for the system.
+This way, the control loop will traverse the slave device and the RTE network before being closed on the master device.
+This mode of operation is expected to have a significant impact on the performance of the control loop beacuse the network cycle time will influence the communication delay in both directions.
+Not only the plant feedback value will be delayed on its way from the slave device to the master device but also the output value will be delayed on the opposite direction.
+This delay is expected to heavily impact the performance of the velocity control loop and we expect to obtain either a system with much slower dynamics or, under an extreme condition of network cycle time, a system that might not be controllable.
