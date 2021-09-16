@@ -13,6 +13,18 @@ Not only the plant feedback value will be delayed on its way from the slave devi
 This delay is expected to heavily impact the performance of the velocity control loop and we expect to obtain either a system with much slower dynamics or, under an extreme condition of network cycle time, a system that might not be controllable.
 
 % Velocity curve definition
+For this experiment we have defined a velocity curve comprised of six different stages.
+Each stage will set the velocity to a single final value, making the set-point preview curve have five step transitions.
+The graph shown in \autoref{fig:velocity-curve} has been generated to help visualise the curve.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{velocity-curve.PNG}
+	\caption{Preview of the defined velocity curve}
+	\label{fig:velocity-curve}
+\end{figure}
+
+We expect this velocity curve to provide us with enough variability in both the time and controlled variable domains in order to properly evaluate the system performance in all test cases.
 
 % Network cycle times to use
 % `- with a task of 10ms maybe use 5ms, 10ms and 20ms of network cycle time?
