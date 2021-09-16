@@ -28,6 +28,10 @@ We expect this velocity curve to provide us with enough variability in both the 
 
 % Network cycle times to use
 % `- with a task of 10ms maybe use 5ms, 10ms and 20ms of network cycle time?
+When creating a new CODESYS project, the main task is configured by default with a cycle time of 20ms, but because we intend to implement motion control, we will use a cycle time of 10ms.
+This period will also be configured on the slave device so that value updates occur at the same speed as the processing on the master device.
+We will perform three tests with each control mode using three different network cycle periods: 5ms, 10ms and 20ms, which are half, full and double of the processing period, respectively.
+This effectively means we will present six test cases and compare the performance between local/remote control mode pairs for each network cycle period.
 
 \subsection{Master node implementation}
 In the particular case of this experiment, the master node device is implemented on a generic desktop PC.
