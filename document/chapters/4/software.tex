@@ -79,14 +79,21 @@ Again, for consistency reasons, this software library was designed to mimic the 
 Even though this algorithm was implemented as a separate library from the encoder driver, it heavily relies on data from said driver.
 Having it implemented as a separate module means a different algorithm can be developed and be used as a swap-in replacement for the current one.
 
-The current implementation works as a standalone cyclic task that performs the following actions:
+The current implementation works as a standalone cyclic task that performs the following actions (see \autoref{fig:pv-module-steps} for a graphical representation):
 \begin{enumerate}
-	\item fetches the above mentioned encoder counter variable from the encoder driver;
+	\item fetches the above mentioned encoder counter variable from the encoder module;
 	\item fetches the current internal clock timestamp and calculates the time delta from the last iteration; \label{misc:pvstep2}
 	\item calls the internal \verb|_calc_position()| function, that applies the configured encoder scale, gearbox ratio and transforms the value into degrees;
 	\item calls the internal \verb|_calc_velocity()| function, that applies the same scales but also uses the time delta calculated in step \ref{misc:pvstep2} to convert the value to a velocity, in Revolutions per Minute (RPM);
 	\item saves the current timestamp as the previous one, to be used on the next iteration;
 \end{enumerate}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{pv_module_steps.pdf}
+	\caption{Overview of the module cyclic steps}
+	\label{fig:pv-module-steps}
+\end{figure}
 
 Following the same design pattern of the previous modules, a C struct variable is used to store the pseudo-object data, including the calculated velocity and position values.
 A such, a more complex system that may need to calculate velocities and position for multiple motors simultaneously can be implemented with this library, due to the mimicking of an object-oriented implementation.
