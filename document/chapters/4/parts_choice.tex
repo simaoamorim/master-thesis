@@ -44,6 +44,32 @@ It is rated to be powered between 2.7V and 18V, allowing it to used for a wide v
 	\label{fig:encoder_motor}
 \end{figure}
 
+Incremental quadrature encoders are very commonly used in the industry, mostly due to their simplicity and modest prices, when compared with absolue encoders.
+The encoder we will be using exports two electrical signals (A and B) which change their values according to the motor angular displacement.
+
+Those two electrical signals are said to be in quadrature because they have a phase shift of 90\textdegree{} between them, meaning they will never change state simultaneously.
+While rotating, the A and B signals will continuously change their state between 0 and 1, as seen in \autoref{fig:quad-encoder}.
+The direction of rotation can be determined by evaluating the relative phase shift between those signals.
+If we take signal A as reference and determine that signal B has a +90\textdegree{} phase shift relative to A while rotation clockwise, then a counter-clockwise rotation will generate a B signal with a -90\textdegree{} phase shift relative to A.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{quad-encoder.jpg}
+	\caption{Working principle of an incremental quadrature encoder (Adapted from \cite{technology:quad-encoder})}
+	\label{fig:quad-encoder}
+\end{figure}
+
+An encoder that is said to have a resolution of 12PPR in quadrature mode means that each quadrature signal (A and B) will generate 3 pulses per revolution.
+Therefore, we can catch 6 state changes on each of those signals, providing us a total of 12 pulses per revolution, between the two signals.
+A example of such counting method can be seen in \autoref{fig:quad-encoder-2}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{quad-encoder-2.jpg}
+	\caption{Detail of the quadrature count mode (Adapted from \cite{technology:quad-encoder})}
+	\label{fig:quad-encoder-2}
+\end{figure}
+
 This power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which work only with 3.3V.
 This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies  such as 5V, 12V and 24V, which are the most common.
 Additionally, the DC motor is rated for a 6V-9V supply.
