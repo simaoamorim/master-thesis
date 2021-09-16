@@ -8,7 +8,7 @@ The expected result is for the actual velocity of the motor to follow the expect
 
 On the other hand, the remote control mode will have the master node of the RTE network performing the necessary computations and the slave node device will act as a simple networked I/O interface for the system.
 This way, the control loop will traverse the slave device and the RTE network before being closed on the master device.
-This mode of operation is expected to have a significant impact on the performance of the control loop beacuse the network cycle time will influence the communication delay in both directions.
+This mode of operation is expected to have a significant impact on the performance of the control loop because the network cycle time will influence the communication delay in both directions.
 Not only the plant feedback value will be delayed on its way from the slave device to the master device but also the output value will be delayed on the opposite direction.
 This delay is expected to heavily impact the performance of the velocity control loop and we expect to obtain either a system with much slower dynamics or, under an extreme condition of network cycle time, a system that might not be controllable.
 
@@ -18,10 +18,10 @@ This delay is expected to heavily impact the performance of the velocity control
 % `- with a task of 10ms maybe use 5ms, 10ms and 20ms of network cycle time?
 
 \subsection{Master node implementation}
-In the particar case of this experiment, the master node device is implemented on a generic desktop PC.
+In the particular case of this experiment, the master node device is implemented on a generic desktop PC.
 It has been programmed using the CODESYS platform and is running on top of Windows 10\texttrademark{}.
 
-Because this OS doesn't officialy provide support for running real-time aplications, the hardware specifications of the underlying PC shouldn't really influence the outcome of the experiment, as the OS is expected to have a bigger influence through its process management.
+Because this OS doesn't officially provide support for running real-time applications, the hardware specifications of the underlying PC shouldn't really influence the outcome of the experiment, as the OS is expected to have a bigger influence through its process management.
 With that being sad, the master node device is a home-built desktop computer comprised of an AMD Ryzen\texttrademark{} 5 1600 CPU \cite{hdw:ryzen5-1600}, an MSI X470 Gaming Plus \cite{hdw:msi-x470} motherboard with 2x8GB dual-channel Kingston HyperX Fury DDR4 RAM (16GB total) \cite{hdw:hyperx-fury-8gb-ddr4-2400} running at 2400MHz, a 500GB Samsung 970 Evo Plus NVMe\textregistered{} M.2 SSD \cite{hdw:970evo-plus-ssd} hard drive, a Gigabyte GeForce\textregistered{} GTX 1650 Super\texttrademark{} OC 4G \cite{hdw:gigabyte-1650-super-oc} graphics card (NVIDIA) and it is powered by an Aerocool KCAS 500W PSU \cite{hdw:kcas-500w}.
 
 The CODESYS platform was used to create a single program on the master node that sends the velocity set-points of the predefined velocity curve over the RTE network to the slave device, receives the plant feedback values from the RTE network, performs the necessary computations for the control loop and sends the the computed plant output value to the slave node, also through the RTE network.
@@ -33,7 +33,7 @@ The program is then downloaded to it, as if it was a traditional PLC.
 The master device program was implemented in four different Program Organisation Unit (POU) implemented in three different IEC 61131-3 programming languages: 
 \begin{itemize}
 	\item Structured Text (ST) was used in two POUs that perform data type manipulations;
-	\item Sequencial Function Chart (SFC) was used to program a simple state machine;
+	\item Sequential Function Chart (SFC) was used to program a simple state machine;
 	\item Lastly, Function Block Diagram (FBD) was used to map different variables into and out of a PID computation block.
 \end{itemize}
 
