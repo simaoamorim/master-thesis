@@ -5,7 +5,7 @@ The following sections will present and explain the algorithms and techniques us
 The presentation of the several modules will mostly follow the order by which they were developed in order to better explain the programming logic and challenges we had to overcome during the process.
 
 The way the software was designed and implemented from the start allows anyone to create different versions of each programmed module.
-So long as the original API is retained, no additional modifications are needed on the modules that make such API function calls, meaning a direct swaping of modules can be performed.
+So long as the original API is retained, no additional modifications are needed on the modules that make such API function calls, meaning a direct swapping of modules can be performed.
 
 % Slave node software
 % `- DFR0592 driver
@@ -155,7 +155,7 @@ Functions are provided to automatically perform the following actions:
 	\label{fig:comm-module-steps}
 \end{figure}
 
-The actual behaviour of the slave device will naturally be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}, as shown grahpically in \autoref{fig:comm-module-steps}.
+The actual behaviour of the slave device will naturally be determined by the main control loop but this library was to designed to start the execution on step \ref{misc:comm_step_1}, then loop steps \ref{misc:comm_step_2} through \ref{misc:comm_step_6} during normal execution, and terminate with step \ref{misc:comm_step_7}, as shown graphically in \autoref{fig:comm-module-steps}.
 
 % `- main control loop
 \subsection{Main control task}
