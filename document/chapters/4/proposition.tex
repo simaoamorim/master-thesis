@@ -22,6 +22,9 @@ The proposed slave implementation will be based on an embedded computing platfor
 The embedded platform will be extended using some specialised boards that will broaden the functionality of the slave device as a whole.
 These extension will provide easier access to the GPIO pins, direct interface with a motor through a specialised DC motor control board and Real-Time Ethernet connection using a dedicated board capable of off-loading the real-time processing of network packets from the embedded computing platform.
 
+Additionally, in order to create a connection with the real world, we'll be using a DC motor paired with an incremental encoder.
+This will allow data to be collected from a real world source, giving a more organic feeling to the process of running experiments with this system.
+
 In terms of software, a control application will be developed for the slave device computing platform in order to provide the following functionality on the slave device:
 \begin{itemize}
 	\item Handle the receiving and sending of cyclic data through the RTE network by interfacing with the driver of the dedicated RTE network connection board. Such data will include set-point and feedback values;
