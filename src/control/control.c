@@ -38,9 +38,9 @@ void * control_task (void *arg)
 					cs->pid_vel->feedback = p_v_get_position(cs->pv_s);
 				cs->pid_vel->delta_t = delta(prev_time, cur_time);
 				// Update outputs
-				comm_put_output_word(cs->comm_s, 0, (uint16_t) p_v_get_velocity(cs->pv_s));
-				comm_put_output_word(cs->comm_s, 2, (uint16_t) p_v_get_position(cs->pv_s));
-				comm_put_output_word(cs->comm_s, 4, (uint16_t) encoder_task_get_count(cs->enc_task));
+				comm_put_output_word(cs->comm_s, 0, (int16_t) p_v_get_velocity(cs->pv_s));
+				comm_put_output_word(cs->comm_s, 2, (int16_t) p_v_get_position(cs->pv_s));
+				comm_put_output_word(cs->comm_s, 4, (int16_t) encoder_task_get_count(cs->enc_task));
 				// Do calculations and set motor speed
 				if (cs->remote_mode) {
 					motor_set_speed(cs->dfr_board, 1, (float) comm_get_input_word(cs->comm_s, 0));

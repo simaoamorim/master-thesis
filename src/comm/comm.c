@@ -173,12 +173,12 @@ int comm_update_outputs (struct comm_s *cs)
 		return -1;
 }
 
-uint8_t comm_get_input_byte (struct comm_s *cs, int offset)
+int8_t comm_get_input_byte (struct comm_s *cs, int offset)
 {
 	return cs->recvData[offset];
 }
 
-uint16_t comm_get_input_word (struct comm_s *cs, int offset)
+int16_t comm_get_input_word (struct comm_s *cs, int offset)
 {
 	return ((cs->recvData[offset] & 0xFF) << 8) + (cs->recvData[offset+1] & 0xFF);
 }
@@ -188,7 +188,7 @@ uint8_t comm_get_input_bit (struct comm_s *cs, int byte_offset, int bit_offset)
 	return comm_get_input_byte(cs, byte_offset) & (1 << bit_offset);
 }
 
-void comm_put_output_byte (struct comm_s *cs, int offset, uint8_t data)
+void comm_put_output_byte (struct comm_s *cs, int offset, int8_t data)
 {
 	cs->sendData[offset] = data;
 }
@@ -201,7 +201,7 @@ void comm_put_output_bit (struct comm_s *cs, int byte_offset, int bit_offset, in
 	cs->sendData[byte_offset] = tmp;
 }
 
-void comm_put_output_word (struct comm_s *cs, int offset, uint16_t data)
+void comm_put_output_word (struct comm_s *cs, int offset, int16_t data)
 {
 	cs->sendData[offset] = (0xFF00 & data) >> 8;
 	cs->sendData[offset+1] = 0xFF & data;
