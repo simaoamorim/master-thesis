@@ -69,8 +69,8 @@ This was mostly due to the limited time period for development, but all the nece
 
 For simplicity reasons we only implemented a single way of providing the control application the necessary parameters: command-line arguments.
 We had planned on implementing some form of configuration file which would hold the necessary parameter values, but we ended up not implementing it.
-Instead, a wrapper-launcher can be written which stores the command-line argument values. For example a \verb|bash| script can automatically launch the application with pre-determined values.
-A single text file called \verb|run.sh| containing the command shown in \autoref{lst:main-sh} has achieved the goal of storing pre-defined parameter values, so we did not pursue any further options.
-Using this method, instead of directly invoking the control application executable, one can simple execute the \verb|run.sh| script to run the application with those pre-defined values.
+Instead, a wrapper-launcher can be written which stores the command-line argument values. For example a \verb|bash| script can automatically launch the application with predetermined-determined values.
+A single text file called \verb|run.sh| containing the command shown in \autoref{lst:main-sh} has achieved the goal of storing predefined-defined parameter values, so we did not pursue any further options.
+Using this method, instead of directly invoking the control application executable, one can simple execute the \verb|run.sh| script to run the application with those predefined-defined values.
 
-\lstinputlisting[float=htp,language=bash,label=lst:main-sh,caption=Wrapper script to launch application with pre-defined parameters]{../src/main/run.sh}
+\lstinputlisting[float=htp,language=bash,label=lst:main-sh,caption=Wrapper script to launch application with predefined-defined parameters]{../src/main/run.sh}

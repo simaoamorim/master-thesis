@@ -85,8 +85,8 @@ void _write_header (struct pid_s *p, FILE *f)
 	// Ensure beginning of the file
 	rewind(f);
 	// Write PID parameters and constants
-	fprintf(f, "P_Gain,I_Gain,D_Gain,Deadband,max_error,max_i_error,max_d_error,max_output\n");
-	fprintf(f, "%f,%f,%f,%f,%f,%f,%f,%f\n", \
+	fprintf(f, "P_Gain,I_Gain,D_Gain,Deadband,max_error,max_i_error,max_d_error,max_output,,,,,,\n");
+	fprintf(f, "%f,%f,%f,%f,%f,%f,%f,%f,,,,,,\n", \
 		p->p_gain, p->i_gain, p->d_gain, p->deadband, p->max_error, p->max_i_error, \
 		p->max_d_error, p->max_output);
 	fprintf(f, "\n");

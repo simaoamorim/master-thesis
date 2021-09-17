@@ -11,5 +11,26 @@ Some implementations categorize data packets based on their priority relative to
 
 % General Characteristics
 Commercial Ethernet systems are based on a 7-layer encapsulating scheme named OSI (Open Systems Interconnection).
-Adaptations such as Ethernet/IP or Profinet/IO make use of this scheme and simply manage on which layers message packets are sent, depending on their priority, or try to implement some prioritization mechanism for certain data packets.
-On the other hand, implementations such as EtherCAT drop most of the OSI model and create a bare scheme on top of the Link layer (the actual Ethernet protocol).
+Several standard approaches have been defined for how to achieve deterministic communication.
+Three different approaches have been explored in depth by describing the key concepts on their basis.
+These were named `Top of TCP/IP', `Top of Ethernet' and `Modified Ethernet' \cite{rte:rte-for-automation}, according to the approach each made to solve the deterministic delievery of messages.
+
+The first category implements mechanisms on top of the TCP/IP protocol stack, without any modifications applied to it.
+Networks using this approach communicate trasparently over over network boundaries, even through routers.
+It is therefore possible to create networked automation systems anywhere on the world, just like Internet technology.
+The biggest disadvantage is the necessary processing power and memory, that still introduce nondeterministic delays \cite{rte:rte-for-automation}.
+Industrial networks such as Modbus/TCP and EtherNet/IP \cite{protocol:ethernetip} adopted this type of approach for realizing deterministic communication.
+
+The second category of RTE networks called `On top of Ethernet' do not use the protocol stacks that the previous category is based upon.
+Instead, these networks implement a dedicated protocol stack on top of the Ethernet frame, and each one of them specifies a different \verb|Ethertype| field.
+Such protocols can coexists with standard IP stacks and some even use them \cite{rte:rte-for-automation}.
+Examples of solutions following this approach are the PROFINET CBA and Ethernet for Plant Automation.
+
+The third category, unlike the previous two, provide a modified Ethernet protocol or hardware.
+As traditional Ethernet employs a typical star topology, devices need to be connected to a central switch.
+Fieldbuses replaced this topology with simpler ones, such as bus or ring, in order to reduce cabling costs.
+As RTE networks usually replace older automation fieldbuses, solutions should allow the usage of such simpler cabling methods.
+As a result, it becomes mandatory for solutions that aim for hard real-time performance to employ hardware modifications on the devices or network infrastructure.
+Employing bus and ring topologies for these networks mandates that each field device integrates switching capabilities.
+Nonetheless, these modifications allow non real-time traffic to be transmitted without modifications \cite{rte:rte-for-automation}.
+Networks such as SERCOS, EtherCAT \cite{protocol:ethercat} and PROFINET IO \cite{protocol:profinet} follow this approach.
