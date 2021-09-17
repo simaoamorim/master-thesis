@@ -1,0 +1,149 @@
+%% artigo-exemplo.tex
+
+\documentclass[a4paper]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{latin}
+\markboth{Provas de Dissertação do MIEEC---Julho de 2008}{}
+\usepackage[portuges]{babel}
+
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}  
+\else
+  \usepackage[dvips]{graphicx}
+\fi
+
+\renewcommand{\footnoterule}{\noindent\rule{0.5\columnwidth}{0.5pt}\vspace*{3pt}}
+
+\begin{document}
+
+% Título (usar \\ para quebra de linha)
+\title{Prepara��o de artigos para as\\
+  Actas das Provas de Disserta��o do MIEEC}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Nome Autor$^*$}%
+\thanks{$^*$Contacto autor}
+\IEEEauthorblockN{2� Autor (orientador)$^\dag$}%
+\thanks{$^\dag$Contacto orientador}
+\IEEEauthorblockN{3� Autor (co-orientador)$^\ddag$}%
+\thanks{$^\ddag$Contacto co-orientador}
+}
+% make the title area
+\maketitle
+
+% \markboth{Uma parte}{Outra parte}
+
+\begin{abstract}
+  Modelo de formatação do artigo de uma folha sobre o trabalho de
+  dissertação ou de projecto realizado no âmbito da unidade curricular
+  Dissertação do MIEEC. Não inserir referências no sumário. Não apagar
+  a linha em branco acima do sumário.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Três ou quarto palavras-chave em ordem alfabética.
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\IEEEPARstart{T}{his} document is based on the guidelines for
+preparing IEEE Transactions and Journal papers~\cite{ieee07}. Do not
+change the font sizes or line spacing to squeeze more text into a
+limited number of pages. Use italics for emphasis; do not underline.
+
+To insert images in Word, position the cursor at the insertion point
+and either use Insert | Picture | From File or copy the image to the
+Windows clipboard and then Edit | Paste Special | Picture (with
+``float over text'' unchecked).
+
+
+\section{Procedimento para submissão de um artigo}
+
+\subsection{Entrega}
+
+The paper should be sent to jms@fe.up.pt before the 31st of July 2008.
+
+\subsection{Segunda sub-secção}
+
+
+O artigo pode ser escrito em português ou em inglês. Todos os artigos
+serão compilados e editados no livro de Actas das Provas de
+Dissertação do MIEEC.
+
+
+\section{Formatação}
+
+\subsection{Equações}
+
+Se usar o Word, procure usar o editor de equações Microsoft Equation
+Editor. As equações devem ser numeradas consecutivamente com o número
+entre parênteses na margem direita, como em (\ref{eq:1}).
+
+\begin{equation}
+  \label{eq:1}  
+  \alpha = \int_0^\pi F(r,\sigma) \cdot d\sigma
+\end{equation}
+
+
+\subsection{Figuras}
+
+Deve ser inserida uma (e apenas uma) figura no artigo -- aquela que se
+considere ser a mais representativa do trabalho realizado. Deve ser de
+boa qualidade, a cores ou a preto e branco, num formato que permita a
+conversão para pdf do artigo.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.8\linewidth]{tux}
+  \caption{Incluir apenas uma figura no artigo.}
+  \label{fig:1}
+\end{figure}
+
+
+\subsection{Referências}
+
+As referências devem ser incluídas tal como já apresentado no modelo
+de formatação das dissertações \cite{pub08}.
+
+\subsection{Tabela}
+
+Pode ser inserida apenas uma tabela no artigo. 
+
+\begin{table}[h]
+\caption{Exemplo de tabela}
+
+\begin{tabular}{|c|ccc|r|}
+  \hline
+$k$ &  $x_1^k$    &   $x_2^k$  & $x_3^k$   & remarks  \\
+        \hline
+0   & -0.3 & 0.6 & 0.7  &  \\
+1   & 0.47102965 & 0.04883157 & -0.53345964  & *\\
+2   & 0.49988691 & 0.00228830 & -0.52246185 & $s_3$ \\
+3   & 0.49999976 & 0.00005380 & -0.52365600  & \\
+4   & 0.5 & 0.00000307 & -0.52359743  & $\epsilon < 10^{-5}$ \\
+7   & 0.5 & 0 & -0.52359878  & $\epsilon < \xi $ \\
+        \hline
+\end{tabular}
+\end{table}
+
+
+\section{Conclusion}
+
+Resumir os principais resultados atingidos e identificar possíveis
+desenvolvimentos futuros.
+
+\section*{Agradecimentos}
+
+Sem exagerar.
+
+% referências
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}
+
+
