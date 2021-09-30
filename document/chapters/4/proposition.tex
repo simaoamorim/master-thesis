@@ -1,11 +1,11 @@
 \section{Proposed implementation}
 Following the proposed architecture, presented in the previous chapter, we will now explain the actual implementation we performed to achieve our goals.
-This section will briefly present the overall idea and proposed system architecture without going into details about specific choices.
+This section briefly presents the overall idea and proposed system architecture without going into details about specific choices.
 Those explanations will be presented in later sections, as we will delve deeper into the implementation details, including product and technology choices, both in terms of hardware and software.
 
 \subsection{Master node}
 The master node of our system will be implemented in a generic desktop PC through the usage of an industrial programming platform.
-This will enable us to program the behaviour of the master node as well as provide the necessary communication libraries to implement a master node for several RTE networks.
+This will enable us to program the behaviour of the master node as well as provide the necessary communication libraries to implement a master node for different RTE networks.
 We will take advantage of the fact that most industrial programming platforms allow us to determine the RTE network's update period.
 This will enable us to perform tests using different network cycle times.
 
@@ -65,4 +65,4 @@ The \verb|pid| module implements a discrete-time PID controller used for the loc
 Additionally, because all relevant data that describes the system performance is already contained in the PID data structure, we implemented the functionality of exporting such data on this module.
 
 At last but not least, the \verb|comm| module will be responsible to make API calls to the RTE interface board driver, called \verb|CIFX|, in order to configure the RTE network and retrieve/send cyclic process data.
-All the necessary steps to initialise, configure and manage the RTE network will already be implemented in the \verb|comm| module functions.
+All the necessary steps to initialise, configure and manage the different RTE networks will already be implemented in the \verb|comm| module functions.
