@@ -1,6 +1,6 @@
 \section{Parts choice} \label{sec:parts_choice}
 During the development phase of the project, some hardware components needed to be chosen in order for us to be able to actually develop a prototype system.
-With components ranging from a full computing platform to a simple electrical connection board, we will briefly introduce the necessary hardware as well as provide an explanaition about the logic utilized during the decision period.
+With components ranging from a full computing platform to a simple electrical connection board, we will briefly introduce the necessary hardware as well as provide an explanation about the logic utilized during the decision period.
 
 % Parts choice
 % `- Motor & Encoder
@@ -44,10 +44,9 @@ It is rated to be powered between 2.7V and 18V, allowing it to used for a wide v
 	\label{fig:encoder_motor}
 \end{figure}
 
-Incremental quadrature encoders are very commonly used in the industry, mostly due to their simplicity and modest prices, when compared with absolue encoders.
-The encoder we will be using exports two electrical signals (A and B) which change their values according to the motor angular displacement.
-
-Those two electrical signals are said to be in quadrature because they have a phase shift of 90\textdegree{} between them, meaning they will never change state simultaneously.
+Incremental quadrature encoders are very commonly used in the industry, mostly due to their simplicity and modest prices, when compared with absolute encoders.
+The encoder provides two electrical signals (A and B) which change their values according to the motor angular displacement.
+The two electrical signals are said to be in quadrature because they have a phase shift of 90\textdegree{} between them, meaning they will never change state simultaneously.
 While rotating, the A and B signals will continuously change their state between 0 and 1, as seen in \autoref{fig:quad-encoder}.
 The direction of rotation can be determined by evaluating the relative phase shift between those signals.
 If we take signal A as reference and determine that signal B has a +90\textdegree{} phase shift relative to A while rotation clockwise, then a counter-clockwise rotation will generate a B signal with a -90\textdegree{} phase shift relative to A.
@@ -70,25 +69,25 @@ A example of such counting method can be seen in \autoref{fig:quad-encoder-2}.
 	\label{fig:quad-encoder-2}
 \end{figure}
 
-This power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which work only with 3.3V.
-This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies  such as 5V, 12V and 24V, which are the most common.
+The power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which only works with 3.3V.
+This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies such as 5V, 12V and 24V, which are the most common.
 Additionally, the DC motor is rated for a 6V-9V supply.
-As the DFR0592 board can provide between 7V and 12V on the motor outputs, depending on the actual power supply used, the entire kit contains components fully compatible getween themselves.
+As the DFR0592 board (see \autoref{subsec:dfr0592}) can provide between 7V and 12V on the motor outputs, depending on the actual power supply used, the entire kit contains components fully compatible between themselves.
 
 Because the DC motor includes a 30:1 reduction gearbox, the resulting encoder precision is multiplied by that ratio, giving the output a virtual encoder resolution of 360PPR.
 For a proof-of-concept system, this is enough precision for position control, providing a maximum error of 1 degree.
 This DC motor has a theoretical maximum velocity on the output shaft of 1100RPM.
-This means that encoder pulses will be ganarated, while at full speed, at a rate of $396000$ pulses per minute, or $6600$ pulses per second.
+This means that encoder pulses will be generated, while at full speed, at a rate of $396000$ pulses per minute, or $6600$ per second.
 For velocity control, the maximum amount of pulses generated per second is not too high so the Raspberry Pi should be perfectly capable of not missing pulses.
 
 This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
 These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
 Instead, the above mentioned motor and encoder kit summed up to about 30\texteuro, taxes included.
 
-\subsection{DFRobot's DFR0592}
+\subsection{DFRobot's DFR0592} \label{subsec:dfr0592}
 % Intro
-The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation and an H-bridge for direct motor interface.
-This board is an add-on HAT for the Raspberry Pi, attached on the GPIO header, and uses Inter Integrated Communication (I\textsuperscript{2}C or I2C) as an interface between both.
+The DFR0592 board from DFRobot is an all-in-one DC motor control board with integrated quadrature encoder interface, PWM generation, an H-bridge for direct motor interface and an integrated micro-controller (an STM32 chip) that takes care of calculating the motor speed in revolutions per minute (RPM).
+This board is an add-on HAT for the Raspberry Pi that uses the Inter Integrated Communication (I\textsuperscript{2}C or I2C) protocol to exchange information with the Raspberry Pi.
 A preview image of this board can be seen in \autoref{fig:dfr0592-2}.
 
 \begin{figure}[htp]
@@ -102,9 +101,6 @@ A preview image of this board can be seen in \autoref{fig:dfr0592-2}.
 This control board takes some configuration values from the Raspberry Pi, such as the motor type (DC or stepper motor), PWM frequency, encoder ratio and others.
 For the actual motor control, two values are needed: the direction of rotation (clockwise or counter-clockwise, obviously the motor terminals need to be assigned correctly) and the PWM duty cycle to be used (which is equivalent to saying the percentage of maximum power to apply).
 
-% Feedback mechanism
-The DFR0592 also provides a quadrature encoder interface and the integrated micro-controller (an STM32 chip) takes care of calculating the motor speed in revolutions per minute (RPM) using the configuration values and the counted pulses from the encoder.
-
 % Conclusions
 At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is to great of a period to use for movement control.
 It could be acceptable for simple velocity control, but it would also limit the remote operation of the slave device by making it to slow for the desired application.
@@ -113,7 +109,7 @@ It could be acceptable for simple velocity control, but it would also limit the 
 As explained in the previous chapter, our project involves the development of a custom EtherCAT slave device.
 For this, we need a specialized hardware interface called an EtherCAT Slave Controller (ESC).
 As we have chosen to use a Raspberry Pi as our computing platform, we now require an appropriate ESC HAT board.
-We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because the \Feup{} had a set of them available for imediate use, so we did not have the necessity to order any for the development of the project.
+We will be using the Hilscher's netHAT 52-RTE \cite{hdw:nethat-52rte} board mostly because FEUP / DEEC had a set of them available for immediate use, so we did not have the necessity to order any for the development of the project.
 A preview picture of this board can be seen in \autoref{fig:nethat-52-rte-2}.
 
 \begin{figure}[htp]
@@ -126,11 +122,11 @@ A preview picture of this board can be seen in \autoref{fig:nethat-52-rte-2}.
 % HDW specs
 The netHAT 52-RTE board has two Ethernet ports so that most of the supported EtherCAT network topologies can be implemented without the need for additional network hardware.
 This board uses the Serial Peripheral Interface 0 (SPI0) of the Raspberry Pi for communication and uses a mailbox system to deliver messages to the control program.
-The ESC chip allows cyclic syncronisation of 32 bytes of input and 32 bytes of output data.
+The ESC chip allows cyclic synchronisation of 32 bytes of input and 32 bytes of output data.
 Considering our project will only require a few bytes for each data type, there is plenty of room to do so.
 
 % SW stuff
-This board provides an API library for the C language so developpers can program the desired slave device behaviour.
+This board provides an API library for the C language so developers can program the desired slave device behaviour.
 The documentation manuals (\cite{nethat:cifx_api_docs} and \cite{nethat:ethercat_api_docs}) provide useful and insightful information on how this ESC board works and how to use it properly.
 These were the main references used during the development of the slave device software, especially during the development of the helper function that interact with the netHAT API library.
 
