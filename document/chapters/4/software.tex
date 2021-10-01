@@ -69,12 +69,13 @@ The event-triggered action will call a specified function whenever the configure
 
 The periodic polling approach was easy to prototype and implement but it will have less precision when working with slow speeds, meaning an implementation based on event-triggered actions could be implemented as future work, in order to improve both performance and measurement precision in slow speeds.
 As we were mostly interested in creating a proof-of-concept system, we accepted the reduced precision on slower speeds, in exchange for the simplest and smallest implementation.
+We made sure the Raspberry Pi was capable of performing this task with a small enough period to not miss any pulses from the motor, even when it is running at full speed.
 
 After the encoder signals are mapped to the sequence number, a counter variable is updated after every polling iteration, according to the difference between the current and previous sequence numbers.
 If the sequence number increases, the counter is incremented by the same amount, and vice versa.
 When the sequence number wraps around in either direction the counter value is only changed by 1, meaning when it jumps from 3 to 0, the counter is incremented by 1, and is decremented when the sequence number jumps from 0 to 3.
 This counter value will later be used in the speed and position computation library.
-Every iteration its value will be compared with the previous and, combined with the necessary ratios (the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio), the motor's instantaneous speed and position are estimated for the current time-step.
+Every iteration its value will be compared with the previous one and, combined with the necessary ratios (the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio), the motor's instantaneous speed and position are estimated for the current time-step.
 
 Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to use multiple encoders simultaneously.
 
@@ -211,6 +212,31 @@ The PID computations are only performed if running in local control mode, otherw
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
 For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
+\autoref{main-help-output} shows the help text shown when running the application without any arguments.
+
+\begin{lstlisting}[float=htp,breaklines=true,caption=Output showing the help information,label=main-help-output]
+	Usage:
+	./main p_gain i_gain d_gain deadband period command p_v_period encoder_ppr gbox_ratio enc_period log_period pid_form ctrld_var remote_mode [filename]
+	
+	Arguments:
+	p_gain:      Proportional gain
+	i_gain:      Integral gain
+	d_gain:      Derivative gain
+	deadband:    Deadband value
+	period:      Control period
+	command:     Command value
+	p_v_period:  Period to calculate pos and vel (us)
+	encoder_ppr: Motor encoder PPR
+	gbox_ratio:  Motor gearbox ratio
+	enc_period:  Encoder I/O parse period (us)
+	log_period:  Logging period (us)
+	pid_form:    PID form to use: 0 for position, 1 for velocity
+	ctrld_var:   Controlled variable: 0 for position, 1 for velocity
+	remote_mode: Enable remote control mode (local controller bypassed)
+	filename:    File name to output debug into [Optional]
+	
+	All done. Goodbye!
+\end{lstlisting}
 
 Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.
 Instead, in order to also minimise the amount of concurrent threads within the application, the exporting of debug data was implemented within the \verb|pid| module.
@@ -220,9 +246,30 @@ As such, we ended up taking advantage of this unused thread and let the exportin
 
 The data exportation itself is a simple algorithm, called periodically from the \verb|main| thread, that appends the current PID pseudo-object data to a file with the Comma-Separated Values (CSV) format.
 This file format is very simple and is based on the concept that different values on the same line are separated by commas and that they maintain the same relative horizontal position across all lines of the entire file \cite{sw:csv}.
+\autoref{csv-output} shows a small excerpt of one output CSV file generated on one of the practical experiments described in a following chapter (all lines have been truncated because they are too long for the page width).
 
-\begin{small}
-	\lstinputlisting[float=htp,basicstyle=\footnotesize,firstline=4,lastline=14,breaklines=true,
-	caption=Excerpt from an experimental data CSV output file,label=lst:csv_data]{../data/local-5ms.csv}
-\end{small}
+%\lstinputlisting[float=htp,basicstyle=\footnotesize,firstline=4,lastline=14,breaklines=true,caption=Excerpt from an experimental data CSV output file,label=lst:csv_data]{../data/local-5ms.csv}
+\begin{lstlisting}[float=htp,caption=Excerpt from an experimental data CSV output file,label=csv-output]
+	(...)
+	N,Timestamp,Command,Feedback,delta_t,error,(...)
+	(...)
+	155,1.608001,0.000000,0.000000,0.011711,0.000000,(...)
+	156,1.618348,0.000000,0.000000,0.011664,0.000000,(...)
+	157,1.628695,0.000000,0.000000,0.011702,0.000000,(...)
+	158,1.639042,600.000000,0.000000,0.011671,600.000000,(...)
+	159,1.649403,600.000000,49.868944,0.011662,550.131056,(...)
+	160,1.659767,600.000000,182.847726,0.011647,417.152274,(...)
+	161,1.670131,600.000000,299.199880,0.011671,300.800120,(...)
+	162,1.680534,600.000000,498.676562,0.011667,101.323438,(...)
+	163,1.690965,600.000000,565.158428,0.011515,34.841572,(...)
+	164,1.701395,600.000000,565.158428,0.011515,34.841572,(...)
+	165,1.711820,600.000000,598.401908,0.011536,1.598092,(...)
+	166,1.722243,600.000000,648.273518,0.011517,-48.273518,(...)
+	167,1.732726,600.000000,664.905797,0.011513,-64.905797,(...)
+	168,1.743148,600.000000,648.266341,0.011515,-48.266341,(...)
+	169,1.753568,600.000000,631.652317,0.011516,-31.652317,(...)
+	170,1.763986,600.000000,631.638269,0.011516,-31.638269,(...)
+	171,1.774416,600.000000,631.637135,0.011522,-31.637135,(...)
+	(...)
+\end{lstlisting}
 
