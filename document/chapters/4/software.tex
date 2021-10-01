@@ -208,7 +208,7 @@ This logic can also be visualised in \autoref{fig:control-module-steps}.
 The PID computations are only performed if running in local control mode, otherwise the motor speed is fetched from the RTE network, through the \verb|comm| module. 
 
 % `- miscelaneous initialisation code
-\subsection{Initialisation code and debug output}
+\subsection{Initialisation code and debug output} \label{init-code}
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
 For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
