@@ -1,6 +1,6 @@
 \section{Software development} \label{sec:software-devel}
 As we have explained previously, the slave device we are developing on this project needs some custom functionality that needs to be programmed.
-The following sections will present and explain the algorithms and techniques used during development of each software component that compose the final control program.
+The following sections will present and explain the algorithms and techniques used during development of each software module that compose the final control program.
 
 The presentation of the several modules will mostly follow the order by which they were developed in order to better explain the programming logic and challenges we had to overcome during the process.
 
@@ -18,10 +18,10 @@ If we want to read a value on register X, we simply send the register address we
 If, instead, we wish to write a value, we also send the register address but with the most significant bit of the transmitted byte set to 1, which indicates a write operation (as opposed to a read operation, when it is 0), followed by the value we want to be written.
 
 We began by testing the device functionality with a Python \cite{sw:python} script provided by the manufacturer.
-We used it mostly to get a sense of what parameters and variables were needed to set the motor speed and get the velocity feedback value, but also to get acquainted to how the I2C communication transactions worked.
+We used it mostly to get a sense of what parameters and variables were needed to set the motor speed and get the speed feedback value, but also to get acquainted to how the I2C communication transactions worked.
 
-It was at this stage that we found out the velocity calculation algorithm implemented on the board was too slow to be used in a control loop because it only updated the feedback value once every 100ms.
-This is what lead us to decide and change the encoder connection to the Raspberry Pi's GPIO pins and create our own encoder 'driver` and velocity/position calculation algorithm.
+It was at this stage that we found out the speed calculation algorithm implemented on the board was too slow to be used in a control loop because it only updated the feedback value once every 100ms.
+This is what lead us to decide and change the encoder connection to the Raspberry Pi's GPIO pins and create our own encoder 'driver` and speed/position calculation algorithm.
 This way we will have more flexibility on the feedback calculation algorithm, being able to run it with virtually any period.
 
 After making sure our prototype communication algorithm was working correctly in Python, we began to 'translate` it to the C programming language.
@@ -40,7 +40,7 @@ This was mostly useful on the libraries that may need to manage several pseudo-o
 
 % `- GPIO encoder 'driver'
 \subsection{Raspberry Pi's GPIO encoder driver}
-After having determined the best approach for velocity and position measurement was to connect the motor encoder to the GPIO of the Raspberry Pi, it prompted us to develop a dedicated driver to handle the input signals.
+After having determined the best approach for speed and position measurement was to connect the motor encoder to the GPIO of the Raspberry Pi, it prompted us to develop a dedicated driver to handle the input signals.
 The designed driver converts the logical values from the quadrature encoder signals A and B into a step sequence by mapping the A/B pair of values onto a sequence number, as shown in \autoref{table:encoder-ab-sequence}.
 
 \begin{table}[htp]
@@ -69,24 +69,27 @@ The event-triggered action will call a specified function whenever the configure
 
 The periodic polling approach was easy to prototype and implement but it will have less precision when working with slow speeds, meaning an implementation based on event-triggered actions could be implemented as future work, in order to improve both performance and measurement precision in slow speeds.
 As we were mostly interested in creating a proof-of-concept system, we accepted the reduced precision on slower speeds, in exchange for the simplest and smallest implementation.
+We made sure the Raspberry Pi was capable of performing this task with a small enough period to not miss any pulses from the motor, even when it is running at full speed.
 
 After the encoder signals are mapped to the sequence number, a counter variable is updated after every polling iteration, according to the difference between the current and previous sequence numbers.
-If the sequence number increases or jumps from 3 to 0, the counter is incremented accordingly, and vice versa.
-This counter value will later be used in the velocity and position calculation library, where every iteration its value is compared to the previous one and, combined with the necessary ratios from the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio, the average velocity and angular positions can be estimated for the current time-step.
+If the sequence number increases, the counter is incremented by the same amount, and vice versa.
+When the sequence number wraps around in either direction the counter value is only changed by 1, meaning when it jumps from 3 to 0, the counter is incremented by 1, and is decremented when the sequence number jumps from 0 to 3.
+This counter value will later be used in the speed and position computation library.
+Every iteration its value will be compared with the previous one and, combined with the necessary ratios (the encoder's Pulses per Revolution (PPR) and the motor gearbox ratio), the motor's instantaneous speed and position are estimated for the current time-step.
 
-Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to connect several encoders.
+Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to use multiple encoders simultaneously.
 
-% `- velocity/position calculation algorithm
-\subsection{Velocity and position algorithm}
+% `- speed/position calculation algorithm
+\subsection{Speed and position algorithm}
 Even though this algorithm was implemented as a separate library from the encoder driver, it heavily relies on data from said driver.
 Having it implemented as a separate module means a different algorithm can be developed and be used as a swap-in replacement for the current one.
 
-The current implementation works as a standalone cyclic task that performs the following actions (see \autoref{fig:pv-module-steps} for a graphical representation):
+The current implementation works as a stand-alone cyclic task that performs the following actions (see \autoref{fig:pv-module-steps} for a graphical representation):
 \begin{enumerate}
 	\item fetches the above mentioned encoder counter variable from the encoder module;
 	\item fetches the current internal clock timestamp and calculates the time delta from the last iteration; \label{misc:pvstep2}
 	\item calls the internal \verb|_calc_position()| function, that applies the configured encoder scale, gearbox ratio and transforms the value into degrees;
-	\item calls the internal \verb|_calc_velocity()| function, that applies the same scales but also uses the time delta calculated in step \ref{misc:pvstep2} to convert the value to a velocity, in Revolutions per Minute (RPM);
+	\item calls the internal \verb|_calc_velocity()| function, that applies the same scales but also uses the time delta calculated in step \ref{misc:pvstep2} to convert the value to speed, in Revolutions per Minute (RPM);
 	\item saves the current timestamp as the previous one, to be used on the next iteration;
 \end{enumerate}
 
@@ -97,8 +100,8 @@ The current implementation works as a standalone cyclic task that performs the f
 	\label{fig:pv-module-steps}
 \end{figure}
 
-Following the same design pattern of the previous modules, a C struct variable is used to store the pseudo-object data, including the calculated velocity and position values.
-A such, a more complex system that may need to calculate velocities and position for multiple motors simultaneously can be implemented with this library, due to the mimicking of an object-oriented implementation.
+Following the same design pattern of the previous modules, a C struct variable is used to store the pseudo-object data, including the calculated speed and position values.
+A such, a more complex system that may need to calculate speeds and positions for multiple motors simultaneously can be implemented with this library, due to the mimicking of an object-oriented implementation.
 
 Even though the data struct is transparent to outside of the library, public functions are provided to fetch these values.
 These functions include an interlock variable to control the access to the memory regions where such values are stored (the \verb|pthread mutex| implementation is used), to make sure the cyclic calculation task is not disrupted by any external fetch operations.
@@ -106,7 +109,7 @@ This is a common technique used in multi-threaded software where concurrent runn
 
 % `- PID algorithm
 \subsection{PID control algorithm}
-In order to perform any type of movement control, either it being velocity, position, or any other, some form of control algorithm needs to be used.
+In order to perform any type of movement control, either it being speed, position, or any other, some form of control algorithm needs to be used.
 To this effect, we are going to use the most common control algorithm in the control universe: the Proportional/Integral/Derivative (PID) controller.
 Virtually everyone in the controls universe is familiar with the PID controller and its working principle:
 
@@ -121,7 +124,7 @@ Virtually everyone in the controls universe is familiar with the PID controller 
 Because we did not want to spend to much time implementing something that already has a lot of different implementations, we have programmed a simple library with a PID algorithm based on the one used in the LinuxCNC \cite{sw:linuxcnc} project.
 It has not been ported into our project, instead we implemented our own version of the same algorithm and design, with the exception that we applied the design pattern of using a C structure for holding the pseudo-object data.
 In this case, multiple PID controllers can be implemented simultaneously using the same library.
-This was an important characteristic to have as position control requires controllers for both the position and velocity, simultaneously.
+This was an important characteristic to have as position control requires controllers for both the position and speed, simultaneously.
 
 During the testing phase the implementation demonstrated a good performance and correctness.
 As such, we accepted its usage for our proof-of-concept prototype, but admit a better algorithm or implementation might be necessary for a production release.
@@ -179,15 +182,15 @@ In particular, we used the mutex implementation from the Linux \verb|pthreads| l
 The final top-level logic implemented in this module is the following:
 
 \begin{enumerate}
-	\item Lock the \verb|comm| module configuration (via the \lstinline[columns=fixed]{comm_bus_config_lock()} function); \label{misc:main-logic-step-lock-config}
-	\item Acquire the current timestamp; \label{misc:main-logic-step-acquire-timestamp};
-	\item Order the \verb|comm| module to update the inputs via the \lstinline[columns=fixed]{comm_update_inputs()} function;
+	\item Lock the \verb|comm| module configuration (via the \lstinline[columns=fixed]|comm_bus_config_lock()| function); \label{misc:main-logic-step-lock-config}
+	\item Acquire the current timestamp; \label{misc:main-logic-step-acquire-timestamp}
+	\item Order the \verb|comm| module to update the inputs via the \lstinline[columns=fixed]|comm_update_inputs()| function;
 	\item Check if the EtherCAT communication is active, if not then jump to step \ref{misc:main-logic-step-store-timestamp}; \label{misc:main-logic-step-check-active-comm}
 	\item Read the \verb|enable| bit from the inputs, if it is false then jump to step \ref{misc:main-logic-step-store-timestamp}; \label{misc:main-logic-step-check-enabled}
 	\item Copy the reference and feedback values to the PID pseudo-object;
 	\item Perform the PID computations;
 	\item Set the motor speed to the value of the PID output;
-	\item Set the first two output words of the \verb|comm| module to the values of the feedback velocity and position, respectively; \label{misc:main-logic-step-update-outputs}
+	\item Set the first two output words of the \verb|comm| module to the values of the feedback speed and position, respectively; \label{misc:main-logic-step-update-outputs}
 	\item Store the current timestamp as the previous one, so that in the next iteration the `previous timestamp' already has the correct value; \label{misc:main-logic-step-store-timestamp}
 	\item Order the \verb|comm| module to update the outputs;
 	\item Sleep until the period time has been elapsed; \label{misc:main-logic-step-sleep}
@@ -209,6 +212,31 @@ The PID computations are only performed if running in local control mode, otherw
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
 For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
+\autoref{main-help-output} shows the help text shown when running the application without any arguments.
+
+\begin{lstlisting}[float=htp,breaklines=true,caption=Output showing the help information,label=main-help-output]
+	Usage:
+	./main p_gain i_gain d_gain deadband period command p_v_period encoder_ppr gbox_ratio enc_period log_period pid_form ctrld_var remote_mode [filename]
+	
+	Arguments:
+	p_gain:      Proportional gain
+	i_gain:      Integral gain
+	d_gain:      Derivative gain
+	deadband:    Deadband value
+	period:      Control period
+	command:     Command value
+	p_v_period:  Period to calculate pos and vel (us)
+	encoder_ppr: Motor encoder PPR
+	gbox_ratio:  Motor gearbox ratio
+	enc_period:  Encoder I/O parse period (us)
+	log_period:  Logging period (us)
+	pid_form:    PID form to use: 0 for position, 1 for velocity
+	ctrld_var:   Controlled variable: 0 for position, 1 for velocity
+	remote_mode: Enable remote control mode (local controller bypassed)
+	filename:    File name to output debug into [Optional]
+	
+	All done. Goodbye!
+\end{lstlisting}
 
 Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.
 Instead, in order to also minimise the amount of concurrent threads within the application, the exporting of debug data was implemented within the \verb|pid| module.
@@ -218,3 +246,30 @@ As such, we ended up taking advantage of this unused thread and let the exportin
 
 The data exportation itself is a simple algorithm, called periodically from the \verb|main| thread, that appends the current PID pseudo-object data to a file with the Comma-Separated Values (CSV) format.
 This file format is very simple and is based on the concept that different values on the same line are separated by commas and that they maintain the same relative horizontal position across all lines of the entire file \cite{sw:csv}.
+\autoref{csv-output} shows a small excerpt of one output CSV file generated on one of the practical experiments described in a following chapter (all lines have been truncated because they are too long for the page width).
+
+%\lstinputlisting[float=htp,basicstyle=\footnotesize,firstline=4,lastline=14,breaklines=true,caption=Excerpt from an experimental data CSV output file,label=lst:csv_data]{../data/local-5ms.csv}
+\begin{lstlisting}[float=htp,caption=Excerpt from an experimental data CSV output file,label=csv-output]
+	(...)
+	N,Timestamp,Command,Feedback,delta_t,error,(...)
+	(...)
+	155,1.608001,0.000000,0.000000,0.011711,0.000000,(...)
+	156,1.618348,0.000000,0.000000,0.011664,0.000000,(...)
+	157,1.628695,0.000000,0.000000,0.011702,0.000000,(...)
+	158,1.639042,600.000000,0.000000,0.011671,600.000000,(...)
+	159,1.649403,600.000000,49.868944,0.011662,550.131056,(...)
+	160,1.659767,600.000000,182.847726,0.011647,417.152274,(...)
+	161,1.670131,600.000000,299.199880,0.011671,300.800120,(...)
+	162,1.680534,600.000000,498.676562,0.011667,101.323438,(...)
+	163,1.690965,600.000000,565.158428,0.011515,34.841572,(...)
+	164,1.701395,600.000000,565.158428,0.011515,34.841572,(...)
+	165,1.711820,600.000000,598.401908,0.011536,1.598092,(...)
+	166,1.722243,600.000000,648.273518,0.011517,-48.273518,(...)
+	167,1.732726,600.000000,664.905797,0.011513,-64.905797,(...)
+	168,1.743148,600.000000,648.266341,0.011515,-48.266341,(...)
+	169,1.753568,600.000000,631.652317,0.011516,-31.652317,(...)
+	170,1.763986,600.000000,631.638269,0.011516,-31.638269,(...)
+	171,1.774416,600.000000,631.637135,0.011522,-31.637135,(...)
+	(...)
+\end{lstlisting}
+

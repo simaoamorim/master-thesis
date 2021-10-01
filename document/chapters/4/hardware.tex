@@ -1,5 +1,5 @@
-\section{Hardware} \label{sec:hardware-devel}
-This section will focus on presenting how the different hardware pieces have been integrated between themselves and, ocasionally, explain difficulties that have been encountered during the process.
+\section{Hardware integration} \label{sec:hardware-devel}
+This section will focus on presenting how the different hardware pieces have been integrated between themselves and, occasionally, explain difficulties that have been encountered during the process.
 The proposed hardware structure of the slave device that was previously presented can be visualised in \autoref{fig:connection_diagram}.
 
 Some GPIO pins of the Raspberry Pi can provide alternative functionality other than a General Purpose IO pin (GPIO), such as serving as a pin to access an SPI communication channel.
@@ -32,7 +32,7 @@ Finally we attached the magnetic disc on the motor shaft so the encoder can work
 
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{encoder_board.JPG}
+	\includegraphics[height=0.25\textheight]{encoder_board.JPG}
 	\caption{Motor encoder board connections}
 	\label{fig:encoder_board}
 \end{figure}
@@ -102,7 +102,7 @@ The full stack is comprised of:
 	\item and, on the top of the stack, the Hilscher's netHAT 52-RTE board, which comes with a non-passthrough GPIO connector, forcing it to be placed on the top.
 \end{enumerate}
 
-\subsection*{Final result}
+By the end of all described integrations, the resulting slave device hardware is a compact stack of electronic boards and a small motor attached on a support, as shown in \autoref{fig:hardware_overview}.
 
 \begin{figure}[htp]
 	\centering
