@@ -3,20 +3,20 @@ The developed system includes some limitations that could be enhanced in future 
 Some have already been presented on previous chapters, but we will also include them in this section.
 
 % `- Improve the encoder IO and velocity/position calculation methods
-One of the first improvements that can be implemented is a better algorithm for computing the speed and velocity of the motor on the slave device.
+One of the first improvements that can be implemented is a better algorithm for computing the speed and position of the motor on the slave device.
 A revised approach based on callback mechanisms and timestamping could greatly increase the precision on such measurements.
-The GPIO interface library in use (\verb|libgpiod|) includes fuctions to register callbacks when input signals change.
-The documentation on such functions is very limitted and a deeper exploration of the concept is required.
+The GPIO interface library in use (\verb|libgpiod|) includes functions to register callbacks when input signals change.
+The documentation on such functions is very limited and a deeper exploration of the concept is required.
 
 % `- Improve the software's user friendliness
 As summarized previously, the developed system in intended to serve a proof-of-concept purpose.
 As such, the developed software focused solely on the necessary technical functionality.
-User interaction has not been considered when implementing the software, so future works could work on a more pleasent user experience when using this system.
+User interaction has not been considered when implementing the software, so future works could work on a more pleasant user experience when using this system.
 
 % `- Use a PREEMPT-RT kernel on the Raspberry Pi
-More accurate results can also be obtained by making sure the Linux kernel in used is `real-time' friendely.
+More accurate results can also be obtained by making sure the Linux kernel in use supports running real-time applications.
 As we have explained previously, we are using a stripped down version of the Raspberry Pi OS in order to minimise software bloating.
 Nonetheless, some patches exist for the Linux kernel that make it more suitable for real-time applications.
-At the time of writting, works are still being carried out to include one such patch onto the kernel itself: the Preempt-RT patches.
-Unfortunately the Raspberry Pi does not provide a kernel version with such patches (unlike Debian, its parent).
+At the time of writing, works are still being carried out to include one such patch onto the kernel itself: the Preempt-RT patches.
+Unfortunately the Raspberry Pi OS does not provide a kernel version with such patches (unlike Debian, its parent).
 As such, future works could obtain more deterministic software periods using a kernel with real-time capabilities and, consequently, improve the data accuracy.
