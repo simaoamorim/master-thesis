@@ -44,6 +44,32 @@ This effectively means we will present six test cases and compare the performanc
 
 As the system dynamics are expected to change between different test cases, before running each test case the PID controllers will be tuned using the Ziegler-Nichols.
 The PID controllers will be tuned with PI configuration, which are the most commonly used for controlling speed.
+\autoref{tab:pid-tunings} shows the tuning values used in each test case.
+
+
+\begin{table}[htp]
+	\centering
+	\caption{PID tuning values}
+	\label{tab:pid-tunings}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		& $K_P$    & $K_I$    & $K_D$    & $K_U$    & $P_U$ (ms)                                  \\
+		\hline
+		local-5ms   & 0.27     & 1.020    & 0        & 0.6      & 20.4                                           \\
+		\hline
+		remote-5ms  & 0.09     & 0.22464  & 0        & 0.2      & 50.0                                           \\
+		\hline
+		local-10ms  & 0.27     & 1.020    & 0        & 0.6      & 20.4                                           \\
+		\hline
+		remote-10ms & 0.081    & 0.23814  & 0        & 0.18     & 58.8                                           \\
+		\hline
+		local-20ms  & 0.27     & 1.086    & 0        & 0.6      & 21.7                                           \\
+		\hline
+		remote-20ms & 0.063    & 0.34965  & 0        & 0.14     & \begin{tabular}[c]{@{}c@{}}111\\\end{tabular}  \\
+		\hline
+	\end{tabular}
+\end{table}
+
 
 \subsection{Master node implementation}
 In the particular case of this experiment, the master node device is implemented on a generic desktop PC.
