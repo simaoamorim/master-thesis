@@ -118,7 +118,7 @@ Furthermore, this approach makes sure all data to be exported is present on the 
 
 The CODESYS platform includes support to create a Software PLC (SoftPLC) that runs on the desktop PC.
 The program is then downloaded to it, as if it was a traditional PLC.
-The master device program was implemented in four different Program Organisation Unit (POU) implemented in three different IEC 61131-3 programming languages: 
+The master device software was implemented in four Program Organisation Unit (POU) implemented in three different IEC 61131-3 programming languages: 
 \begin{itemize}
 	\item Structured Text (ST) was used in two POUs that perform data type manipulations;
 	\item Sequential Function Chart (SFC) was used to program a simple state machine;
@@ -132,8 +132,24 @@ All relevant variables were created in a Global Variables List (GVL) and the cor
 
 The SFC POU implements a simple state machine that controls the time behaviour of the control program and provides a good place where to make the set-point value updates according to the predefined speed curve.
 In this case, we followed a minimalist approach to the master device software by hard-coding the timings and set-point values onto the control application.
+An overview of the SFC structure can be seen in \autoref{fig:sfc}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[height=0.6\textheight]{sfc.png}
+	\caption{SFC state machine overview}
+	\label{fig:sfc}
+\end{figure}
 
 At last but not least, the FBD POU maps the required variables onto a PID processing block, to be used during the remote control mode.
+The overview of this block can be seen in \autoref{fig:fbd}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{fbd.png}
+	\caption{Overview of the FBD POU}
+	\label{fig:fbd}
+\end{figure}
 
 \subsection{Slave node configuration}
 The slave device requires some configuration parameters to work as expected.
