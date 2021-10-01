@@ -42,10 +42,30 @@ This period will be configured both on the master and slave devices so that valu
 We will perform three tests with each control mode using three different network cycle periods: 5ms, 10ms and 20ms, which are half, full and double of the processing period, respectively.
 This effectively means we will present six test cases and compare the performance between local/remote control mode pairs for each network cycle period.
 
-As the system dynamics are expected to change between different test cases, before running each test case the PID controllers will be tuned using the Ziegler-Nichols.
+As the system dynamics are expected to change between different test cases, before running each test case the PID controllers will be tuned using the Ziegler-Nichols method \cite{pid:zn-method}.
+This defines a procedure to follow in order to determine the controller gains based on the proportional gain that introduces instability ($K_U$) and the frequency/period of oscillation of the system during such instability ($T_U$).
 The PID controllers will be tuned with PI configuration, which are the most commonly used for controlling speed.
-\autoref{tab:pid-tunings} shows the tuning values used in each test case.
+As such, equations \ref{eq:kp}, \ref{eq:ki} and \ref{eq:kd} show the calculations performed to obtain the tuning values for each test cased, presented in \autoref{tab:pid-tunings}.
 
+\begin{equation}
+	K_P = 0.45 \cdot K_U
+	\label{eq:kp}
+\end{equation}
+
+\begin{equation}
+	\begin{cases}
+		 t_I = \frac{T_U}{1.2} \\
+		 K_I = 60 \cdot t_I
+	\end{cases}
+	\Rightarrow
+	K_I = 60 \cdot \frac{T_U}{1.2}
+	\label{eq:ki}
+\end{equation}
+
+\begin{equation}
+	K_D = 0
+	\label{eq:kd}
+\end{equation}
 
 \begin{table}[htp]
 	\centering
@@ -53,7 +73,7 @@ The PID controllers will be tuned with PI configuration, which are the most comm
 	\label{tab:pid-tunings}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
-		& $K_P$    & $K_I$    & $K_D$    & $K_U$    & $P_U$ (ms)                                  \\
+		& $K_P$    & $K_I$    & $K_D$    & $K_U$    & $T_U$ (ms)                                  \\
 		\hline
 		local-5ms   & 0.27     & 1.020    & 0        & 0.6      & 20.4                                           \\
 		\hline
