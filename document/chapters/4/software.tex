@@ -80,7 +80,7 @@ Every iteration its value will be compared with the previous one and, combined w
 Again, for consistency reasons, this software library was designed to mimic the object-oriented programming style and thus it's possible to use multiple encoders simultaneously.
 
 % `- speed/position calculation algorithm
-\subsection{Speed and position algorithm}
+\subsection{Speed and position algorithm} \label{speed-algorithm}
 Even though this algorithm was implemented as a separate library from the encoder driver, it heavily relies on data from said driver.
 Having it implemented as a separate module means a different algorithm can be developed and be used as a swap-in replacement for the current one.
 
@@ -208,17 +208,18 @@ This logic can also be visualised in \autoref{fig:control-module-steps}.
 The PID computations are only performed if running in local control mode, otherwise the motor speed is fetched from the RTE network, through the \verb|comm| module. 
 
 % `- miscelaneous initialisation code
-\subsection{Initialisation code and debug output}
+\subsection{Initialisation code and debug output} \label{init-code}
 At last but not least, before the main control task begins executing, all data structures and libraries need to be initialised.
 For simplicity of implementation, dynamic parameters will be passed through a fixed format command-line argument list when launching the control application.
 A list and a format representation of the parameters to be passed can be visualised by launching the \verb|main| executable without any arguments.
-\autoref{main-help-output} shows the help text shown when running the application without any arguments.
+\autoref{lst:main-help-output} shows the help text shown when running the application without any arguments.
+\autoref{lst:example-args} shows how to run the slave device control application passing configuration values with the same order they are presented in the \verb|Usage| part of the previously referred help output.
 
-\begin{lstlisting}[float=htp,breaklines=true,caption=Output showing the help information,label=main-help-output]
-	Usage:
+\begin{lstlisting}[float=htp,breaklines=true,caption=Output showing the help information,label=lst:main-help-output]
+Usage:
 	./main p_gain i_gain d_gain deadband period command p_v_period encoder_ppr gbox_ratio enc_period log_period pid_form ctrld_var remote_mode [filename]
 	
-	Arguments:
+Arguments:
 	p_gain:      Proportional gain
 	i_gain:      Integral gain
 	d_gain:      Derivative gain
@@ -235,7 +236,11 @@ A list and a format representation of the parameters to be passed can be visuali
 	remote_mode: Enable remote control mode (local controller bypassed)
 	filename:    File name to output debug into [Optional]
 	
-	All done. Goodbye!
+All done. Goodbye!
+\end{lstlisting}
+
+\begin{lstlisting}[float=htp,language=Bash,label=lst:example-args,caption=Example configuration values passed as arguments]
+./main 0.270 1.086 0.000 0.0 10000 0 10000 12 30.0 120 10000 0 1 0 $1
 \end{lstlisting}
 
 Contrary to what was initially planned, a module that would take care of exporting the performance data relating to the control application was not implemented.
@@ -250,26 +255,26 @@ This file format is very simple and is based on the concept that different value
 
 %\lstinputlisting[float=htp,basicstyle=\footnotesize,firstline=4,lastline=14,breaklines=true,caption=Excerpt from an experimental data CSV output file,label=lst:csv_data]{../data/local-5ms.csv}
 \begin{lstlisting}[float=htp,caption=Excerpt from an experimental data CSV output file,label=csv-output]
-	(...)
-	N,Timestamp,Command,Feedback,delta_t,error,(...)
-	(...)
-	155,1.608001,0.000000,0.000000,0.011711,0.000000,(...)
-	156,1.618348,0.000000,0.000000,0.011664,0.000000,(...)
-	157,1.628695,0.000000,0.000000,0.011702,0.000000,(...)
-	158,1.639042,600.000000,0.000000,0.011671,600.000000,(...)
-	159,1.649403,600.000000,49.868944,0.011662,550.131056,(...)
-	160,1.659767,600.000000,182.847726,0.011647,417.152274,(...)
-	161,1.670131,600.000000,299.199880,0.011671,300.800120,(...)
-	162,1.680534,600.000000,498.676562,0.011667,101.323438,(...)
-	163,1.690965,600.000000,565.158428,0.011515,34.841572,(...)
-	164,1.701395,600.000000,565.158428,0.011515,34.841572,(...)
-	165,1.711820,600.000000,598.401908,0.011536,1.598092,(...)
-	166,1.722243,600.000000,648.273518,0.011517,-48.273518,(...)
-	167,1.732726,600.000000,664.905797,0.011513,-64.905797,(...)
-	168,1.743148,600.000000,648.266341,0.011515,-48.266341,(...)
-	169,1.753568,600.000000,631.652317,0.011516,-31.652317,(...)
-	170,1.763986,600.000000,631.638269,0.011516,-31.638269,(...)
-	171,1.774416,600.000000,631.637135,0.011522,-31.637135,(...)
-	(...)
+(...)
+N,Timestamp,Command,Feedback,delta_t,error,(...)
+(...)
+155,1.608001,0.000000,0.000000,0.011711,0.000000,(...)
+156,1.618348,0.000000,0.000000,0.011664,0.000000,(...)
+157,1.628695,0.000000,0.000000,0.011702,0.000000,(...)
+158,1.639042,600.000000,0.000000,0.011671,600.000000,(...)
+159,1.649403,600.000000,49.868944,0.011662,550.131056,(...)
+160,1.659767,600.000000,182.847726,0.011647,417.152274,(...)
+161,1.670131,600.000000,299.199880,0.011671,300.800120,(...)
+162,1.680534,600.000000,498.676562,0.011667,101.323438,(...)
+163,1.690965,600.000000,565.158428,0.011515,34.841572,(...)
+164,1.701395,600.000000,565.158428,0.011515,34.841572,(...)
+165,1.711820,600.000000,598.401908,0.011536,1.598092,(...)
+166,1.722243,600.000000,648.273518,0.011517,-48.273518,(...)
+167,1.732726,600.000000,664.905797,0.011513,-64.905797,(...)
+168,1.743148,600.000000,648.266341,0.011515,-48.266341,(...)
+169,1.753568,600.000000,631.652317,0.011516,-31.652317,(...)
+170,1.763986,600.000000,631.638269,0.011516,-31.638269,(...)
+171,1.774416,600.000000,631.637135,0.011522,-31.637135,(...)
+(...)
 \end{lstlisting}
 
