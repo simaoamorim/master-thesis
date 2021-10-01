@@ -1,9 +1,23 @@
 \section{Practical experiment}
 In order to validate our system we have developed a practical experiment based on one of the conceptual experiments described in \autoref{chap:sys-arch}.
 
-The base idea of the experiment is to control the speed of the motor using both the local control on the slave device, and the remote control concept, where the RTE network is intercalated on the control loop, using a few different configuration values for the network cycle time.
+The base idea of the experiment is to control the speed of the motor using both the local control on the slave device, as shown in \autoref{fig:local-control}, and the remote control concept, as shown in \autoref{fig:remote-control}, where the RTE network is intercalated on the control loop, using a few different configuration values for the network cycle time.
 
-During the local control mode, only the set-point values of the speed curve will be transmitted over the RTE network, so the expected behaviour is for the network cycle time to barely affect the performance of the speed control loop.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{local-control.pdf}
+	\caption{Graph demonstrating the local control mode}
+	\label{fig:local-control}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{remote-control.pdf}
+	\caption{Graph demonstrating the remote control mode}
+	\label{fig:remote-control}
+\end{figure}
+
+During the local control mode only the set-point values of the speed curve will be transmitted over the RTE network so the expected behaviour is for the network cycle time to barely affect the performance of the speed control loop.
 The expected result is for the actual speed of the motor to follow the expected curve with, at most, a small increment to the response time of the process, with the same order of magnitude of the chosen network cycle time.
 
 On the other hand, the remote control mode will have the master node of the RTE network performing the necessary computations and the slave node device will act as a simple networked I/O interface for the system.
