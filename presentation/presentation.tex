@@ -1,13 +1,25 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage[portuguese]{babel}
 
 
 \usetheme{Frankfurt}
+%\usetheme{Warsaw}
 \graphicspath{{figures/}}
 
-\title[RTE Networks: network cycle time influence in control applications]{Real-time Ethernet Networks: a practical approach to network cycle time influence in control applications}
-\author{Sim\~{a}o Amorim \and Paulo Portugal}
-\titlegraphic{\includegraphics[width=3cm]{uporto-feup.pdf}}
+\title{Real-time Ethernet Networks: a practical approach to network cycle time influence in control applications}
+\author[Sim\~{a}o Amorim \and Paulo Portugal]{Sim\~{a}o Amorim\inst{1} \\ Orientador: Paulo Portugal\inst{1}}
+\titlegraphic{\includegraphics[width=2.5cm]{uporto-feup.pdf}}
+\institute[Feup]{\inst{1}Departamento de Engenharia Eletrotécnica e de Computadores\\
+	Faculdade de Engenharia da Universidade do Porto\\
+	EEC0020 - Dissertaç\~{a}o}
+\date{8 de outubro de 2021}
+
+\addtobeamertemplate{navigation symbols}{}{%
+	\usebeamerfont{footline}%
+	\usebeamercolor[fg]{footline}%
+	\hspace{1em}%
+	\insertframenumber
+}
 
 \begin{document}
 	\maketitle
@@ -24,6 +36,7 @@
 	\input{frames/sota-2}
 	\input{frames/sota-3}
 	
+	\input{frames/full-architecture}
 	\input{frames/architecture}
 	\input{frames/architecture-photo}
 	\input{frames/sw-architecture}
