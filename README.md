@@ -31,3 +31,6 @@ The LaTeX source-code for the final document is in the [document](/document) fol
 
 ## Summary article
 The LaTeX source-code for the summary article is in the [summary-article](/summary-article) folder.
+
+## Presentation
+The LaTeX source-code for the summary article is in the [presentation](/presentation) folder.

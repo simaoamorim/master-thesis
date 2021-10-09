@@ -1,0 +1,105 @@
+Slide 1
+=======================================================================
+
+Slide 2
+=======================================================================
+
+Slide 3 | Contexto
+=======================================================================
+Os avanços nos processos industriais forçam uma evolução dos sisteas
+de controlo, tornando-os mais complexos.
+Inevitávelmente isto limplica uma mudança na tipologia desses sistemas
+levando a uma transição de sistemas baseados em Controladores Lógicos
+Programáveis para sistemas de controlo distribuídos.
+
+Típicamente os sistemas baseados em PLCs centralizavam todo o
+processamento necessário ao controlo do processo num único dispositivo.
+
+Já os sistemas de controlo distribuido baseiam-se em distribuir tal
+processamento por diversos dispositivos, mas para atingir este objetivo,
+é necessária a utilização de redes de comunicação para permitir a
+partilha de dados entre os dispositivos que compoem o sistema de
+controlo.
+
+Slide 4 | Motivação
+=======================================================================
+A realização desta dissertação foi motivada pela criação de uma nova
+cadeira acerca de redes de comunicação industriais no Mestrado de Engenharia
+Eletrotécnica e de Computadores da Faculdade de Engenharia da Universidade
+do Porto e visa proporcionar aos estudantes da cadeira uma plataforma
+de contacto direto com redes Ethernet de tempo-real.
+
+Slide 5 | Objetivos
+=======================================================================
+Com esta finalidade estabelecemos como objetivo principal o
+desenvolvimento de um sistema de controlo distribuído baseado numa rede
+Ethernet de tempo-real que se caracterize por
+- um conceito de base simples, para que o foco do sistema se mantenha
+na rede de comunicação, em particular na influência do tempo de ciclo da
+rede na aplicação de controlo;
+- que se caraterise por um baixo custo, pois num laboratório de ensino,
+a situação ideal é poder existir um sistemas destes por cada bancada de
+trabalho, o que significa que ele terá de ser replicado N vezes, dependendo
+do número de bancadas e, eventualmente, do número de laboratórios.
+- Para podermos explorar o conceito da influência do tempo de ciclo da rede
+numa aplicação de controlo, definimos então que pretendemos que o sistema
+seja capaz de controlar o movimento de um motor, quer de forma local,
+quer de forma remota. Este conceito de controlo local e remoto irá ser
+explicado um pouco mais à frente.
+
+Slide 6 | Revisão Bibliográfica - Aplicações de tempo-real
+=======================================================================
+Fazendo agora uma explicação muito sucinta sobre aplicações de controlo
+de tempo-real, elas são principalmente caraterizadas pelo facto de que
+os dados do sistema, sejam eles adquiridos ou processados, têm uma
+validade temporal que depende das especificações do processo. Ou seja,
+com a evolução do tempo esses dados deixam de ser válidos.
+
+Posto isto, estas aplicações podem ser classificadas como Hard real-time
+ou Soft real-time, dependendo de quão estrita é esta dependência da
+validade dos dados na passagem do tempo.
+Uma aplicação de controlo de tempo-real não vai funcionar corretamente
+se, por algum motivo, começar a utilizar dados inválidos como sendo
+válidos e, se desta situação poderem resultar danos materias ou mesmo
+danos a pessoas, então o sistema é caraterizado como sendo hard
+real-time, caso contrário, se a situação apenas implicar um pior
+desempenho do sistema de controlo, então ele é caraterizado como sendo
+soft real-time.
+
+Slide 7 | 
+=======================================================================
+Redes Ethernet sao caraterizadas por serem tipicamente comunicações não
+deterministicas.
+
+Slide 8 |
+=======================================================================
+
+Slide 9 |
+=======================================================================
+Mestre propositadamente não definido.
+
+Slide 10 |
+=======================================================================
+
+slide 11 | 
+=======================================================================
+
+Slide 12 |
+=======================================================================
+A exportação de dados servirá para a aquisição de dados de desempenho
+de forma a que se possa fazer uma comparação dos dois tipos de controlo
+que se pretende.
+
+Slide 13 |
+=======================================================================
+Espera-se que o desempenho práticamente não seja afetado no modo de controlo
+local.
+
+Slide 14 |
+=======================================================================
+Como a malha de controlo envolve a rede de comunicaçao, espera-se que
+o desempenho seja afetado significativaente.
+
+Slide 15 |
+=======================================================================
+
