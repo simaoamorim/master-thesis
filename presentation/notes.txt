@@ -66,40 +66,50 @@ real-time, caso contrário, se a situação apenas implicar um pior
 desempenho do sistema de controlo, então ele é caraterizado como sendo
 soft real-time.
 
-Slide 7 | 
+Slide 7 | RTE
 =======================================================================
 Redes Ethernet sao caraterizadas por serem tipicamente comunicações não
 deterministicas.
+- Top of TCP/IP -> Em cima da pilha protocolar TCP/IP
+- Top of Ethernet -> Pilha protocolar prápria
+- Modified Ethernet -> Modificações de protocolo ou hardware
 
-Slide 8 |
+Slide 8 | EtherCAT
 =======================================================================
 
-Slide 9 |
+
+Slide 9 | Arquitetura do Sistema
 =======================================================================
 Mestre propositadamente não definido.
 
-Slide 10 |
+Slide 10 | Arquetetura do dispositivo escravo
 =======================================================================
 
-slide 11 | 
+Slide 11 | Figura do dispositivo escravo
 =======================================================================
 
-Slide 12 |
+Slide 12 | Arquitetura do Software
 =======================================================================
 A exportação de dados servirá para a aquisição de dados de desempenho
 de forma a que se possa fazer uma comparação dos dois tipos de controlo
 que se pretende.
 
-Slide 13 |
+Slide 13 | Controlo Local
 =======================================================================
 Espera-se que o desempenho práticamente não seja afetado no modo de controlo
 local.
 
-Slide 14 |
+Slide 14 | Controlo remoto
 =======================================================================
 Como a malha de controlo envolve a rede de comunicaçao, espera-se que
 o desempenho seja afetado significativaente.
 
-Slide 15 |
+Slide 15 | Comportamento do sistema
+=======================================================================
+
+Slide 16 | Análise de dados
+=======================================================================
+
+Slide 17 | Conclusões
 =======================================================================
 
