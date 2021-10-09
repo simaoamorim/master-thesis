@@ -1,19 +1,15 @@
+LATEXMKFLAGS = -pdf -auxdir -nobibtexfudge
+ROOTNAME = Real-time_Ethernet_Netorks_a_practical_approach_to_cycle_time_influence_in_control_applications
+
 all: root
 
-root: root.tex
-	latexmk -pdf $^
+root: $(ROOTNAME).tex
+	latexmk $(LATEXMKFLAGS) $^
 
-test: test_chapter.tex
-	latexmk -pdf $^
-
-.PHONY: clean all view test-view all root test
+.PHONY: clean all view all root
 
 clean:
-	latexmk -c
-	$(MAKE) -C chapters/ clean
+	latexmk $(LATEXMKFLAGS) -C
 
 view: root
-	@setsid firefox root.pdf &
-
-test-view: test
-	@setsid firefox test_chapter.pdf &
+	@setsid firefox $(ROOTNAME).pdf &
