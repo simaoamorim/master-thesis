@@ -1,6 +1,6 @@
 \section{Software development} \label{sec:software-devel}
 As we have explained previously, the slave device we are developing on this project needs some custom functionality that needs to be programmed.
-The following sections will present and explain the algorithms and techniques used during development of each software module that compose the final control program.
+The following sections present and explain the algorithms and techniques used during development of each software module that compose the final control program.
 
 The presentation of the several modules will mostly follow the order by which they were developed in order to better explain the programming logic and challenges we had to overcome during the process.
 
@@ -25,14 +25,14 @@ This is what lead us to decide and change the encoder connection to the Raspberr
 This way we will have more flexibility on the feedback calculation algorithm, being able to run it with virtually any period.
 
 After making sure our prototype communication algorithm was working correctly in Python, we began to 'translate` it to the C programming language.
-Naturally some modification had to be made, especially because C is an event-oriented language, as opposed to Python which is mainly object-oriented.
+Naturally some modification had to be made, especially because C is not an object-oriented language, as opposed to Python which is.
 We overcame this by creating a C struct with the same object data that we used in the Python prototype, paired with helper functions that perform the same operations as the Python's object methods.
 The developed C functions all take, at least, one argument: a pointer to a variable of type \verb|struct dfr_board|, which is a pseudo-object representing a DFR0592 board.
 \autoref{lst:dfr_struct} is an excerpt of the header file containing the definition of said struct.
 
 \lstinputlisting[float=htp,language=C,firstline=24,lastline=31,caption=Definition of the DFR0592 pseudo-object C struct,label=lst:dfr_struct]{../src/DFR0592/dfr0592.h}
 
-Each DFR0592 board comes pre-configured with the I\textsuperscript{2}C address \verb|0x10| but they can be changed, meaning several of these boards can be used simultaneously.
+Each DFR0592 board comes pre-configured with the I\textsuperscript{2}C address \verb|0x10| but they can be changed, meaning several of these boards can be used simultaneously on the same bus.
 As such, the library was designed in a way that, in future works, one can communicate with several boards simultaneously.
 
 The mentioned approach was used in order to mimic the working principle of an object-oriented programming language in C.

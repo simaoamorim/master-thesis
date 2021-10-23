@@ -10,8 +10,8 @@ With components ranging from a full computing platform to a simple electrical co
 % `- screw terminal add-on
 
 \subsection{Raspberry Pi 4} \label{subsec:rpi4}
-The Raspberry Pi 4 is a single board computer (SBC) and comes equipped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5GHz \cite{technology:rpi4-specs}.
-At the time of writing, versions were available with 2GB, 4GB and 8GB of LPDDR4 SD-RAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200MHz.
+The Raspberry Pi 4 is a single board computer (SBC) and comes equipped with the Broadcom's BCM2711, a quad-core Cortex-A72 64-bit ARM processor clocked at 1.5 GHz \cite{technology:rpi4-specs}.
+At the time of writing, versions were available with 2 GB, 4 GB and 8 GB of LPDDR4 SD-RAM \footnote{Low-Power Double Data Rate Synchronous Dynamic Random-Access Memory} clocked at 3200 MHz.
 
 This version of the Raspberry Pi series is the first to be equipped with a true-Gigabit Ethernet controller connected to the PCIe bus, while earlier versions used a USB attached one, meaning latency and throughput were not as good and especially less constant.
 
@@ -70,15 +70,14 @@ A example of such counting method can be seen in \autoref{fig:quad-encoder-2}.
 \end{figure}
 
 The power supply range allows it to be directly connected to the Raspberry Pi GPIO pins, which only works with 3.3V.
-This is an advantage that most encoders available on the market do not offer, as they are usually rated for standard industrial power supplies such as 5V, 12V and 24V, which are the most common.
 Additionally, the DC motor is rated for a 6V-9V supply.
 As the DFR0592 board (see \autoref{subsec:dfr0592}) can provide between 7V and 12V on the motor outputs, depending on the actual power supply used, the entire kit contains components fully compatible between themselves.
 
-Because the DC motor includes a 30:1 reduction gearbox, the resulting encoder precision is multiplied by that ratio, giving the output a virtual encoder resolution of 360PPR.
+Because the DC motor includes a 30:1 reduction gearbox, the resulting encoder precision is multiplied by that ratio, giving the output a virtual encoder resolution of 360 PPR.
 For a proof-of-concept system, this is enough precision for position control, providing a maximum error of 1 degree.
-This DC motor has a theoretical maximum velocity on the output shaft of 1100RPM.
+This DC motor has a theoretical maximum velocity on the output shaft of 1100 RPM.
 This means that encoder pulses will be generated, while at full speed, at a rate of $396000$ pulses per minute, or $6600$ per second.
-For velocity control, the maximum amount of pulses generated per second is not too high so the Raspberry Pi should be perfectly capable of not missing pulses.
+For velocity control, the maximum amount of pulses generated per second is not too high for the Raspberry Pi, which is perfectly capable of not missing any pulses.
 
 This solution allow us to maintain a low budget for the project and is the main reason we have not chosen to use a standard servo motor paired with a servo drive, although we have considered it.
 These two parts would cost more than 400\texteuro, as that was the lowest price we could find on the national market.
@@ -102,7 +101,7 @@ This control board takes some configuration values from the Raspberry Pi, such a
 For the actual motor control, two values are needed: the direction of rotation (clockwise or counter-clockwise, obviously the motor terminals need to be assigned correctly) and the PWM duty cycle to be used (which is equivalent to saying the percentage of maximum power to apply).
 
 % Conclusions
-At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is to great of a period to use for movement control.
+At first, this board seemed the best fit for the project, but after some preliminary testing, we found that the velocity calculation algorithm was only updating the feedback value every 100ms, which is too great of a period to use for movement control.
 It could be acceptable for simple velocity control, but it would also limit the remote operation of the slave device by making it to slow for the desired application.
 
 \subsection{Hilscher's netHAT 52-RTE}
