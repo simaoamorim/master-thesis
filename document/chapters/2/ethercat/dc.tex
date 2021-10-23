@@ -4,7 +4,7 @@ Certain types of control applications require simultaneous actions to be taken.
 In the robotics field, for instance, movement control implies that several servo controllers synchronize their actions in order to  achieve the desired speed or position path.
 In a DCS, it is common for these actions to span multiple nodes on the network.
 Therefore, these nodes require some sort of subsystem that is capable of guaranteeing action synchronicity between them.
-Synchronous communication protocols already tackle this problem in an implicit fashion, but EtherCAT needs an explicit solution: distributed clocks (DC).
+EtherCAT employs a method for providing synchronization capabilities called distributed clocks (DC).
 
 Every ESC contains a highly precise clock source in its design, as well as a purely hardware based calibration system.
 The first slave DC in an EtherCAT network is used as a reference value, being distributed to all other slave nodes.
