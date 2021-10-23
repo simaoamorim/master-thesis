@@ -18,7 +18,8 @@ This improves the bandwidth utilization and makes a more efficient usage of the 
 EtherCAT networks typically employ an open ring topology, leaving the master Ethernet interface to be connected to one of the ends.
 The master device issues the EtherCAT packets to the MAC address of the first slave device.
 
-Slave devices receive a telegram, process it and then forwards it to the next slave device on the ring.
+Slave devices receive a telegram, process it and forward it to the next slave device on the ring all at the same time.
+This means EtherCAT slave devices process the telegrams on-the-fly.
 If a certain slave device determines it is being addressed by an EtherCAT command, the data is retrieved and/or put into the frame on-the-fly, as the frame is traversing it.
 After the last device on the ring has received and processed the frame, it gets sent back to the master device so it can process the responses to the commands it sent.
 
