@@ -1,7 +1,7 @@
 \section{Proposed architecture} \label{sec:proposed-arch}
 
 By the end of the development phase, we created a system that fulfils all requirements described previously.
-The system mimics a typical DCS architecture by employing a simple master-slave configuration using an RTE network.
+The system mimics a simplified DCS architecture by employing a simple master-slave configuration using an RTE network.
 
 As explained in \autoref{subsec:local_remote}, using the local control topology, the master node will act as a motion controller, feeding the motor controller (the field device) with position/velocity references through the RTE network.
 This one, in turn, will perform the necessary algorithm computations to achieve motor position/velocity control using the references provided by the master node and the feedback values it acquires from the motor's encoder.

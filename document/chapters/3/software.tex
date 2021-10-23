@@ -20,7 +20,7 @@ CODESYS is a generic platform to develop industrial control and automation appli
 It includes support for hardware from multiple vendors as well as the ability to create a Software PLC (SoftPLC) from any generic computer hardware.
 This platform makes the software editor available to use for free and allows control applications to run for two hours in demonstration/testing mode, uninterrupted.
 This is a great option for development and testing purposes as only the final product with uninterrupted execution requirements for unknown periods of time will require a license to be purchased.
-Additionally, CODESYS naively supports the most common industrial communication networks, including EtherCAT, meaning one can develop a device with communication capabilities with one or more of these networks.
+Additionally, CODESYS natively supports the most common industrial communication networks, including EtherCAT, meaning one can develop a device with communication capabilities with one or more of these networks.
 
 With all this, we will use the CODESYS platform to create a SoftPLC to act as an EtherCAT master device for or demonstrator.
 As we are looking forward to develop a proof-of-concept system, we don't require application run-times larger than two hours.
@@ -39,6 +39,6 @@ As this is the most widely used programming language in the Linux universe, if d
 As such, this is going to be our preferred programming language for implementing the EtherCAT's slave software running on the Raspberry Pi.
 
 In order for the slave device to behave according to our plans, we will develop a control application that will allow the user to perform the desired control: local or remote.
-It will be possible to fully parameterize the run-time by providing the application with some configuration values as command-line arguments.
+It will be possible to fully parametrize the run-time by providing the application with some configuration values as command-line arguments.
 It should also be able to log the performance and control values of the slave device during run-time, essential for the described scenario in \autoref{sec:experiments}.
 The necessary control algorithms for the slave device will be provided but it will also be possible for students to implement their own version of the control software.

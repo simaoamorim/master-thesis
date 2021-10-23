@@ -1,7 +1,7 @@
 \subsection{Working principle} \label{subsec:ecat_principle}
 
 The \emph{EtherCAT} protocol employs a master/slave architecture.
-Only the master device is allowed to initiate trasmissions and it fully controls the its slaves.
+Only the master device is allowed to initiate transmissions and it fully controls its slaves.
 The commands issued by the master evoke responses from the slave devices.
 
 The master node is responsible for maintaining periodic communication with all nodes.
@@ -24,10 +24,10 @@ If a certain slave device determines it is being addressed by an EtherCAT comman
 After the last device on the ring has received and processed the frame, it gets sent back to the master device so it can process the responses to the commands it sent.
 
 The frame processing and forwarding on the slave devices is entirely done in hardware.
-As such, slave devices require a specilized Application Specific Integrated Circuit (ASIC) called an EtherCAT Slave Controller (ESC).
+As such, slave devices require a specialized Application Specific Integrated Circuit (ASIC) called an EtherCAT Slave Controller (ESC).
 The ESCs are specialized in the described operations and only introduce a small and predictable processing delay for such operations, on the order of nanoseconds.
 This allows the EtherCAT network segment performance to be predictable and independent of specific slave device implementations.
 
-Each EtherCAT command contains a Working Counter (WC) field that is incremented each time an addressed slave prossesses the frame.
+Each EtherCAT command contains a Working Counter (WC) field that is incremented each time an addressed slave processes the frame.
 This allows the master device to determine if every addressed slave is actively communicating, although it does not guarantee data integrity.
 For that purpose the standard Ethernet CRC is used to verify the message correctness \cite{technology:rte2}.

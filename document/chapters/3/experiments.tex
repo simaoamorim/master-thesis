@@ -9,7 +9,7 @@ Each of these will generate a trace log of velocity points (in this case) measur
 
 Naturally, the definition of the movement curve can be randomly generated or taken from any real-world example, whatever interests the user the most.
 Independently of which control mode is going to be be executed, the predefined movement curve is to be stored in the master node by whatever means, either hard-coded into the control program or by some form of data storage and interpretation.
-Because the master node's software implementation will be left to the end-user's responsability, so will the generation or interpretation of reference values from the predefined movement curve.
+Because the master node's software implementation will be left to the end-user's responsibility, so will the generation or interpretation of reference values from the predefined movement curve.
 
 In either case, the only thing to be taken into account is that depending on which control mode is being executed at a certain time on the slave node, it expects to receive different types of data: for local control the slave device expects to receive the control reference values directly taken from the predefined movement curve (the `input' values of the control loop) and for remote control it expects to receive the duty-cycle percentage to be applied to the motor (the actual `output' value of the control loop).
 Independently of the chosen control mode, the feedback values returned to master node via the network will always remain constant: the motor's relative angular position (in degrees) and velocity (in RPMs).
@@ -20,7 +20,7 @@ This will create a visual comparison of the system's performance in both control
 Depending on the accuracy and granularity of the results, more detailed and advanced processing methods can naturally be used to compare the datasets.
 
 One variation that can be derived from the afore mentioned case is to perform the same set of operations but while controlling and recording data regarding position control.
-Position control systems are typically more sensible to performance diferences than velocity control ones, so although the experiment complexity increases slightly, more subtuble diferences in behaviour might be perceivable.
+Position control systems are typically more sensible to performance differences than velocity control ones, so although the experiment complexity increases slightly, more subtuble diferences in behaviour might be perceivable.
 The increase in complexity is mostly due to the fact that position control implies simultaneous velocity control so, in fact, instead of controlling one single property (velocity), we will now be controlling two (position and velocity).
 In this case, we may not really care about the velocity control per se, but we still need to control it in order to control the position.
 In a way, we need to provide a velocity reference value in order to be able to control the position effectively.

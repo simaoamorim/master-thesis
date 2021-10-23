@@ -15,7 +15,7 @@ As of today, most education facilities provide students with access to desktop c
 For many years now, motherboard vendors have integrated Ethernet MAC interface cards into the motherboards themselves, as it has become the de facto standard for Internet connectivity in desktop computers.
 
 As such, we decided to implement the master device in a desktop computer in order to minimize costs and leverage the computational power modern computer systems possess.
-Regardless, our slave device solution includes hardware support for running either slave or master nodes for EtherCAT and other RTE networks, so it is also possible to implement the master node on a Raspberry Pi.
+Our slave device solution includes hardware support for running either slave or master nodes for EtherCAT and other RTE networks, so it is also possible to implement the master node on a Raspberry Pi.
 
 \subsubsection{Slave node} \label{subsubsec:slave_hdw}
 
@@ -45,7 +45,7 @@ As previously expressed, we intend to make the slave device mimic, to a certain 
 For this two hardware components are fundamental: a motor and a position or velocity feedback mechanism.
 As we intend to support position control, we will focus on position feedback products, as velocity can be extrapolated from the sequence of position points.
 The most simple and widely used position feedback mechanism is the incremental quadrature encoder, so we'll focus our research efforts into motors that support it.
-The most appropriate products we found, keeping in mind the low-cost requirement, are the Pololu's micro metal gearmotor with extended motor shaft \cite{product:pololu-micrometal-gearmotor} paired with the brand's magnetic encoder kit \cite{product:pololu-encoder-kit} (\autoref{fig:encoder_detail}).
+The most appropriate products we found, keeping in mind the low-cost requirement, are the Pololu's micro metal gear motor with extended motor shaft \cite{product:pololu-micrometal-gearmotor} paired with the brand's magnetic encoder kit \cite{product:pololu-encoder-kit} (\autoref{fig:encoder_detail}).
 As this is a DC motor, it's power output can be indirectly controlled if fed with a PWM electrical signal, varying this signal's duty-cycle. % TODO: cite something with explanaition on PWM
 
 \begin{figure}[htp]
