@@ -9,9 +9,5 @@ If a checksum fails at any point, both the slave devices that are placed downstr
 The latter will then discard such information, not forwarding it to the control application, and can request the Working Counter values from the slaves to try and identify where in the network the error was introduced.
 This is a type of error identification which is impossible to be performed on a typical fieldbus network, as the physical medium is common to every single device o such networks (typical bus system).
 
-When compared with other fieldbuses working with the same cycle time, the probability of a bit error happening in an EtherCAT network is significantly reduced.
-This is due mainly to the fact that, as explained in \autoref{subsec:ecat_principle}, the same EtherCAT frame can transmit all the information to be distributed to nodes on the network, substantially reducing the number of possible collisions or interferences between multiple frames.
-Now, because EtherCAT typically uses shorter cycle times that most other real-time Ethernet networks, error recovery times are also reduced.
-
 If communication problems are suspected, network traffic sniffers such as the popular \emph{Wireshark} application can be utilized to visualize the actual information being transmitted on the network.
 This is possible because EtherCAT transmits its frames transparently inside the Ethernet frame, as was shown in \autoref{fig:ecat-frame}.
