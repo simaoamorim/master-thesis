@@ -6,18 +6,18 @@ The base idea of the experiment is to control the speed of the motor using both 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{local-control.pdf}
-	\caption{Graph demonstrating the local control mode}
+	\caption{Graph illustrating the local control mode}
 	\label{fig:local-control}
 \end{figure}
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{remote-control.pdf}
-	\caption{Graph demonstrating the remote control mode}
+	\caption{Graph illustrating the remote control mode}
 	\label{fig:remote-control}
 \end{figure}
 
-During the local control mode only the set-point values of the speed curve will be transmitted over the RTE network so the expected behaviour is for the network cycle time to barely affect the performance of the speed control loop.
+For the local control mode only the set-point values of the speed curve will be transmitted over the RTE network so the expected behaviour is for the network cycle time to barely affect the performance of the speed control loop.
 The expected result is for the actual speed of the motor to follow the expected curve with, at most, a small increment to the response time of the process, with the same order of magnitude of the chosen network cycle time.
 
 On the other hand, the remote control mode will have the master node of the RTE network performing the necessary computations and the slave node device will act as a simple networked I/O interface for the system.
@@ -51,9 +51,9 @@ We expect this speed curve to provide us with enough variability in both the tim
 
 % Network cycle times to use
 % `- with a task of 10ms maybe use 5ms, 10ms and 20ms of network cycle time?
-Because we intend to implement motion control, we will use a control cycle time of 10ms.
-This period will be configured both on the master and slave devices so that value updates occur with the same cadence as the processing.
-We will perform three tests with each control mode using three different network cycle periods: 5ms, 10ms and 20ms, which are half, full and double of the processing period, respectively.
+Because we intend to implement motion control, we will use a fixed control cycle time of 10ms.
+This period will be configured on both the master and slave devices so that value updates occur with the same cadence as the processing.
+We will perform three tests with each control mode using three different network cycle periods: 5ms, 10ms and 20ms, which are half, full and double of the control period, respectively.
 This effectively means we will present six test cases and compare the performance between local/remote control mode pairs for each network cycle period.
 
 As the system dynamics are expected to change between different test cases, before running each test case the PID controllers will be tuned using the Ziegler-Nichols method \cite{pid:zn-method}.
@@ -89,17 +89,18 @@ As such, equations \ref{eq:kp}, \ref{eq:ki} and \ref{eq:kd} show the calculation
 		\hline
 		& $K_P$    & $K_I$    & $K_D$    & $K_U$    & $T_U$ (ms)                                  \\
 		\hline
-		local-5ms   & 0.27     & 1.020    & 0        & 0.6      & 20.4                                           \\
+		local-5ms   & 0.270    & 1.020    & 0.000    & 0.600    & 20.4                                           \\
 		\hline
-		remote-5ms  & 0.09     & 0.22464  & 0        & 0.2      & 50.0                                           \\
+		remote-5ms  & 0.090    & 0.224    & 0.000    & 0.200    & 50.0                                           \\
 		\hline
-		local-10ms  & 0.27     & 1.020    & 0        & 0.6      & 20.4                                           \\
+		local-10ms  & 0.270    & 1.020    & 0.000    & 0.600    & 20.4                                           \\
 		\hline
-		remote-10ms & 0.081    & 0.23814  & 0        & 0.18     & 58.8                                           \\
+		remote-10ms & 0.081    & 0.238    & 0.000    & 0.180    & 58.8                                           \\
 		\hline
-		local-20ms  & 0.27     & 1.086    & 0        & 0.6      & 21.7                                           \\
+		local-20ms  & 0.270    & 1.086    & 0.000    & 0.600    & 21.7                                           \\
 		\hline
-		remote-20ms & 0.063    & 0.34965  & 0        & 0.14     & \begin{tabular}[c]{@{}c@{}}111\\\end{tabular}  \\
+		remote-20ms & 0.063    & 0.349    & 0.000    & 0.140    & 
+		111.0										   \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -109,8 +110,7 @@ As such, equations \ref{eq:kp}, \ref{eq:ki} and \ref{eq:kd} show the calculation
 In the particular case of this experiment, the master node device is implemented on a generic desktop PC.
 It has been programmed using the CODESYS platform and is running on top of Windows 10\texttrademark{}.
 
-Because this OS doesn't officially provide support for running real-time applications, the hardware specifications of the underlying PC shouldn't really influence the outcome of the experiment, as the OS is expected to have a bigger influence through its process management.
-With that being sad, the master node device is a home-built desktop computer comprised of an AMD Ryzen\texttrademark{} 5 1600 CPU \cite{hdw:ryzen5-1600}, an MSI X470 Gaming Plus \cite{hdw:msi-x470} motherboard with 2x8GB dual-channel Kingston HyperX Fury DDR4 RAM (16GB total) \cite{hdw:hyperx-fury-8gb-ddr4-2400} running at 2400MHz, a 500GB Samsung 970 Evo Plus NVMe\textregistered{} M.2 SSD \cite{hdw:970evo-plus-ssd} hard drive, a Gigabyte GeForce\textregistered{} GTX 1650 Super\texttrademark{} OC 4G \cite{hdw:gigabyte-1650-super-oc} graphics card (NVIDIA) and it is powered by an Aerocool KCAS 500W PSU \cite{hdw:kcas-500w}.
+The master node device is a home-built desktop computer comprised of an AMD Ryzen\texttrademark{} 5 1600 CPU \cite{hdw:ryzen5-1600}, an MSI X470 Gaming Plus \cite{hdw:msi-x470} motherboard with 2x8GB dual-channel Kingston HyperX Fury DDR4 RAM (16GB total) \cite{hdw:hyperx-fury-8gb-ddr4-2400} running at 2400MHz, a 500GB Samsung 970 Evo Plus NVMe\textregistered{} M.2 SSD \cite{hdw:970evo-plus-ssd} hard drive, a Gigabyte GeForce\textregistered{} GTX 1650 Super\texttrademark{} OC 4G \cite{hdw:gigabyte-1650-super-oc} graphics card (NVIDIA) and it is powered by an Aerocool KCAS 500W PSU \cite{hdw:kcas-500w}.
 
 The CODESYS platform was used to create a single program on the master node that sends the speed set-points of the predefined speed curve over the RTE network to the slave device, receives the plant feedback values from the RTE network, performs the necessary computations for the control loop and sends the the computed plant output value to the slave node, also through the RTE network.
 Because the slave device software ignores the output value arriving on the RTE network interface when it is configured for local control, the same software can be used on the master node for both experiences with local and remote control modes.
@@ -156,7 +156,7 @@ The slave device requires some configuration parameters to work as expected.
 Most importantly, all configurable periods (except for the \verb|enc_period|) will be set to the same value as the control period of the master device, 10ms.
 This is to ensure the local and remote control test cases are executed in comparable terms.
 
-The \verb|enc_period| will be left with the default value of 120$\mu$s, to ensure every encoder pulse can be caught even while the motor is running at maximum speed (1100RPM and a 360PPR encoder generate a one pulse every 15$\mu$s, experimentally we determined 120$\mu$s to work well).
+The \verb|enc_period| (encoder input polling period) will be left with the default value of 120$\mu$s, to ensure every encoder pulse can be caught even while the motor is running at maximum speed (a motor at 1100RPM with a 360PPR encoder generates one pulse every 151$\mu$s, experimentally we determined a cycle of 120$\mu$s to be able to correctly capture every encoder pulse).
 
 The remaining parameters will be set to: the controlled variable is set to velocity, the PID form is set to position (ignored internally), the PID gains are tuned on each local control test case (when the remote mode is selected these values are ignored) and the remote mode is selected according to each test case.
 As a reminder to what was already explained in previous chapters, the slave device parameters are passed to the control application through command-line arguments (refer to \autoref{init-code}).

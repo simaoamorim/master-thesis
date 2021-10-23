@@ -37,8 +37,8 @@ Although this amount of data is more than sufficient for our proof-of-concept sy
 % Encoder (SW)
 \subsection{Encoder interface}
 By the end of the development phase of this project, the encoder interface used and the driver implemented were very targeted for the specific model we used.
-The electrical connection only supports Transistor-Transistor Logic (TTL) signals up to $3.3V$ and does not support differential signals \cite{technology:diff-signals}, due to the direct connection with the Raspberry Pi's GPIO pins.
-This limitation of signal type and maximum allowed voltage can be overcome by utilising an external signal processing solution to convert voltage levels or even differential signals into single-ended.
+The electrical connection only supports single-ended signals up to $3.3V$ and does not support differential signals \cite{technology:diff-signals}, due to it being directly connected with the Raspberry Pi's GPIO pins.
+This limitation can be overcome by utilising external signal processing circuitry to convert the encoder signals to the supported range.
 
 Furthermore, as the encoder used on our project did not include an Index output (one short pulse every revolution), we did not add support for it on the developed driver.
 Effectively, no mechanism for `homing' the absolute position of the motor was implemented, because it was also out of the scope of this project requirements.
@@ -53,7 +53,7 @@ At low speeds, this algorithm has poor precision, including a gap between measur
 
 One possible improvement is to design and implement an algorithm based on a dynamic period that uses an interrupt-driven logic.
 Every time a new encoder pulse is detected, an interrupt is generated which triggers the speed calculation.
-This algorithm is based on measuring how much time is elapsed between consecutive encoder pulses and provides far better precision at low speeds, as well as possibly reduced CPU usage, especially during such cases.
+This algorithm is based on measuring how much time is elapsed between consecutive encoder pulses and provides far better precision at low speeds, as well as possibly reduced CPU usage.
 It would still be necessary to determine a timeout period of when to consider a null speed, but that would still be way more flexible than the current implementation, which indirectly controls said timeout through the desired cycle period.
 It has been determined that the \verb|libgpiod| library in use is capable of calling a function whenever an input changes its state (callback method), so implementing this other algorithm should be doable without the need to introduce new libraries.
 
