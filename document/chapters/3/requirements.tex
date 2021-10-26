@@ -74,7 +74,7 @@ This will generate a baseline dataset of control performance, which is expected 
 The second configuration (remote control) will use the field device as a simple servo drive, without using its internal control algorithm.
 It shall receive the velocity reference to be applied to the motor from the RTE network and send back the decoded position/velocity, acquired from the motor's incremental encoder, through the same network, as a feedback variable.
 This will mean the control loop will be closed on the remote processing unit, making this loop's output and feedback values traverse the RTE network.
-It's expected for this configuration to be mildly affected by the network cycle time, even though we will probably need to use unusually large values of this parameter to obtain relevant changes in the control performance.
+The control performance of this configuration is expected to be affected by the network cycle time.
 
 \subsubsection{Velocity and position control}
 
